@@ -1,0 +1,29 @@
+package agent;
+
+message Instance {
+	optional string inst_name = 1;
+	optional string start_cmd = 2;
+	optional string stop_cmd = 3;
+	optional string clean_cmd = 4;
+	optional string check_cmd = 5;
+	optional int32  check_cnt = 6;
+}
+
+message SvrAgentData {
+	repeated Instance instance_list = 1;
+}
+
+enum CMD {
+	// execute command
+	CMD_EXECUTE_OMMAND_REQ = 0x100;
+	CMD_EXECUTE_OMMAND_RSP = 0x101;
+}
+
+message ExecuteCommandReq {
+	optional Instance instance = 1;
+	optional string cur_cmd = 2;
+}
+
+message ExecuteCommandRsp {
+	optional int32 ret = 1;
+}

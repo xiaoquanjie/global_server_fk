@@ -1,0 +1,12 @@
+package proto;
+
+message CMD {
+	// 0x0 -- 0x200 框架用的消息
+	enum SvrBase {
+		CMD_SOCKET_CLIENT_IN		= 0x1;
+		CMD_SOCKET_CLIENT_OUT		= 0x2;
+		CMD_REGISTER_SERVER_REQ		= 0x3;
+		CMD_REGISTER_SERVER_RSP		= 0x4;
+		CMD_SVR_HEATBEAT			= 0x5;
+	}
+}

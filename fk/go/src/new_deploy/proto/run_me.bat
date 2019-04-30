@@ -1,0 +1,1 @@
+..\..\..\..\tool\protoc.exe --go_out=.\  gcm.proto

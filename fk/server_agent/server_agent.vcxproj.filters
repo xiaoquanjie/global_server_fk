@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="server_agent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BUILD" />
+    <None Include="..\conf\server_agent\server_agent.conf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="server_agent.h" />
+  </ItemGroup>
+</Project>

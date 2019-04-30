@@ -1,0 +1,8 @@
+package config;
+
+message ConnsvrConfig {
+	optional bool open_svr = 1; 
+	optional string listen_ip = 2;
+	optional int32 listen_port = 3;
+	optional int32 svr_inst_id = 4;
+}

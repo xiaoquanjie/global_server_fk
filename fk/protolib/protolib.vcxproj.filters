@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="proto">
+      <UniqueIdentifier>{c8d66f6e-5f2e-4033-8610-16cf8bbeb910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{092fa9c1-951c-412c-a86a-de464571fa59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="comm_conf">
+      <UniqueIdentifier>{cce7c3fa-0ce0-4c48-ae2f-c753b31d89d1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BUILD" />
+    <None Include="proto\routersvr_config.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="proto\svr_base.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="proto\cmd.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="proto\comm_conf.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="proto\router.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="..\conf\comm_conf\comm.conf">
+      <Filter>comm_conf</Filter>
+    </None>
+    <None Include="..\conf\comm_conf\router.conf">
+      <Filter>comm_conf</Filter>
+    </None>
+    <None Include="proto\connsvr_config.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="proto\server_agent_conf.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="proto\server_agent_data.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="run_me.py" />
+    <None Include="proto\mytest.proto">
+      <Filter>proto</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src/cmd.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src/comm_conf.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src/connsvr_config.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src/router.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src/routersvr_config.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src/server_agent_conf.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src/server_agent_data.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src/svr_base.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src/mytest.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src/cmd.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/comm_conf.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/connsvr_config.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/router.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/routersvr_config.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/server_agent_conf.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/server_agent_data.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/svr_base.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/mytest.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

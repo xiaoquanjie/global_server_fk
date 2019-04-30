@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../dbtool/.idea/dbtool.iml" filepath="$PROJECT_DIR$/../dbtool/.idea/dbtool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/deploy.iml" filepath="$PROJECT_DIR$/.idea/deploy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../protolib/.idea/protolib.iml" filepath="$PROJECT_DIR$/../protolib/.idea/protolib.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,5 @@
+package config;
+
+message CommConf {
+	optional string router_conf_file = 1;
+}

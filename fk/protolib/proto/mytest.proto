@@ -1,0 +1,13 @@
+package mytest;
+
+enum CMD{
+	MYSQL_TEST_NOTIFY = 1000;
+	REDIS_TEST_NOTIFY = 1001;
+}
+
+message MysqlTestNotify {
+}
+
+
+message RedisTestNotify {
+}

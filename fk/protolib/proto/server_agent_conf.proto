@@ -1,0 +1,26 @@
+package config;
+
+message AgentListenInfo {
+	optional string listen_ip = 1;		// ¼àÌýip
+	optional int32 listen_port = 2;
+}
+
+enum ScriptType {
+	E_SCRIPT_TYPE_CERTAIN_TIME = 1;
+	E_SCRIPT_TYPE_PERIOD_TIME = 2;
+}
+
+message ScriptInfo {
+	optional ScriptType type = 1;
+	optional string script = 2;
+	optional uint32 interval_seconds = 3;
+	optional string day_certain_time = 4;
+	optional uint32 next_check_time = 5;
+	optional string script_dir = 6;
+}
+
+message ServerAgentConfig {
+	optional AgentListenInfo listen_info = 1;
+	repeated ScriptInfo script_info_list = 2;
+	optional uint32 max_pullup_server_cnt = 3;
+}

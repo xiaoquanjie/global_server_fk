@@ -1,0 +1,1 @@
+start .\build\new_deploy.exe --log_dir=.\log\new_deploy\

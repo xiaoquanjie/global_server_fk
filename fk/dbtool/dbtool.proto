@@ -1,0 +1,60 @@
+package dbtool;
+
+enum MysqlFieldType {
+	E_FieldType_TinyInt = 1;
+	E_FieldType_Int = 2;
+	E_FieldType_UInt = 3;
+	E_FieldType_BigInt = 4;
+	E_FieldType_Double = 5;
+	E_FieldType_Varchar = 6;
+	E_FieldType_Blob = 7;	//  最大 65K 
+	E_FieldType_MediumBlob = 8;	//  最大 16M 
+	E_FieldType_Text = 9;
+	E_FieldType_Date = 10;
+	E_FieldType_Time = 11;
+	E_FieldType_TimeStamp = 12;
+}
+
+enum MysqlKeyType {
+	E_KeyType_Primary = 1;	// 主键 
+	E_KeyType_Normal = 2;	// 普通
+	E_KeyType_Unique = 3;	// 唯一
+}
+
+message TableField {
+	optional string name = 1;
+	optional MysqlFieldType type = 2;
+	optional bool not_null = 3;
+	optional bool auto_incr = 4;
+	optional string default = 5;
+	// optional string add_col_after = 6;	// 加列
+	optional string rename_from = 7;	// 改名
+	optional MysqlFieldType modify_type = 8;	// 改类型
+	optional uint32 varchar_len = 9 [default = 255];
+	optional bool is_delete = 10;	// 删除此列
+}
+
+message TableKey {
+	optional string name = 1;
+	optional MysqlKeyType type = 2;
+	repeated string fields = 3;
+}
+
+message MysqlTable {
+	optional string table_name = 1;
+	repeated TableField fields = 2;
+	repeated TableKey keys = 3;
+}
+
+message MysqlSchema {
+	optional string mysql_ip = 1;
+	optional uint32 mysql_port = 2;
+	optional string mysql_user = 3;
+	optional string mysql_passwd = 4;
+	optional string schema_name = 5;
+	repeated MysqlTable tables = 6;
+}
+
+message MysqlSchemaConf {
+	repeated MysqlSchema mysql_schemas = 1;
+}
