@@ -1,4 +1,6 @@
-#include "slience/netio/netio.hpp"
+#include "slience/netio/tcp_connector.h"
+#include "slience/netio/packet.hpp"
+
 M_NETIO_NAMESPACE_BEGIN
 
 TcpConnector::TcpConnector(NetIo& netio)

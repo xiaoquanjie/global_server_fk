@@ -1,6 +1,7 @@
 #pragma once
 
-#include "slience/netio/config.hpp"
+#include "slience/netio/netio.hpp"
+#include "slience/netio/packet.hpp"
 
 M_NETIO_NAMESPACE_BEGIN
 

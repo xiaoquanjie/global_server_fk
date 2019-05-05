@@ -2,7 +2,7 @@
 #define M_SVR_BASE_INCLUDE
 
 #include "slience/base/buffer.hpp"
-#include "slience/netio/netio.hpp"
+#include "slience/netio/netio.h"
 #include "slience/base/timer.hpp"
 #include "slience/base/util.h"
 #include "boost/multi_index_container.hpp"

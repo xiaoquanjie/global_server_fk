@@ -163,6 +163,7 @@
     <ClInclude Include="netio\http_base_socket.hpp" />
     <ClInclude Include="netio\http_connector.h" />
     <ClInclude Include="netio\http_socket.h" />
+    <ClInclude Include="netio\netio.h" />
     <ClInclude Include="netio\sync_connector.h" />
     <ClInclude Include="netio\tcp_base_socket.hpp" />
     <ClInclude Include="netio\config.hpp" />

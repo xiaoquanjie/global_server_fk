@@ -1,4 +1,5 @@
 #include "slience/netio/netio.hpp"
+#include "slience/netio/http_socket.h"
 
 M_NETIO_NAMESPACE_BEGIN
 

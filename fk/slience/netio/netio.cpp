@@ -1,4 +1,9 @@
 #include "slience/netio/netio.hpp"
+#include "slience/netio/tcp_socket.h"
+#include "slience/netio/tcp_connector.h"
+#include "slience/netio/http_socket.h"
+#include "slience/netio/http_connector.h"
+
 
 M_NETIO_NAMESPACE_BEGIN
 

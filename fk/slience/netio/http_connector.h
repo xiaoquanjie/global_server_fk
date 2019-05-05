@@ -1,6 +1,7 @@
 #pragma once
 
-#include "slience/netio/config.hpp"
+#include "slience/netio/http_base_socket.hpp"
+
 M_NETIO_NAMESPACE_BEGIN
 
 class HttpConnector : 

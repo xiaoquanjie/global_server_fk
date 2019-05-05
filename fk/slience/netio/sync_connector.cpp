@@ -1,4 +1,5 @@
 #include "slience/netio/netio.hpp"
+#include "slience/netio/sync_connector.h"
 
 M_NETIO_NAMESPACE_BEGIN
 
