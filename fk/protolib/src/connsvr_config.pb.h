@@ -161,12 +161,12 @@ class ConnsvrConfig : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::std::string* release_listen_ip();
   void set_allocated_listen_ip(::std::string* listen_ip);
 
-  // optional bool open_svr = 1;
-  bool has_open_svr() const;
-  void clear_open_svr();
-  static const int kOpenSvrFieldNumber = 1;
-  bool open_svr() const;
-  void set_open_svr(bool value);
+  // optional int32 zone = 1;
+  bool has_zone() const;
+  void clear_zone();
+  static const int kZoneFieldNumber = 1;
+  ::google::protobuf::int32 zone() const;
+  void set_zone(::google::protobuf::int32 value);
 
   // optional int32 svr_inst_id = 3;
   bool has_svr_inst_id() const;
@@ -177,8 +177,8 @@ class ConnsvrConfig : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // @@protoc_insertion_point(class_scope:config.ConnsvrConfig)
  private:
-  void set_has_open_svr();
-  void clear_has_open_svr();
+  void set_has_zone();
+  void clear_has_zone();
   void set_has_listen_ip();
   void clear_has_listen_ip();
   void set_has_svr_inst_id();
@@ -188,7 +188,7 @@ class ConnsvrConfig : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
   ::google::protobuf::internal::ArenaStringPtr listen_ip_;
-  bool open_svr_;
+  ::google::protobuf::int32 zone_;
   ::google::protobuf::int32 svr_inst_id_;
   friend struct ::protobuf_connsvr_5fconfig_2eproto::TableStruct;
   friend void ::protobuf_connsvr_5fconfig_2eproto::InitDefaultsConnsvrConfigImpl();
@@ -204,28 +204,28 @@ class ConnsvrConfig : public ::google::protobuf::Message /* @@protoc_insertion_p
 #endif  // __GNUC__
 // ConnsvrConfig
 
-// optional bool open_svr = 1;
-inline bool ConnsvrConfig::has_open_svr() const {
+// optional int32 zone = 1;
+inline bool ConnsvrConfig::has_zone() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void ConnsvrConfig::set_has_open_svr() {
+inline void ConnsvrConfig::set_has_zone() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void ConnsvrConfig::clear_has_open_svr() {
+inline void ConnsvrConfig::clear_has_zone() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void ConnsvrConfig::clear_open_svr() {
-  open_svr_ = false;
-  clear_has_open_svr();
+inline void ConnsvrConfig::clear_zone() {
+  zone_ = 0;
+  clear_has_zone();
 }
-inline bool ConnsvrConfig::open_svr() const {
-  // @@protoc_insertion_point(field_get:config.ConnsvrConfig.open_svr)
-  return open_svr_;
+inline ::google::protobuf::int32 ConnsvrConfig::zone() const {
+  // @@protoc_insertion_point(field_get:config.ConnsvrConfig.zone)
+  return zone_;
 }
-inline void ConnsvrConfig::set_open_svr(bool value) {
-  set_has_open_svr();
-  open_svr_ = value;
-  // @@protoc_insertion_point(field_set:config.ConnsvrConfig.open_svr)
+inline void ConnsvrConfig::set_zone(::google::protobuf::int32 value) {
+  set_has_zone();
+  zone_ = value;
+  // @@protoc_insertion_point(field_set:config.ConnsvrConfig.zone)
 }
 
 // optional string listen_ip = 2;

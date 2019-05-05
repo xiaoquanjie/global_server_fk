@@ -13,6 +13,10 @@ int RouterApplication::InstanceId() {
 	return _svr_config.Data().svr_inst_id();
 }
 
+int RouterApplication::ServerZone() {
+	return _svr_config.Data().zone();
+}
+
 int RouterApplication::OnInitNetWork() {
 	// start network thread
 	auto func = m_bind_t(&RouterApplication::OnProc, this, placeholder_1,
@@ -98,6 +102,9 @@ int RouterApplication::ForwardPkg(unsigned int dst_svr_type, int dst_inst_id, co
 	base::s_int64_t fd = SeverInstanceMgrSgl.GetFdByTypeId(dst_svr_type, dst_inst_id);
 	if (fd != 0) {
 		NetIoHandlerSgl.SendDataByFd(fd, src, src_len);
+	}
+	else {
+		LogError("failed to get fd by dst_svr_type:" << dst_svr_type << " dst_inst_id:" << dst_inst_id);
 	}
 	return 0;
 }

@@ -11,6 +11,10 @@ int ConnApplication::InstanceId() {
 	return _svr_config.Data().svr_inst_id();
 }
 
+int ConnApplication::ServerZone() {
+	return _svr_config.Data().zone();
+}
+
 int ConnApplication::OnInitNetWork() {
 	auto func = m_bind_t(&ConnApplication::OnProc, this, placeholder_1,
 		placeholder_2, placeholder_3, placeholder_4);

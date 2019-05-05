@@ -10,6 +10,8 @@ protected:
 
 	int InstanceId() override;
 
+	int ServerZone() override;
+
 	int OnInitNetWork() override;
 
 	void OnStopNetWork() override;

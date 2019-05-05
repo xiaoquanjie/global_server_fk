@@ -132,15 +132,17 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::RouterSvrConfig, svr_inst_id_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::RouterSvrConfig, legal_svr_list_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::RouterSvrConfig, policy_list_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::RouterSvrConfig, zone_),
   0,
   1,
   ~0u,
   ~0u,
+  2,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, sizeof(::config::RouterListenInfo)},
   { 9, 16, sizeof(::config::Policy)},
-  { 18, 27, sizeof(::config::RouterSvrConfig)},
+  { 18, 28, sizeof(::config::RouterSvrConfig)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -174,15 +176,16 @@ void AddDescriptorsImpl() {
       "\n\026routersvr_config.proto\022\006config\":\n\020Rout"
       "erListenInfo\022\021\n\tlisten_ip\030\001 \001(\t\022\023\n\013liste"
       "n_port\030\002 \001(\005\"*\n\006Policy\022\020\n\010svr_type\030\001 \001(\r"
-      "\022\016\n\006policy\030\002 \001(\r\"v\n\017RouterSvrConfig\022\021\n\tl"
-      "isten_ip\030\001 \001(\t\022\023\n\013svr_inst_id\030\002 \001(\005\022\026\n\016l"
-      "egal_svr_list\030\003 \003(\005\022#\n\013policy_list\030\004 \003(\013"
-      "2\016.config.Policy*X\n\nPolicyType\022\021\n\rPOLICY"
-      "_ROUTER\020\000\022\021\n\rPOLICY_RANDOM\020\001\022\016\n\nPOLICY_M"
-      "OD\020\002\022\024\n\020POLICY_BROADCAST\020\003"
+      "\022\016\n\006policy\030\002 \001(\r\"\204\001\n\017RouterSvrConfig\022\021\n\t"
+      "listen_ip\030\001 \001(\t\022\023\n\013svr_inst_id\030\002 \001(\005\022\026\n\016"
+      "legal_svr_list\030\003 \003(\005\022#\n\013policy_list\030\004 \003("
+      "\0132\016.config.Policy\022\014\n\004zone\030\005 \001(\005*X\n\nPolic"
+      "yType\022\021\n\rPOLICY_ROUTER\020\000\022\021\n\rPOLICY_RANDO"
+      "M\020\001\022\016\n\nPOLICY_MOD\020\002\022\024\n\020POLICY_BROADCAST\020"
+      "\003"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 346);
+      descriptor, 361);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "routersvr_config.proto", &protobuf_RegisterTypes);
 }
@@ -829,6 +832,7 @@ const int RouterSvrConfig::kListenIpFieldNumber;
 const int RouterSvrConfig::kSvrInstIdFieldNumber;
 const int RouterSvrConfig::kLegalSvrListFieldNumber;
 const int RouterSvrConfig::kPolicyListFieldNumber;
+const int RouterSvrConfig::kZoneFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RouterSvrConfig::RouterSvrConfig()
@@ -851,14 +855,18 @@ RouterSvrConfig::RouterSvrConfig(const RouterSvrConfig& from)
   if (from.has_listen_ip()) {
     listen_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.listen_ip_);
   }
-  svr_inst_id_ = from.svr_inst_id_;
+  ::memcpy(&svr_inst_id_, &from.svr_inst_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&zone_) -
+    reinterpret_cast<char*>(&svr_inst_id_)) + sizeof(zone_));
   // @@protoc_insertion_point(copy_constructor:config.RouterSvrConfig)
 }
 
 void RouterSvrConfig::SharedCtor() {
   _cached_size_ = 0;
   listen_ip_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  svr_inst_id_ = 0;
+  ::memset(&svr_inst_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&zone_) -
+      reinterpret_cast<char*>(&svr_inst_id_)) + sizeof(zone_));
 }
 
 RouterSvrConfig::~RouterSvrConfig() {
@@ -906,7 +914,11 @@ void RouterSvrConfig::Clear() {
     GOOGLE_DCHECK(!listen_ip_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
     (*listen_ip_.UnsafeRawStringPointer())->clear();
   }
-  svr_inst_id_ = 0;
+  if (cached_has_bits & 6u) {
+    ::memset(&svr_inst_id_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&zone_) -
+        reinterpret_cast<char*>(&svr_inst_id_)) + sizeof(zone_));
+  }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -981,6 +993,20 @@ bool RouterSvrConfig::MergePartialFromCodedStream(
         break;
       }
 
+      // optional int32 zone = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+          set_has_zone();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &zone_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1036,6 +1062,11 @@ void RouterSvrConfig::SerializeWithCachedSizes(
       4, this->policy_list(static_cast<int>(i)), output);
   }
 
+  // optional int32 zone = 5;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->zone(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -1079,6 +1110,11 @@ void RouterSvrConfig::SerializeWithCachedSizes(
         4, this->policy_list(static_cast<int>(i)), deterministic, target);
   }
 
+  // optional int32 zone = 5;
+  if (cached_has_bits & 0x00000004u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->zone(), target);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
@@ -1116,7 +1152,7 @@ size_t RouterSvrConfig::ByteSizeLong() const {
     }
   }
 
-  if (_has_bits_[0 / 32] & 3u) {
+  if (_has_bits_[0 / 32] & 7u) {
     // optional string listen_ip = 1;
     if (has_listen_ip()) {
       total_size += 1 +
@@ -1129,6 +1165,13 @@ size_t RouterSvrConfig::ByteSizeLong() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->svr_inst_id());
+    }
+
+    // optional int32 zone = 5;
+    if (has_zone()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->zone());
     }
 
   }
@@ -1164,13 +1207,16 @@ void RouterSvrConfig::MergeFrom(const RouterSvrConfig& from) {
   legal_svr_list_.MergeFrom(from.legal_svr_list_);
   policy_list_.MergeFrom(from.policy_list_);
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_listen_ip();
       listen_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.listen_ip_);
     }
     if (cached_has_bits & 0x00000002u) {
       svr_inst_id_ = from.svr_inst_id_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      zone_ = from.zone_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -1204,6 +1250,7 @@ void RouterSvrConfig::InternalSwap(RouterSvrConfig* other) {
   policy_list_.InternalSwap(&other->policy_list_);
   listen_ip_.Swap(&other->listen_ip_);
   swap(svr_inst_id_, other->svr_inst_id_);
+  swap(zone_, other->zone_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

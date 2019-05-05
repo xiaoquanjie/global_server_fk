@@ -1,7 +1,7 @@
 package config;
 
 message ConnsvrConfig {
-	optional bool open_svr = 1; 
+	optional int32 zone = 1;
 	optional string listen_ip = 2;
 	optional int32 svr_inst_id = 3;
 }
