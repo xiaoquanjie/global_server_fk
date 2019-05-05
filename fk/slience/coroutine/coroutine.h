@@ -1,5 +1,4 @@
-#ifndef M_COROUTINE_COROUTINE_INCLUDE
-#define M_COROUTINE_COROUTINE_INCLUDE
+#pragma once
 
 #include "slience/coroutine/config.hpp"
 #include "slience/base/svector.hpp"
@@ -111,4 +110,3 @@ private:
 };
 
 M_COROUTINE_NAMESPACE_END
-#endif

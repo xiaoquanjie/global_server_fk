@@ -1,5 +1,4 @@
-#ifndef M_COROUTINE_CONFIG_INCLUDE
-#define M_COROUTINE_CONFIG_INCLUDE
+#pragma once
 
 #define M_COROUTINE_NAMESPACE_BEGIN namespace coroutine{
 #define M_COROUTINE_NAMESPACE_END }
@@ -57,4 +56,3 @@
 // coroutine func type
 typedef void(*_coroutine_func_)(void*ud);
 
-#endif

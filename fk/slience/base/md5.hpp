@@ -1,5 +1,4 @@
-#ifndef M_BASE_MD5_HPP__
-#define M_BASE_MD5_HPP__
+#pragma once
 
 #include "slience/base/config.hpp"
 #include <string>
@@ -209,4 +208,3 @@ void MD5::_final()
 }
 
 M_BASE_NAMESPACE_END
-#endif

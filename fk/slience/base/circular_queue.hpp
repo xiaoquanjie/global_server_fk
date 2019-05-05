@@ -1,5 +1,4 @@
-#ifndef M_BASE_CIRCULAR_QUEUE_INCLUDE
-#define M_BASE_CIRCULAR_QUEUE_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 M_BASE_NAMESPACE_BEGIN
@@ -137,4 +136,3 @@ public:
 };
 
 M_BASE_NAMESPACE_END
-#endif

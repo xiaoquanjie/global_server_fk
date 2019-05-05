@@ -1,5 +1,4 @@
-#ifndef M_COROUTINE_COROUTINE_TASK_INCLUDE
-#define M_COROUTINE_COROUTINE_TASK_INCLUDE
+#pragma once
 
 #include "slience/coroutine/coroutine.h"
 #include "slience/base/mutexlock.hpp"
@@ -56,4 +55,3 @@ private:
 };
 
 M_COROUTINE_NAMESPACE_END
-#endif

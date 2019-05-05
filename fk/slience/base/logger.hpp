@@ -1,5 +1,4 @@
-#ifndef M_BASE_LOGGER_INCLUDE
-#define M_BASE_LOGGER_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include "slience/base/thread.hpp"
@@ -492,4 +491,3 @@ M_BASE_NAMESPACE_END
 	}\
 }
 
-#endif

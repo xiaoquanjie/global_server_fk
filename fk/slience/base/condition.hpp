@@ -1,5 +1,4 @@
-#ifndef M_BASE_CONDITION_INCLUDE
-#define M_BASE_CONDITION_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include "slience/base/mutexlock.hpp"
@@ -31,4 +30,3 @@ private:
 };
 
 M_BASE_NAMESPACE_END
-#endif

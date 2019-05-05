@@ -1,4 +1,5 @@
 #pragma once
+
 #include "slience/base/config.hpp"
 #include <string>
 
