@@ -1,18 +1,3 @@
-/*----------------------------------------------------------------
-// Copyright (C) 2017 public
-//
-// 修改人：xiaoquanjie
-// 时间：2017/8/10
-//
-// 修改人：xiaoquanjie
-// 时间：
-// 修改说明：
-//
-// 版本：V1.0.0
-//----------------------------------------------------------------*/
-
-#ifndef M_LINUXSOCK_INIT_INCLUDE
-#define M_LINUXSOCK_INIT_INCLUDE
 
 class LinuxSockBase
 {
@@ -54,5 +39,3 @@ M_SOCKET_DECL LinuxSockInit<Version>::~LinuxSockInit()
 }
 
 static const LinuxSockInit<>& gLinuxSockInstance = LinuxSockInit<>();
-
-#endif

@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_SOCKET_TCP_INCLUDE
-#define M_SOCKET_TCP_INCLUDE
+#pragma once
 
 #include "slience/socket/config.hpp"
 #include "slience/socket/socket_stream.hpp"
@@ -78,4 +77,3 @@ M_SOCKET_DECL void TcpSocket<IoServiceType>::AsyncSendSome(const M_RW_HANDLER_TY
 }
 
 M_SOCKET_NAMESPACE_END
-#endif

@@ -11,12 +11,12 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_SOCKET_CONNECTOR_INCLUDE
-#define M_SOCKET_CONNECTOR_INCLUDE
+#pragma once
 
 #include "slience/socket/socket_stream.hpp"
 #include "slience/socket/protocol.hpp"
 #include "slience/socket/connector_service.hpp"
+
 M_SOCKET_NAMESPACE_BEGIN
 
 template<typename IoServiceType>
@@ -130,4 +130,3 @@ M_SOCKET_DECL void TcpConnector<IoServiceType>::AsyncSendSome(const M_RW_HANDLER
 }
 
 M_SOCKET_NAMESPACE_END
-#endif

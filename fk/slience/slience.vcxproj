@@ -197,7 +197,7 @@
     <ClInclude Include="socket\iocp_access.hpp" />
     <ClInclude Include="socket\ioservice.ipp" />
     <ClInclude Include="socket\io_object.hpp" />
-    <ClInclude Include="socket\linuxsock_init.hpp" />
+    <ClInclude Include="socket\linuxsock_init.ipp" />
     <ClInclude Include="socket\linux_config.hpp" />
     <ClInclude Include="socket\linux_epoll.hpp" />
     <ClInclude Include="socket\option.hpp" />
@@ -213,7 +213,7 @@
     <ClInclude Include="socket\stream_service.hpp" />
     <ClInclude Include="socket\type.hpp" />
     <ClInclude Include="socket\util.hpp" />
-    <ClInclude Include="socket\winsock_init.hpp" />
+    <ClInclude Include="socket\winsock_init.ipp" />
     <ClInclude Include="socket\win_config.hpp" />
     <ClInclude Include="socket\win_iocp.hpp" />
   </ItemGroup>

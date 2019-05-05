@@ -11,10 +11,10 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_IO_OBJECT_INCLUDE
-#define M_IO_OBJECT_INCLUDE
+#pragma once
 
 #include "slience/socket/config.hpp"
+
 M_SOCKET_NAMESPACE_BEGIN
 
 template<typename IoObjectService>
@@ -118,6 +118,4 @@ M_SOCKET_DECL void* SocketIoObject<IoObjectService>::GetData()
 	return _data;
 }
 
-
 M_SOCKET_NAMESPACE_END
-#endif

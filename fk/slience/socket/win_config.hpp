@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_WIN_CONFIG_INCLUDE
-#define M_WIN_CONFIG_INCLUDE
+#pragma once
 
 #ifdef M_PLATFORM_WIN
 #define M_INVALID_SOCKET	INVALID_SOCKET
@@ -33,5 +32,3 @@
 
 #define M_ESHOULDBLOCK		M_EWOULDBLOCK // 为了与linux版本保持一致
 #endif // M_PLATFORM_WIN
-
-#endif // WIN_CONFIG_INCLUDE

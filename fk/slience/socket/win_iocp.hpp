@@ -12,14 +12,14 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_WIN_IOCP2_INCLUDE
-#define M_WIN_IOCP2_INCLUDE
+#pragma once
 
 #include "slience/socket/config.hpp"
 #include <map>
 #include <vector>
 #include <algorithm>
 #include "slience/base/tls.hpp"
+
 #ifdef M_PLATFORM_WIN
 M_SOCKET_NAMESPACE_BEGIN
 
@@ -319,7 +319,8 @@ inline iodetail::IoServiceImpl& IocpService::GetServiceImpl() {
 	return base::tlsdata<IocpService::IoServiceImpl>::data();
 }
 
-#include "slience/socket/winsock_init.hpp"
+#include "slience/socket/winsock_init.ipp"
+
 M_SOCKET_NAMESPACE_END
 #endif
-#endif
+

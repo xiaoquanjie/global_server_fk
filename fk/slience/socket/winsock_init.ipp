@@ -1,24 +1,8 @@
-/*----------------------------------------------------------------
-// Copyright (C) 2017 public
-//
-// 修改人：xiaoquanjie
-// 时间：2017/8/10
-//
-// 修改人：xiaoquanjie
-// 时间：
-// 修改说明：
-//
-// 版本：V1.0.0
-//----------------------------------------------------------------*/
-
-#ifndef M_WINSOCK_INIT_INCLUDE
-#define M_WINSOCK_INIT_INCLUDE
 
 class WinSockBase
 {
 protected:
-	struct data
-	{
+	struct data {
 		s_uint32_t _init_cnt;
 		s_uint32_t _result;
 	};
@@ -115,8 +99,5 @@ M_SOCKET_DECL LPFN_CONNECTEX WinSockInit<Major, Minor>::GetConnectEx()const
 
 static const WinSockInit<>& gWinSockInstance = WinSockInit<>();
 
-
 static LPFN_ACCEPTEX  gAcceptEx = gWinSockInstance.GetAcceptEx();
 static LPFN_CONNECTEX gConnectEx = gWinSockInstance.GetConnectEx();
-
-#endif

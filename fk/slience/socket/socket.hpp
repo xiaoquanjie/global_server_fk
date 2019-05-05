@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef SOCKET_HPP
-#define SOCKET_HPP
+#pragma once
 
 #include "slience/socket/config.hpp"
 #include "slience/socket/pro_hdr.hpp"
@@ -24,5 +23,3 @@
 #include "slience/socket/socket_acceptor.hpp"
 #include "slience/socket/socket_connector.hpp"
 #include "slience/socket/service.hpp"
-
-#endif

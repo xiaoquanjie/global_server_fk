@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_TYPE_INCLUDE
-#define M_TYPE_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 M_SOCKET_NAMESPACE_BEGIN
@@ -249,4 +248,3 @@ struct HandlerTraits<m_function_t<ReturnType(Arg1, Arg2, Arg3, Arg4, Arg5)> >
 	typename HandlerTraits<HANDLER>::arg2_type
 
 M_SOCKET_NAMESPACE_END
-#endif

@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_SOCKET_STREAM_INCLUDE
-#define M_SOCKET_STREAM_INCLUDE
+#pragma once
 
 #include "slience/socket/basic_socket.hpp"
 M_SOCKET_NAMESPACE_BEGIN
@@ -71,4 +70,3 @@ M_SOCKET_DECL s_int32_t StreamSocket<Protocol, SocketService>::SendSome(const s_
 
 
 M_SOCKET_NAMESPACE_END
-#endif

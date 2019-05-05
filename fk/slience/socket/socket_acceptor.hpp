@@ -11,12 +11,12 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_SOCKET_ACCEPTOR_INCLUDE
-#define M_SOCKET_ACCEPTOR_INCLUDE
+#pragma once
 
 #include "slience/socket/basic_socket.hpp"
 #include "slience/socket/protocol.hpp"
 #include "slience/socket/acceptor_service.hpp"
+
 M_SOCKET_NAMESPACE_BEGIN
 
 template<typename IoServiceType>
@@ -126,4 +126,3 @@ M_SOCKET_DECL void TcpAcceptor<IoServiceType>::AsyncAccept(const AcceptHandler& 
 }
 
 M_SOCKET_NAMESPACE_END
-#endif

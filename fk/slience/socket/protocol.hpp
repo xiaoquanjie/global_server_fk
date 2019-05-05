@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_PROTOCOL_INCLUDE
-#define M_PROTOCOL_INCLUDE
+#pragma once
 
 #include "slience/socket/endpoint.hpp"
 M_SOCKET_NAMESPACE_BEGIN
@@ -110,4 +109,3 @@ protected:
 };
 
 M_SOCKET_NAMESPACE_END
-#endif

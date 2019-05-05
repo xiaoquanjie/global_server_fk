@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_SOCKET_OPT_INCLUDE
-#define M_SOCKET_OPT_INCLUDE
+#pragma once
 
 #include "slience/socket/config.hpp"
 M_SOCKET_NAMESPACE_BEGIN
@@ -291,4 +290,3 @@ struct Opts
 
 
 M_SOCKET_NAMESPACE_END
-#endif
