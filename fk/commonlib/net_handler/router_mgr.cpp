@@ -147,20 +147,6 @@ int RouterMgr::AddRouter(const std::string& ip, unsigned int port, int number,
 	return -1;
 }
 
-int RouterMgr::DelRouter(const std::string& ip, unsigned int port, int number,
-	base::s_int64_t fd) {
-	for (auto iter = _router_info_vec.begin(); iter != _router_info_vec.end();
-		++iter) {
-		if (ip == iter->ip
-			&& port == iter->port
-			&& number == iter->number) {
-			_router_info_vec.erase(iter);
-			return 0;
-		}
-	}
-	return -1;
-}
-
 int RouterMgr::SendMsg(int cmd, base::s_int64_t userid, bool is_broadcast,
 	base::s_uint32_t dst_svr_type, base::s_uint32_t dst_inst_id,
 	base::s_uint32_t src_trans_id, base::s_uint32_t dst_trans_id,

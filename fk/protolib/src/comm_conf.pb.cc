@@ -57,10 +57,14 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::CommConf, router_conf_file_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::CommConf, routersvr_port_start_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::CommConf, connsvr_port_start_),
   0,
+  1,
+  2,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 6, sizeof(::config::CommConf)},
+  { 0, 8, sizeof(::config::CommConf)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -89,11 +93,13 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\017comm_conf.proto\022\006config\"$\n\010CommConf\022\030\n"
-      "\020router_conf_file\030\001 \001(\t"
+      "\n\017comm_conf.proto\022\006config\"^\n\010CommConf\022\030\n"
+      "\020router_conf_file\030\001 \001(\t\022\034\n\024routersvr_por"
+      "t_start\030\002 \001(\r\022\032\n\022connsvr_port_start\030\003 \001("
+      "\r"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 63);
+      descriptor, 121);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "comm_conf.proto", &protobuf_RegisterTypes);
 }
@@ -117,6 +123,8 @@ void CommConf::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int CommConf::kRouterConfFileFieldNumber;
+const int CommConf::kRoutersvrPortStartFieldNumber;
+const int CommConf::kConnsvrPortStartFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 CommConf::CommConf()
@@ -137,12 +145,18 @@ CommConf::CommConf(const CommConf& from)
   if (from.has_router_conf_file()) {
     router_conf_file_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.router_conf_file_);
   }
+  ::memcpy(&routersvr_port_start_, &from.routersvr_port_start_,
+    static_cast<size_t>(reinterpret_cast<char*>(&connsvr_port_start_) -
+    reinterpret_cast<char*>(&routersvr_port_start_)) + sizeof(connsvr_port_start_));
   // @@protoc_insertion_point(copy_constructor:config.CommConf)
 }
 
 void CommConf::SharedCtor() {
   _cached_size_ = 0;
   router_conf_file_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&routersvr_port_start_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&connsvr_port_start_) -
+      reinterpret_cast<char*>(&routersvr_port_start_)) + sizeof(connsvr_port_start_));
 }
 
 CommConf::~CommConf() {
@@ -188,6 +202,11 @@ void CommConf::Clear() {
     GOOGLE_DCHECK(!router_conf_file_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
     (*router_conf_file_.UnsafeRawStringPointer())->clear();
   }
+  if (cached_has_bits & 6u) {
+    ::memset(&routersvr_port_start_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&connsvr_port_start_) -
+        reinterpret_cast<char*>(&routersvr_port_start_)) + sizeof(connsvr_port_start_));
+  }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
 }
@@ -212,6 +231,34 @@ bool CommConf::MergePartialFromCodedStream(
             this->router_conf_file().data(), static_cast<int>(this->router_conf_file().length()),
             ::google::protobuf::internal::WireFormat::PARSE,
             "config.CommConf.router_conf_file");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional uint32 routersvr_port_start = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
+          set_has_routersvr_port_start();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &routersvr_port_start_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional uint32 connsvr_port_start = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+          set_has_connsvr_port_start();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
+                 input, &connsvr_port_start_)));
         } else {
           goto handle_unusual;
         }
@@ -255,6 +302,16 @@ void CommConf::SerializeWithCachedSizes(
       1, this->router_conf_file(), output);
   }
 
+  // optional uint32 routersvr_port_start = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(2, this->routersvr_port_start(), output);
+  }
+
+  // optional uint32 connsvr_port_start = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->connsvr_port_start(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -281,6 +338,16 @@ void CommConf::SerializeWithCachedSizes(
         1, this->router_conf_file(), target);
   }
 
+  // optional uint32 routersvr_port_start = 2;
+  if (cached_has_bits & 0x00000002u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(2, this->routersvr_port_start(), target);
+  }
+
+  // optional uint32 connsvr_port_start = 3;
+  if (cached_has_bits & 0x00000004u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->connsvr_port_start(), target);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
@@ -298,13 +365,29 @@ size_t CommConf::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  // optional string router_conf_file = 1;
-  if (has_router_conf_file()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->router_conf_file());
-  }
+  if (_has_bits_[0 / 32] & 7u) {
+    // optional string router_conf_file = 1;
+    if (has_router_conf_file()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->router_conf_file());
+    }
 
+    // optional uint32 routersvr_port_start = 2;
+    if (has_routersvr_port_start()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->routersvr_port_start());
+    }
+
+    // optional uint32 connsvr_port_start = 3;
+    if (has_connsvr_port_start()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->connsvr_port_start());
+    }
+
+  }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = cached_size;
@@ -334,9 +417,19 @@ void CommConf::MergeFrom(const CommConf& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_router_conf_file()) {
-    set_has_router_conf_file();
-    router_conf_file_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.router_conf_file_);
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 7u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_router_conf_file();
+      router_conf_file_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.router_conf_file_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      routersvr_port_start_ = from.routersvr_port_start_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      connsvr_port_start_ = from.connsvr_port_start_;
+    }
+    _has_bits_[0] |= cached_has_bits;
   }
 }
 
@@ -365,6 +458,8 @@ void CommConf::Swap(CommConf* other) {
 void CommConf::InternalSwap(CommConf* other) {
   using std::swap;
   router_conf_file_.Swap(&other->router_conf_file_);
+  swap(routersvr_port_start_, other->routersvr_port_start_);
+  swap(connsvr_port_start_, other->connsvr_port_start_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

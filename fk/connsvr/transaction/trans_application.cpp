@@ -65,11 +65,8 @@ public:
 
 			ConnInfo* pinfo = (ConnInfo*)ptr->GetExtData();
 			if (pinfo && pinfo->conn_type == Enum_ConnType_Router) {
-				if (!RouterMgrSgl.ExistRouter(pinfo->ip, pinfo->port, pinfo->serial_num)) {
-					RouterMgrSgl.DelRouter(pinfo->ip, pinfo->port, pinfo->serial_num, fd());
-				}
-				else {
-					// ÖØßB
+				if (RouterMgrSgl.ExistRouter(pinfo->ip, pinfo->port, pinfo->serial_num)) {
+					// ÖØÁ¬
 					LogError(pinfo->ToString() << " connection broken, try to reconnect");
 					NetIoHandlerSgl.ConnectOne(pinfo->ip, pinfo->port,
 						pinfo->conn_type, pinfo->serial_num);

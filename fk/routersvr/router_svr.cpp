@@ -31,19 +31,15 @@ int RouterApplication::UpdateNetWork() {
 }
 
 int RouterApplication::OnInit() {
-	if (_svr_config.Data().listen_list_size() <= 0) {
-		LogError("listen_list is empty");
+	// listen
+	std::string ip = _svr_config.Data().listen_ip();
+	int port = CalcPort(0);
+	if (!NetIoHandlerSgl.ListenOne(ip, port)) {
+		LogError(ip << " " << port << "listen error:" << NetIoHandlerSgl.GetLastError().What());
 		return -1;
 	}
-	for (int idx = 0; idx < _svr_config.Data().listen_list_size(); ++idx) {
-		auto item = _svr_config.Data().listen_list(idx);
-		if (!NetIoHandlerSgl.ListenOne(item.listen_ip(), item.listen_port())) {
-			LogError(item.listen_ip() << " " << item.listen_port() << "listen error:" << NetIoHandlerSgl.GetLastError().What());
-			return -1;
-		}
-		else {
-			LogInfo("listen in: " << item.ShortDebugString());
-		}
+	else {
+		LogInfo("listen in: " << ip << " " << port);
 	}
 
 	SeverInstanceMgrSgl.Init(&_svr_config.Data());

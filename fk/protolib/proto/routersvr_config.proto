@@ -19,8 +19,8 @@ message Policy {
 }
 
 message RouterSvrConfig {
-	repeated RouterListenInfo listen_list = 1;
-	repeated int32 legal_svr_list = 2;	// 合法服务列表
-	repeated Policy policy_list = 3;
-	optional int32 svr_inst_id = 4;
+	optional string listen_ip = 1;
+	optional int32 svr_inst_id = 2;
+	repeated int32 legal_svr_list = 3;	// 合法服务列表
+	repeated Policy policy_list = 4;
 }

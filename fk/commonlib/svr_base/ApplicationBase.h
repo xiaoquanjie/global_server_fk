@@ -61,6 +61,10 @@ protected:
 
 	size_t TickCount();
 
+	base::s_uint32_t PortStart();
+
+	virtual base::s_uint32_t CalcPort(int type);
+
 protected:
 	int ParseOpt(int argc, char** argv);
 

@@ -58,15 +58,13 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::ConnsvrConfig, open_svr_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::ConnsvrConfig, listen_ip_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::ConnsvrConfig, listen_port_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::ConnsvrConfig, svr_inst_id_),
   1,
   0,
   2,
-  3,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 9, sizeof(::config::ConnsvrConfig)},
+  { 0, 8, sizeof(::config::ConnsvrConfig)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -95,13 +93,12 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\024connsvr_config.proto\022\006config\"^\n\rConnsv"
+      "\n\024connsvr_config.proto\022\006config\"I\n\rConnsv"
       "rConfig\022\020\n\010open_svr\030\001 \001(\010\022\021\n\tlisten_ip\030\002"
-      " \001(\t\022\023\n\013listen_port\030\003 \001(\005\022\023\n\013svr_inst_id"
-      "\030\004 \001(\005"
+      " \001(\t\022\023\n\013svr_inst_id\030\003 \001(\005"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 126);
+      descriptor, 105);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "connsvr_config.proto", &protobuf_RegisterTypes);
 }
@@ -126,7 +123,6 @@ void ConnsvrConfig::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int ConnsvrConfig::kOpenSvrFieldNumber;
 const int ConnsvrConfig::kListenIpFieldNumber;
-const int ConnsvrConfig::kListenPortFieldNumber;
 const int ConnsvrConfig::kSvrInstIdFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
@@ -205,7 +201,7 @@ void ConnsvrConfig::Clear() {
     GOOGLE_DCHECK(!listen_ip_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
     (*listen_ip_.UnsafeRawStringPointer())->clear();
   }
-  if (cached_has_bits & 14u) {
+  if (cached_has_bits & 6u) {
     ::memset(&open_svr_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&svr_inst_id_) -
         reinterpret_cast<char*>(&open_svr_)) + sizeof(svr_inst_id_));
@@ -254,24 +250,10 @@ bool ConnsvrConfig::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 listen_port = 3;
+      // optional int32 svr_inst_id = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          set_has_listen_port();
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &listen_port_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // optional int32 svr_inst_id = 4;
-      case 4: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
           set_has_svr_inst_id();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
@@ -324,14 +306,9 @@ void ConnsvrConfig::SerializeWithCachedSizes(
       2, this->listen_ip(), output);
   }
 
-  // optional int32 listen_port = 3;
+  // optional int32 svr_inst_id = 3;
   if (cached_has_bits & 0x00000004u) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->listen_port(), output);
-  }
-
-  // optional int32 svr_inst_id = 4;
-  if (cached_has_bits & 0x00000008u) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->svr_inst_id(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->svr_inst_id(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -365,14 +342,9 @@ void ConnsvrConfig::SerializeWithCachedSizes(
         2, this->listen_ip(), target);
   }
 
-  // optional int32 listen_port = 3;
+  // optional int32 svr_inst_id = 3;
   if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->listen_port(), target);
-  }
-
-  // optional int32 svr_inst_id = 4;
-  if (cached_has_bits & 0x00000008u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->svr_inst_id(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->svr_inst_id(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -392,7 +364,7 @@ size_t ConnsvrConfig::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (_has_bits_[0 / 32] & 15u) {
+  if (_has_bits_[0 / 32] & 7u) {
     // optional string listen_ip = 2;
     if (has_listen_ip()) {
       total_size += 1 +
@@ -405,14 +377,7 @@ size_t ConnsvrConfig::ByteSizeLong() const {
       total_size += 1 + 1;
     }
 
-    // optional int32 listen_port = 3;
-    if (has_listen_port()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->listen_port());
-    }
-
-    // optional int32 svr_inst_id = 4;
+    // optional int32 svr_inst_id = 3;
     if (has_svr_inst_id()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
@@ -450,7 +415,7 @@ void ConnsvrConfig::MergeFrom(const ConnsvrConfig& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 15u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_listen_ip();
       listen_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.listen_ip_);
@@ -459,9 +424,6 @@ void ConnsvrConfig::MergeFrom(const ConnsvrConfig& from) {
       open_svr_ = from.open_svr_;
     }
     if (cached_has_bits & 0x00000004u) {
-      listen_port_ = from.listen_port_;
-    }
-    if (cached_has_bits & 0x00000008u) {
       svr_inst_id_ = from.svr_inst_id_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -494,7 +456,6 @@ void ConnsvrConfig::InternalSwap(ConnsvrConfig* other) {
   using std::swap;
   listen_ip_.Swap(&other->listen_ip_);
   swap(open_svr_, other->open_svr_);
-  swap(listen_port_, other->listen_port_);
   swap(svr_inst_id_, other->svr_inst_id_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);

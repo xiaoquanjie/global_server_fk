@@ -304,3 +304,19 @@ int ApplicationBase::SendMsgToSelf(int cmd, base::s_uint64_t uid, const google::
 	_self_msg_queue.push(buf);
 	return 0;
 }
+
+base::s_uint32_t ApplicationBase::PortStart() {
+	if (ServerType() == proto::SVR_TYPE_ROUTER) {
+		return _comm_config.Data().routersvr_port_start();
+	}
+	else if (ServerType() == proto::SVR_TYPE_CONN) {
+		return _comm_config.Data().connsvr_port_start();
+	} 
+
+	LogError("failed to get start port of server_type:" << ServerType());
+	return 0;
+}
+
+base::s_uint32_t ApplicationBase::CalcPort(int type) {
+	return PortStart() + InstanceId();
+}

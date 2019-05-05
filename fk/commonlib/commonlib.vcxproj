@@ -97,8 +97,6 @@
     <ClCompile Include="net_handler\net_handler.cpp" />
     <ClCompile Include="net_handler\router_mgr.cpp" />
     <ClCompile Include="svr_base\ApplicationBaseExt.cpp" />
-    <ClCompile Include="svr_base\router_manager.cpp" />
-    <ClCompile Include="svr_base\server_manager.cpp" />
     <ClCompile Include="transaction\base_transaction.cpp" />
     <ClCompile Include="transaction\transaction_mgr.cpp" />
     <None Include="..\google\protobuf\compiler\zip_output_unittest.sh" />
@@ -323,10 +321,7 @@
     <ClInclude Include="svr_base\ApplicationFunc.hpp" />
     <ClInclude Include="svr_base\getopt.h" />
     <ClInclude Include="svr_base\getopt.hpp" />
-    <ClInclude Include="svr_base\msgbase.hpp" />
-    <ClInclude Include="svr_base\router_manager.h" />
     <ClInclude Include="svr_base\server_cfg.h" />
-    <ClInclude Include="svr_base\server_manager.h" />
     <ClInclude Include="svr_base\svrbase.h" />
     <ClInclude Include="traits\function_traits.hpp" />
     <ClInclude Include="traits\fun_to_mem_converter.hpp" />

@@ -428,22 +428,10 @@ class RouterSvrConfig : public ::google::protobuf::Message /* @@protoc_insertion
 
   // accessors -------------------------------------------------------
 
-  // repeated .config.RouterListenInfo listen_list = 1;
-  int listen_list_size() const;
-  void clear_listen_list();
-  static const int kListenListFieldNumber = 1;
-  const ::config::RouterListenInfo& listen_list(int index) const;
-  ::config::RouterListenInfo* mutable_listen_list(int index);
-  ::config::RouterListenInfo* add_listen_list();
-  ::google::protobuf::RepeatedPtrField< ::config::RouterListenInfo >*
-      mutable_listen_list();
-  const ::google::protobuf::RepeatedPtrField< ::config::RouterListenInfo >&
-      listen_list() const;
-
-  // repeated int32 legal_svr_list = 2;
+  // repeated int32 legal_svr_list = 3;
   int legal_svr_list_size() const;
   void clear_legal_svr_list();
-  static const int kLegalSvrListFieldNumber = 2;
+  static const int kLegalSvrListFieldNumber = 3;
   ::google::protobuf::int32 legal_svr_list(int index) const;
   void set_legal_svr_list(int index, ::google::protobuf::int32 value);
   void add_legal_svr_list(::google::protobuf::int32 value);
@@ -452,10 +440,10 @@ class RouterSvrConfig : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_legal_svr_list();
 
-  // repeated .config.Policy policy_list = 3;
+  // repeated .config.Policy policy_list = 4;
   int policy_list_size() const;
   void clear_policy_list();
-  static const int kPolicyListFieldNumber = 3;
+  static const int kPolicyListFieldNumber = 4;
   const ::config::Policy& policy_list(int index) const;
   ::config::Policy* mutable_policy_list(int index);
   ::config::Policy* add_policy_list();
@@ -464,24 +452,41 @@ class RouterSvrConfig : public ::google::protobuf::Message /* @@protoc_insertion
   const ::google::protobuf::RepeatedPtrField< ::config::Policy >&
       policy_list() const;
 
-  // optional int32 svr_inst_id = 4;
+  // optional string listen_ip = 1;
+  bool has_listen_ip() const;
+  void clear_listen_ip();
+  static const int kListenIpFieldNumber = 1;
+  const ::std::string& listen_ip() const;
+  void set_listen_ip(const ::std::string& value);
+  #if LANG_CXX11
+  void set_listen_ip(::std::string&& value);
+  #endif
+  void set_listen_ip(const char* value);
+  void set_listen_ip(const char* value, size_t size);
+  ::std::string* mutable_listen_ip();
+  ::std::string* release_listen_ip();
+  void set_allocated_listen_ip(::std::string* listen_ip);
+
+  // optional int32 svr_inst_id = 2;
   bool has_svr_inst_id() const;
   void clear_svr_inst_id();
-  static const int kSvrInstIdFieldNumber = 4;
+  static const int kSvrInstIdFieldNumber = 2;
   ::google::protobuf::int32 svr_inst_id() const;
   void set_svr_inst_id(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:config.RouterSvrConfig)
  private:
+  void set_has_listen_ip();
+  void clear_has_listen_ip();
   void set_has_svr_inst_id();
   void clear_has_svr_inst_id();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
-  ::google::protobuf::RepeatedPtrField< ::config::RouterListenInfo > listen_list_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > legal_svr_list_;
   ::google::protobuf::RepeatedPtrField< ::config::Policy > policy_list_;
+  ::google::protobuf::internal::ArenaStringPtr listen_ip_;
   ::google::protobuf::int32 svr_inst_id_;
   friend struct ::protobuf_routersvr_5fconfig_2eproto::TableStruct;
   friend void ::protobuf_routersvr_5fconfig_2eproto::InitDefaultsRouterSvrConfigImpl();
@@ -640,37 +645,94 @@ inline void Policy::set_policy(::google::protobuf::uint32 value) {
 
 // RouterSvrConfig
 
-// repeated .config.RouterListenInfo listen_list = 1;
-inline int RouterSvrConfig::listen_list_size() const {
-  return listen_list_.size();
+// optional string listen_ip = 1;
+inline bool RouterSvrConfig::has_listen_ip() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void RouterSvrConfig::clear_listen_list() {
-  listen_list_.Clear();
+inline void RouterSvrConfig::set_has_listen_ip() {
+  _has_bits_[0] |= 0x00000001u;
 }
-inline const ::config::RouterListenInfo& RouterSvrConfig::listen_list(int index) const {
-  // @@protoc_insertion_point(field_get:config.RouterSvrConfig.listen_list)
-  return listen_list_.Get(index);
+inline void RouterSvrConfig::clear_has_listen_ip() {
+  _has_bits_[0] &= ~0x00000001u;
 }
-inline ::config::RouterListenInfo* RouterSvrConfig::mutable_listen_list(int index) {
-  // @@protoc_insertion_point(field_mutable:config.RouterSvrConfig.listen_list)
-  return listen_list_.Mutable(index);
+inline void RouterSvrConfig::clear_listen_ip() {
+  listen_ip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_listen_ip();
 }
-inline ::config::RouterListenInfo* RouterSvrConfig::add_listen_list() {
-  // @@protoc_insertion_point(field_add:config.RouterSvrConfig.listen_list)
-  return listen_list_.Add();
+inline const ::std::string& RouterSvrConfig::listen_ip() const {
+  // @@protoc_insertion_point(field_get:config.RouterSvrConfig.listen_ip)
+  return listen_ip_.GetNoArena();
 }
-inline ::google::protobuf::RepeatedPtrField< ::config::RouterListenInfo >*
-RouterSvrConfig::mutable_listen_list() {
-  // @@protoc_insertion_point(field_mutable_list:config.RouterSvrConfig.listen_list)
-  return &listen_list_;
+inline void RouterSvrConfig::set_listen_ip(const ::std::string& value) {
+  set_has_listen_ip();
+  listen_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:config.RouterSvrConfig.listen_ip)
 }
-inline const ::google::protobuf::RepeatedPtrField< ::config::RouterListenInfo >&
-RouterSvrConfig::listen_list() const {
-  // @@protoc_insertion_point(field_list:config.RouterSvrConfig.listen_list)
-  return listen_list_;
+#if LANG_CXX11
+inline void RouterSvrConfig::set_listen_ip(::std::string&& value) {
+  set_has_listen_ip();
+  listen_ip_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:config.RouterSvrConfig.listen_ip)
+}
+#endif
+inline void RouterSvrConfig::set_listen_ip(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_listen_ip();
+  listen_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:config.RouterSvrConfig.listen_ip)
+}
+inline void RouterSvrConfig::set_listen_ip(const char* value, size_t size) {
+  set_has_listen_ip();
+  listen_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:config.RouterSvrConfig.listen_ip)
+}
+inline ::std::string* RouterSvrConfig::mutable_listen_ip() {
+  set_has_listen_ip();
+  // @@protoc_insertion_point(field_mutable:config.RouterSvrConfig.listen_ip)
+  return listen_ip_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* RouterSvrConfig::release_listen_ip() {
+  // @@protoc_insertion_point(field_release:config.RouterSvrConfig.listen_ip)
+  clear_has_listen_ip();
+  return listen_ip_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void RouterSvrConfig::set_allocated_listen_ip(::std::string* listen_ip) {
+  if (listen_ip != NULL) {
+    set_has_listen_ip();
+  } else {
+    clear_has_listen_ip();
+  }
+  listen_ip_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), listen_ip);
+  // @@protoc_insertion_point(field_set_allocated:config.RouterSvrConfig.listen_ip)
 }
 
-// repeated int32 legal_svr_list = 2;
+// optional int32 svr_inst_id = 2;
+inline bool RouterSvrConfig::has_svr_inst_id() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void RouterSvrConfig::set_has_svr_inst_id() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void RouterSvrConfig::clear_has_svr_inst_id() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void RouterSvrConfig::clear_svr_inst_id() {
+  svr_inst_id_ = 0;
+  clear_has_svr_inst_id();
+}
+inline ::google::protobuf::int32 RouterSvrConfig::svr_inst_id() const {
+  // @@protoc_insertion_point(field_get:config.RouterSvrConfig.svr_inst_id)
+  return svr_inst_id_;
+}
+inline void RouterSvrConfig::set_svr_inst_id(::google::protobuf::int32 value) {
+  set_has_svr_inst_id();
+  svr_inst_id_ = value;
+  // @@protoc_insertion_point(field_set:config.RouterSvrConfig.svr_inst_id)
+}
+
+// repeated int32 legal_svr_list = 3;
 inline int RouterSvrConfig::legal_svr_list_size() const {
   return legal_svr_list_.size();
 }
@@ -700,7 +762,7 @@ RouterSvrConfig::mutable_legal_svr_list() {
   return &legal_svr_list_;
 }
 
-// repeated .config.Policy policy_list = 3;
+// repeated .config.Policy policy_list = 4;
 inline int RouterSvrConfig::policy_list_size() const {
   return policy_list_.size();
 }
@@ -728,30 +790,6 @@ inline const ::google::protobuf::RepeatedPtrField< ::config::Policy >&
 RouterSvrConfig::policy_list() const {
   // @@protoc_insertion_point(field_list:config.RouterSvrConfig.policy_list)
   return policy_list_;
-}
-
-// optional int32 svr_inst_id = 4;
-inline bool RouterSvrConfig::has_svr_inst_id() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void RouterSvrConfig::set_has_svr_inst_id() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void RouterSvrConfig::clear_has_svr_inst_id() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void RouterSvrConfig::clear_svr_inst_id() {
-  svr_inst_id_ = 0;
-  clear_has_svr_inst_id();
-}
-inline ::google::protobuf::int32 RouterSvrConfig::svr_inst_id() const {
-  // @@protoc_insertion_point(field_get:config.RouterSvrConfig.svr_inst_id)
-  return svr_inst_id_;
-}
-inline void RouterSvrConfig::set_svr_inst_id(::google::protobuf::int32 value) {
-  set_has_svr_inst_id();
-  svr_inst_id_ = value;
-  // @@protoc_insertion_point(field_set:config.RouterSvrConfig.svr_inst_id)
 }
 
 #ifdef __GNUC__

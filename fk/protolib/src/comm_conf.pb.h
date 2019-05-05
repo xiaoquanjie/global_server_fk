@@ -161,15 +161,35 @@ class CommConf : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::std::string* release_router_conf_file();
   void set_allocated_router_conf_file(::std::string* router_conf_file);
 
+  // optional uint32 routersvr_port_start = 2;
+  bool has_routersvr_port_start() const;
+  void clear_routersvr_port_start();
+  static const int kRoutersvrPortStartFieldNumber = 2;
+  ::google::protobuf::uint32 routersvr_port_start() const;
+  void set_routersvr_port_start(::google::protobuf::uint32 value);
+
+  // optional uint32 connsvr_port_start = 3;
+  bool has_connsvr_port_start() const;
+  void clear_connsvr_port_start();
+  static const int kConnsvrPortStartFieldNumber = 3;
+  ::google::protobuf::uint32 connsvr_port_start() const;
+  void set_connsvr_port_start(::google::protobuf::uint32 value);
+
   // @@protoc_insertion_point(class_scope:config.CommConf)
  private:
   void set_has_router_conf_file();
   void clear_has_router_conf_file();
+  void set_has_routersvr_port_start();
+  void clear_has_routersvr_port_start();
+  void set_has_connsvr_port_start();
+  void clear_has_connsvr_port_start();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
   ::google::protobuf::internal::ArenaStringPtr router_conf_file_;
+  ::google::protobuf::uint32 routersvr_port_start_;
+  ::google::protobuf::uint32 connsvr_port_start_;
   friend struct ::protobuf_comm_5fconf_2eproto::TableStruct;
   friend void ::protobuf_comm_5fconf_2eproto::InitDefaultsCommConfImpl();
 };
@@ -245,6 +265,54 @@ inline void CommConf::set_allocated_router_conf_file(::std::string* router_conf_
   }
   router_conf_file_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), router_conf_file);
   // @@protoc_insertion_point(field_set_allocated:config.CommConf.router_conf_file)
+}
+
+// optional uint32 routersvr_port_start = 2;
+inline bool CommConf::has_routersvr_port_start() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void CommConf::set_has_routersvr_port_start() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void CommConf::clear_has_routersvr_port_start() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void CommConf::clear_routersvr_port_start() {
+  routersvr_port_start_ = 0u;
+  clear_has_routersvr_port_start();
+}
+inline ::google::protobuf::uint32 CommConf::routersvr_port_start() const {
+  // @@protoc_insertion_point(field_get:config.CommConf.routersvr_port_start)
+  return routersvr_port_start_;
+}
+inline void CommConf::set_routersvr_port_start(::google::protobuf::uint32 value) {
+  set_has_routersvr_port_start();
+  routersvr_port_start_ = value;
+  // @@protoc_insertion_point(field_set:config.CommConf.routersvr_port_start)
+}
+
+// optional uint32 connsvr_port_start = 3;
+inline bool CommConf::has_connsvr_port_start() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void CommConf::set_has_connsvr_port_start() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void CommConf::clear_has_connsvr_port_start() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void CommConf::clear_connsvr_port_start() {
+  connsvr_port_start_ = 0u;
+  clear_has_connsvr_port_start();
+}
+inline ::google::protobuf::uint32 CommConf::connsvr_port_start() const {
+  // @@protoc_insertion_point(field_get:config.CommConf.connsvr_port_start)
+  return connsvr_port_start_;
+}
+inline void CommConf::set_connsvr_port_start(::google::protobuf::uint32 value) {
+  set_has_connsvr_port_start();
+  connsvr_port_start_ = value;
+  // @@protoc_insertion_point(field_set:config.CommConf.connsvr_port_start)
 }
 
 #ifdef __GNUC__

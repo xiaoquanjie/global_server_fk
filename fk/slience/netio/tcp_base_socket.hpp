@@ -166,6 +166,9 @@ bool TcpBaseSocket<T, SocketType>::IsConnected()const {
 
 template<typename T, typename SocketType>
 void TcpBaseSocket<T, SocketType>::SetExtData(void* data, void(*func)(void*data)) {
+	if (_extdata_func) {
+		_extdata_func(_extdata);
+	}
 	if (func) {
 		_extdata = data;
 		_extdata_func = func;
@@ -174,6 +177,9 @@ void TcpBaseSocket<T, SocketType>::SetExtData(void* data, void(*func)(void*data)
 
 template<typename T, typename SocketType>
 void TcpBaseSocket<T, SocketType>::SetExtData(void* data) {
+	if (_extdata_func) {
+		_extdata_func(_extdata);
+	}
 	_extdata = data;
 	_extdata_func = [](void* data)->void {
 		if (data) {

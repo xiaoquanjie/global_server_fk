@@ -76,12 +76,6 @@
     <ClCompile Include="svr_base\ApplicationBaseExt.cpp">
       <Filter>svr_base</Filter>
     </ClCompile>
-    <ClCompile Include="svr_base\router_manager.cpp">
-      <Filter>svr_base</Filter>
-    </ClCompile>
-    <ClCompile Include="svr_base\server_manager.cpp">
-      <Filter>svr_base</Filter>
-    </ClCompile>
     <ClCompile Include="..\tinyxml\tinystr.cpp">
       <Filter>tinyxml</Filter>
     </ClCompile>
@@ -118,9 +112,6 @@
       <Filter>svr_base</Filter>
     </ClInclude>
     <ClInclude Include="svr_base\ApplicationFunc.hpp">
-      <Filter>svr_base</Filter>
-    </ClInclude>
-    <ClInclude Include="svr_base\msgbase.hpp">
       <Filter>svr_base</Filter>
     </ClInclude>
     <ClInclude Include="..\google\protobuf\compiler\cpp\cpp_enum.h">
@@ -746,12 +737,6 @@
     </ClInclude>
     <ClInclude Include="transaction\base_transaction.h">
       <Filter>transaction</Filter>
-    </ClInclude>
-    <ClInclude Include="svr_base\router_manager.h">
-      <Filter>svr_base</Filter>
-    </ClInclude>
-    <ClInclude Include="svr_base\server_manager.h">
-      <Filter>svr_base</Filter>
     </ClInclude>
     <ClInclude Include="..\tinyxml\tinystr.h">
       <Filter>tinyxml</Filter>

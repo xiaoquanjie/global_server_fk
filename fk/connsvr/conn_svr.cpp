@@ -31,7 +31,7 @@ int ConnApplication::UpdateNetWork() {
 int ConnApplication::OnInit() {
 	// listen
 	std::string ip = _svr_config.Data().listen_ip();
-	int port = _svr_config.Data().listen_port();
+	int port = CalcPort(0);
 	if (!NetIoHandlerSgl.ListenOne(ip, port)) {
 		LogError(ip << " " << port << "listen error:" << NetIoHandlerSgl.GetLastError().What());
 		return -1;
