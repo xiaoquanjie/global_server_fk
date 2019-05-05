@@ -1,7 +1,7 @@
-#ifndef M_NETIO_PACKET_INCLUDE
-#define M_NETIO_PACKET_INCLUDE
+#pragma once
 
 #include "slience/netio/config.hpp"
+
 M_NETIO_NAMESPACE_BEGIN
 
 #ifdef M_PLATFORM_WIN
@@ -37,4 +37,3 @@ inline void PacketHeader::h2n() {
 #define M_PACGET_CODE (0xFCFCFC)
 
 M_NETIO_NAMESPACE_END
-#endif

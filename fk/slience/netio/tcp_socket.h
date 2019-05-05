@@ -1,5 +1,4 @@
-#ifndef M_NETIO_TCP_SOCKET_INCLUDE
-#define M_NETIO_TCP_SOCKET_INCLUDE
+#pragma once
 
 #include "slience/netio/config.hpp"
 M_NETIO_NAMESPACE_BEGIN
@@ -20,4 +19,3 @@ protected:
 };
 
 M_NETIO_NAMESPACE_END
-#endif

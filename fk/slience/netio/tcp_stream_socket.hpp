@@ -1,7 +1,7 @@
-#ifndef M_NETIO_TCP_STREAM_SOCKET_INCLUDE
-#define M_NETIO_TCP_STREAM_SOCKET_INCLUDE
+#pragma once
 
 #include "slience/netio/config.hpp"
+
 M_NETIO_NAMESPACE_BEGIN
 
 template<typename T, typename SocketType>
@@ -207,4 +207,3 @@ bool TcpStreamSocket<T, SocketType>::SendPacket(const MsgHeadType& head,
 }
 
 M_NETIO_NAMESPACE_END
-#endif

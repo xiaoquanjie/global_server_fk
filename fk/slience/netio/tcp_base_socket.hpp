@@ -1,7 +1,7 @@
-#ifndef M_NETIO_TCP_BASE_SOCKET_INCLUDE
-#define M_NETIO_TCP_BASE_SOCKET_INCLUDE
+#pragma once
 
 #include "slience/netio/config.hpp"
+
 M_NETIO_NAMESPACE_BEGIN
 
 template<typename T, typename SocketType>
@@ -287,4 +287,3 @@ bool TcpBaseSocket<T, SocketType>::_TrySendData() {
 }
 
 M_NETIO_NAMESPACE_END
-#endif

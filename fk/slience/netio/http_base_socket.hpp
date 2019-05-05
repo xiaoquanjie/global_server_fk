@@ -1,7 +1,7 @@
-#ifndef M_NETIO_HTTP_BASE_SOCKET_INCLUDE
-#define M_NETIO_HTTP_BASE_SOCKET_INCLUDE
+#pragma once
 
 #include "slience/netio/config.hpp"
+
 M_NETIO_NAMESPACE_BEGIN
 
 // for http
@@ -104,4 +104,3 @@ HttpBaseSocket<T, SocketType, HttpMsgType>::HttpBaseSocket(NetIo& netio)
 }
 
 M_NETIO_NAMESPACE_END
-#endif

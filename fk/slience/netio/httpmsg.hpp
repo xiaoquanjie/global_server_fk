@@ -11,10 +11,10 @@
 // °æ±¾£ºV1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_NETIO_HTTPMSG_INCLUDE
-#define M_NETIO_HTTPMSG_INCLUDE
+#pragma once
 
 #include <stdio.h>
+
 M_NETIO_NAMESPACE_BEGIN
 
 struct HttpBaseMsg {
@@ -721,4 +721,3 @@ public:
 
 
 M_NETIO_NAMESPACE_END
-#endif

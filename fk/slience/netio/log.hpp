@@ -11,8 +11,7 @@
 // °æ±¾£ºV1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_NETIO_LOG_INCLUDE
-#define M_NETIO_LOG_INCLUDE
+#pragma once
 
 #include "slience/netio/config.hpp"
 M_NETIO_NAMESPACE_BEGIN
@@ -24,4 +23,3 @@ M_NETIO_NAMESPACE_BEGIN
 	" code(" << error.Code()<< "),what(" << error.What() << ") "
 
 M_NETIO_NAMESPACE_END
-#endif
