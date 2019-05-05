@@ -274,11 +274,12 @@ void AddDescriptorsImpl() {
       "server_type\030\001 \001(\005\022\023\n\013instance_id\030\002 \001(\005\","
       "\n\021RegisterServerRsp\022\027\n\003ret\030\001 \001(\0132\n.proto"
       ".Ret\"7\n\013SvrHeatBeat\022\023\n\013server_type\030\001 \001(\005"
-      "\022\023\n\013instance_id\030\002 \001(\005*4\n\nServerType\022\023\n\017S"
-      "VR_TYPE_ROUTER\020\001\022\021\n\rSVR_TYPE_CONN\020\002"
+      "\022\023\n\013instance_id\030\002 \001(\005*K\n\nServerType\022\023\n\017S"
+      "VR_TYPE_ROUTER\020\001\022\021\n\rSVR_TYPE_CONN\020\002\022\025\n\021S"
+      "VR_TYPE_TRANSFER\020\003"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 315);
+      descriptor, 338);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "svr_base.proto", &protobuf_RegisterTypes);
 }
@@ -303,6 +304,7 @@ bool ServerType_IsValid(int value) {
   switch (value) {
     case 1:
     case 2:
+    case 3:
       return true;
     default:
       return false;

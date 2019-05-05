@@ -4,6 +4,7 @@ package proto;
 enum ServerType {
 	SVR_TYPE_ROUTER = 0x1;		// 路由服務
 	SVR_TYPE_CONN = 0x2;		// 客户端连接服务
+	SVR_TYPE_TRANSFER = 0x3;	// 转发服
 }
 
 message Ret {

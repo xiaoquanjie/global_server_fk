@@ -1,10 +1,5 @@
 package config;
 
-message RouterListenInfo {
-	optional string listen_ip = 1;		// ¼àÌıip
-	optional int32 listen_port = 2;
-}
-
 // Â·ÓÉ²ßÂÔ
 enum PolicyType{
 	POLICY_ROUTER = 0;	

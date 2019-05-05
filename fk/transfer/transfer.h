@@ -2,10 +2,10 @@
 
 #include "commonlib/svr_base/ApplicationBase.h"
 #include "slience/base/singletion.hpp"
-#include "protolib/src/routersvr_config.pb.h"
+#include "protolib/src/transfer.pb.h"
 #include "commonlib/svr_base/server_cfg.h"
 
-class RouterApplication : public ApplicationBase {
+class TransferApplication : public ApplicationBase {
 protected:
 	int ServerType() override;
 
@@ -29,10 +29,8 @@ protected:
 
 	int OnProc(base::s_int64_t fd, const AppHeadFrame& frame, const char* data, base::s_uint32_t data_len) override;
 
-	int ForwardPkg(unsigned int dst_svr_type, int dst_inst_id, const AppHeadFrame& frame, const char* data, base::s_uint32_t data_len);
-
 private:
-	ServerCfg<config::RouterSvrConfig> _svr_config;
+	ServerCfg<config::TransferConfig> _svr_config;
 };
 
-typedef base::singleton<RouterApplication> RouterAppSgl;
+typedef base::singleton<TransferApplication> TransferAppSgl;

@@ -88,11 +88,12 @@ namespace proto {
 
 enum ServerType {
   SVR_TYPE_ROUTER = 1,
-  SVR_TYPE_CONN = 2
+  SVR_TYPE_CONN = 2,
+  SVR_TYPE_TRANSFER = 3
 };
 bool ServerType_IsValid(int value);
 const ServerType ServerType_MIN = SVR_TYPE_ROUTER;
-const ServerType ServerType_MAX = SVR_TYPE_CONN;
+const ServerType ServerType_MAX = SVR_TYPE_TRANSFER;
 const int ServerType_ARRAYSIZE = ServerType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* ServerType_descriptor();
