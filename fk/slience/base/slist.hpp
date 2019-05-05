@@ -1,5 +1,4 @@
-#ifndef M_BASE_SLIST_INCLUDE
-#define M_BASE_SLIST_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 M_BASE_NAMESPACE_BEGIN
@@ -144,4 +143,3 @@ void slist<T>::join(slist<T>& other) {
 }
 
 M_BASE_NAMESPACE_END
-#endif

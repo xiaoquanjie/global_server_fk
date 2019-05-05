@@ -1,5 +1,4 @@
-#ifndef M_BASE_WIN_INCLUDE
-#define M_BASE_WIN_INCLUDE
+#pragma once
 
 #ifdef M_PLATFORM_WIN
 #ifndef M_WIN32_LEAN_AND_MEAN  
@@ -8,4 +7,3 @@
 #include <Windows.h>
 #endif
 
-#endif

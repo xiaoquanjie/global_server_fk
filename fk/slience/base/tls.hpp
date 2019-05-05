@@ -11,8 +11,7 @@
 // °æ±¾£ºV1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_BASE_TLS_INCLUDE
-#define M_BASE_TLS_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include <assert.h>
@@ -98,4 +97,3 @@ template<typename T, int N>
 typename tlsdata<T, N>::_init_ tlsdata<T, N>::_data;
 
 M_BASE_NAMESPACE_END
-#endif

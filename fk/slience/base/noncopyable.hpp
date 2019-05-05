@@ -1,5 +1,4 @@
-#ifndef M_BASE_NONCOPYABLE_INCLUDE
-#define M_BASE_NONCOPYABLE_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 
@@ -12,4 +11,3 @@ protected:
 };
 
 M_BASE_NAMESPACE_END
-#endif

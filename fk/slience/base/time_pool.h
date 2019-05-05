@@ -4,8 +4,7 @@
 *
 *
 */
-#ifndef M_BASE_TIME_POOL_INCLUDE
-#define M_BASE_TIME_POOL_INCLUDE
+#pragma once
 
 #include "slience/base/compatibility.hpp"
 #include "slience/base/timer.hpp"
@@ -49,4 +48,3 @@ private:
 
 
 M_BASE_NAMESPACE_END
-#endif

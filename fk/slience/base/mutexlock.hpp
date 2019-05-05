@@ -1,5 +1,4 @@
-#ifndef M_BASE_MUTEXLOCK_INCLUDE
-#define M_BASE_MUTEXLOCK_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 
@@ -72,4 +71,3 @@ private:
 };
 
 M_BASE_NAMESPACE_END
-#endif

@@ -1,5 +1,4 @@
-#ifndef M_BASE_COMPATIBILITY_INCLUDE
-#define M_BASE_COMPATIBILITY_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 
@@ -29,7 +28,6 @@
 #endif
 
 #else
-
 // for linux
 #include <unistd.h>
 #include <tr1/functional>
@@ -59,5 +57,4 @@
 #define m_unorder_map_t std::tr1::unordered_map
 #endif
 
-#endif
 #endif

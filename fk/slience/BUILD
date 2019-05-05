@@ -15,6 +15,7 @@ cc_library(
 	   'base/object_pool.cpp',
 	   'base/time_pool.cpp',
 	   'base/util.cpp',
+	   'base/random.cpp',
 	   'socket/error.cpp',
 	   'netio/sync_connector.cpp',
 	   'netio/http_connector.cpp',

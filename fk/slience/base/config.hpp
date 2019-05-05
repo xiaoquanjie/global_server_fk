@@ -1,5 +1,4 @@
-#ifndef M_BASE_CONFIG_INCLUDE
-#define M_BASE_CONFIG_INCLUDE
+#pragma once
 
 #define M_BASE_NAMESPACE_BEGIN namespace base{
 #define M_BASE_NAMESPACE_END }
@@ -52,6 +51,5 @@ M_BASE_NAMESPACE_END
 
 #endif
 
-#endif
 
 #include "slience/base/compatibility.hpp"

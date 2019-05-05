@@ -1,5 +1,4 @@
-#ifndef M_BASE_SINGLETON_INCLUDE
-#define M_BASE_SINGLETON_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include "slience/base/noncopyable.hpp"
@@ -26,4 +25,3 @@ private:
 
 
 M_BASE_NAMESPACE_END
-#endif

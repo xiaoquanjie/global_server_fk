@@ -1,5 +1,4 @@
-#ifndef M_BASE_TIMER_INCLUDE
-#define M_BASE_TIMER_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include <time.h>
@@ -100,4 +99,3 @@ private:
 };
 
 M_BASE_NAMESPACE_END
-#endif

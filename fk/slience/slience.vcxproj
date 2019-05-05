@@ -169,6 +169,7 @@
     <ClInclude Include="netio\log.hpp" />
     <ClInclude Include="netio\netio.hpp" />
     <ClCompile Include="base\object_pool.cpp" />
+    <ClCompile Include="base\random.cpp" />
     <ClCompile Include="base\time_pool.cpp" />
     <ClCompile Include="base\util.cpp" />
     <ClCompile Include="coroutine\coroutine.cpp" />

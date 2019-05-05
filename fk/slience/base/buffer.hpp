@@ -1,5 +1,4 @@
-#ifndef M_BUFFER_INCLUDE
-#define M_BUFFER_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include <string>
@@ -63,4 +62,3 @@ private:
 };
 
 M_BASE_NAMESPACE_END
-#endif

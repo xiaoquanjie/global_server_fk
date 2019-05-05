@@ -1,5 +1,4 @@
-#ifndef M_BASE_STRING_UTIL_INCLUDE
-#define M_BASE_STRING_UTIL_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include <string>
@@ -50,4 +49,3 @@ public:
 };
 
 M_BASE_NAMESPACE_END
-#endif

@@ -1,5 +1,4 @@
-#ifndef M_BASE_OBJECT_POOL_INCLUDE
-#define M_BASE_OBJECT_POOL_INCLUDE
+#pragma once
 
 #include <string.h>
 #include <stdlib.h>
@@ -148,4 +147,4 @@ typename ObjectPool<T, LockMode>::ObjectPoolInfo
 ObjectPool<T, LockMode>::_info;
 
 M_BASE_NAMESPACE_END
-#endif
+

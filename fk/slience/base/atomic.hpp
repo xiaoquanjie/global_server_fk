@@ -1,5 +1,4 @@
-#ifndef BASE_ATOMIC_INCLUDE
-#define BASE_ATOMIC_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include "slience/base/win.hpp"
@@ -174,4 +173,4 @@ typedef atomicinteger<base::s_int32_t> atomicint32;
 typedef atomicinteger<base::s_int64_t> atomicint64;
 
 M_BASE_NAMESPACE_END
-#endif  // ATOMIC_H
+

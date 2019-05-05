@@ -1,5 +1,4 @@
-#ifndef M_BASE_SVECTOR_INCLUDE
-#define M_BASE_SVECTOR_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include <stdlib.h>
@@ -84,4 +83,3 @@ public:
 };
 
 M_BASE_NAMESPACE_END
-#endif

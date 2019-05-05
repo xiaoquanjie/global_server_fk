@@ -1,5 +1,4 @@
-#ifndef M_BASE_THREAD_INCLUDE
-#define M_BASE_THREAD_INCLUDE
+#pragma once
 
 #include "slience/base/config.hpp"
 #include <string>
@@ -273,4 +272,3 @@ private:
 };
 
 M_BASE_NAMESPACE_END
-#endif
