@@ -11,12 +11,11 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_PROTOCOL_HDR_INCLIDE
-#define M_PROTOCOL_HDR_INCLIDE
+#pragma once
 
 #include "slience/socket/config.hpp"
-M_SOCKET_NAMESPACE_BEGIN
 
+M_SOCKET_NAMESPACE_BEGIN
 
 // 20 bytes，由固定头部加选项(最多40字节)组成
 typedef struct _ip_hdr_t
@@ -114,4 +113,3 @@ typedef struct _icmp_mask_hdr_t : public icmp_hdr_t
 }icmp_mask_hdr_t;
 
 M_SOCKET_NAMESPACE_END
-#endif

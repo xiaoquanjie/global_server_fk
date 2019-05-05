@@ -26,7 +26,9 @@ cc_library(
 	   'coroutine/coroutine.cpp',
 	   'coroutine/coroutine_linux.cpp',
 	   'coroutine/coroutine_win.cpp',
-	   'coroutine/courtouine_task.cpp'
+	   'coroutine/courtouine_task.cpp',
+	   'socket/address.cpp',
+	   'socket/hdr_helper.cpp',
     ],
 
     deps = [

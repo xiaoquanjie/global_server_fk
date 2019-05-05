@@ -11,12 +11,12 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_BASIC_SOCKET_INCLUDE
-#define M_BASIC_SOCKET_INCLUDE
+#pragma once
 
 #include "slience/socket/io_object.hpp"
 #include "slience/socket/socket_service.hpp"
 #include "slience/socket/option.hpp"
+
 M_SOCKET_NAMESPACE_BEGIN
 
 template <typename Protocol, typename SocketService>
@@ -196,4 +196,3 @@ M_SOCKET_DECL socket_t BasicSocket<Protocol, SocketService>::GetFd()const {
 }
 
 M_SOCKET_NAMESPACE_END
-#endif

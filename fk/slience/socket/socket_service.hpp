@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_SOCKET_SERVICE_INCLUDE
-#define M_SOCKET_SERVICE_INCLUDE
+#pragma once
 
 #include "slience/socket/config.hpp"
 M_SOCKET_NAMESPACE_BEGIN
@@ -174,4 +173,3 @@ M_SOCKET_DECL socket_t BaseSocketService<Protocol, IoServiceType>::GetFd(const I
 }
 
 M_SOCKET_NAMESPACE_END
-#endif

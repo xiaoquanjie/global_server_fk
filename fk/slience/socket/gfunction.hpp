@@ -11,8 +11,8 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_GFUNCTION_INCLUDE
-#define M_GFUNCTION_INCLUDE
+#pragma once
+
 M_SOCKET_NAMESPACE_BEGIN
 
 // global function
@@ -133,4 +133,3 @@ M_SOCKET_DECL void g_openudperr(int fd)
 
 
 M_SOCKET_NAMESPACE_END
-#endif // M_GFUNCTION_INCLUDE

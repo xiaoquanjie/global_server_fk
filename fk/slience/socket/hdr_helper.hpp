@@ -11,10 +11,10 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_HDR_HELPER_INCLUDE
-#define M_HDR_HELPER_INCLUDE
+#pragma once
 
 #include "slience/socket/pro_hdr.hpp"
+
 M_SOCKET_NAMESPACE_BEGIN
 
 class HdrHelper
@@ -24,197 +24,64 @@ public:
 	virtual ~HdrHelper() {}
 
 	// 计算校验码，算法适用于IPV4，ICMPV4，ICMPV6，IGMPV4，UDP，TCP
-	static s_uint16_t CheckSum(const s_uint16_t* pAddr, const s_int32_t aiLen)
-	{
-		s_int32_t   liLeft = aiLen;
-		s_uint32_t  liSum = 0;
-		const s_uint16_t* pW = pAddr;
-		s_uint16_t  liAnswer = 0;
+	static s_uint16_t CheckSum(const s_uint16_t* pAddr, const s_int32_t aiLen);
 
-		while (liLeft > 1)
-		{
-			liSum += *pW++;
-			liLeft -= 2;
-		}
+	static s_int32_t GetIcmpTypeCnt();
 
-		if (liLeft == 1)
-		{
-			*(s_uint8_t*)(&liAnswer) = *(s_uint8_t*)pW;
-			liSum += liAnswer;
-		}
-
-		liSum = (liSum >> 16) + (liSum & 0xffff);
-		liSum += liSum >> 16;
-		liAnswer = (s_uint16_t)~liSum;
-		return (liAnswer);
-	}
-
-	inline static s_int32_t GetIcmpTypeCnt()
-	{
-		return (sizeof(gIcmpTypeTab) / sizeof(icmp_type_t));
-	}
-
-	static const icmp_type_t* GetIcmpType(s_int32_t aiIdx)
-	{
-		if (aiIdx >= 0 && aiIdx < GetIcmpTypeCnt())
-			return &gIcmpTypeTab[aiIdx];
-
-		return 0;
-	}
+	static const icmp_type_t* GetIcmpType(s_int32_t aiIdx);
 };
 
 class IpHdrHelper : public HdrHelper
 {
 public:
 
-	IpHdrHelper(void* pBuf) :_pBuf(pBuf)
-	{
-		assert(_pBuf);
-	}
+	IpHdrHelper(void* pBuf);
 
 	// 获取版本号
-	s_uint32_t GetVersion()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		s_uint8_t liVer = pHdr->HlenVer >> 4; // 取高4位
-		return (liVer);
-	}
+	s_uint32_t GetVersion() const;
 
-	void SetVersion(const s_uint32_t aiVer)
-	{
-		// 存到高4位
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		s_uint8_t liVer = aiVer & 0xf;				// 截断
-		liVer <<= 4;
-		pHdr->HlenVer &= 0xf;
-		pHdr->HlenVer |= liVer;
-	}
+	void SetVersion(const s_uint32_t aiVer);
 
 	// 获取头部长度
-	s_uint32_t GetHdrLen()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		s_uint8_t liLen = pHdr->HlenVer & 0xf; // 取低4位
-		return (liLen << 2);
-	}
+	s_uint32_t GetHdrLen() const;
 
-	void SetHdrLen(const s_uint32_t aiLen)
-	{
-		// 存到低4位
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		s_uint32_t liLen = aiLen >> 2;
-		s_uint8_t liLen2 = liLen & 0xf;	// 截断
-		pHdr->HlenVer &= 0xf0;
-		pHdr->HlenVer |= liLen2;
-	}
+	void SetHdrLen(const s_uint32_t aiLen);
 
-	s_uint8_t GetTos()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		return (pHdr->Tos);
-	}
+	s_uint8_t GetTos() const;
 
-	void SetTos(const s_uint16_t aiTos)
-	{
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		pHdr->Tos = (s_uint8_t)(aiTos);
-	}
+	void SetTos(const s_uint16_t aiTos);
+	
+	s_uint16_t GetTotalLen() const;
 
-	s_uint16_t GetTotalLen()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->TotalLen));
-	}
+	void SetTotalLen(const s_uint16_t aiLen);
 
-	void SetTotalLen(const s_uint16_t aiLen)
-	{
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		pHdr->TotalLen = g_htons(aiLen);
-	}
+	s_uint16_t GetIdent() const;
 
-	s_uint16_t GetIdent()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->Ident));
-	}
+	void SetIdent(const s_uint16_t aiId);
 
-	void SetIdent(const s_uint16_t aiId)
-	{
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		pHdr->Ident = g_htons(aiId);
-	}
+	s_uint16_t GetFragFlags() const;
 
-	s_uint16_t GetFragFlags()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->FragFlags));
-	}
+	void SetFragFlags(const s_uint16_t aiFF);
 
-	void SetFragFlags(const s_uint16_t aiFF)
-	{
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		pHdr->FragFlags = g_htons(aiFF);
-	}
+	s_uint8_t GetTtl() const;
 
-	s_uint8_t GetTtl()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		return (pHdr->Ttl);
-	}
+	void SetTtl(const s_uint16_t aiTtl);
 
-	void SetTtl(const s_uint16_t aiTtl)
-	{
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		pHdr->Ttl = (s_uint8_t)(aiTtl);
-	}
+	s_uint8_t GetProtocol() const;
 
-	s_uint8_t GetProtocol()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		return (pHdr->Protocol);
-	}
+	void SetProtocol(const s_uint16_t aiPro);
 
-	void SetProtocol(const s_uint16_t aiPro)
-	{
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		pHdr->Protocol = (s_uint8_t)(aiPro);
-	}
+	s_uint16_t GetCheckSum() const;
 
-	s_uint16_t GetCheckSum()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->CheckSum));
-	}
+	void SetCheckSum(const s_uint16_t aiSum);
 
-	void SetCheckSum(const s_uint16_t aiSum)
-	{
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		pHdr->CheckSum = g_htons(aiSum);
-	}
+	s_uint32_t TetSrcIp() const;
 
-	s_uint32_t TetSrcIp()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		return (g_ntohl(pHdr->SrcIp));
-	}
+	void SetSrcIp(const s_uint32_t aiIp);
 
-	void SetSrcIp(const s_uint32_t aiIp)
-	{
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		pHdr->SrcIp = g_htonl(aiIp);
-	}
+	s_uint32_t GetDstIp() const;
 
-	s_uint32_t GetDstIp()const
-	{
-		const ip_hdr_t* pHdr = (const ip_hdr_t*)_pBuf;
-		return (g_ntohl(pHdr->DstIp));
-	}
-
-	void SetDstIp(const s_uint32_t aiIp)
-	{
-		ip_hdr_t* pHdr = (ip_hdr_t*)_pBuf;
-		pHdr->DstIp = g_htonl(aiIp);
-	}
+	void SetDstIp(const s_uint32_t aiIp);
 
 protected:
 	void* _pBuf; // 内容指向
@@ -223,46 +90,19 @@ protected:
 class IcmpHdrHelper : public HdrHelper
 {
 public:
-	IcmpHdrHelper(void* pBuf) :_pBuf(pBuf)
-	{
-		assert(_pBuf);
-	}
+	IcmpHdrHelper(void* pBuf);
 
-	s_uint8_t GetType()const
-	{
-		const icmp_hdr_t* pHdr = (const icmp_hdr_t*)_pBuf;
-		return (pHdr->Type);
-	}
+	s_uint8_t GetType() const;
 
-	void SetType(const s_uint32_t aiType)
-	{
-		icmp_hdr_t* pHdr = (icmp_hdr_t*)_pBuf;
-		pHdr->Type = (s_uint8_t)(aiType);
-	}
+	void SetType(const s_uint32_t aiType);
 
-	s_uint8_t GetCode()const
-	{
-		const icmp_hdr_t* pHdr = (const icmp_hdr_t*)_pBuf;
-		return (pHdr->Code);
-	}
+	s_uint8_t GetCode() const;
 
-	void SetCode(const s_uint32_t aiCode)
-	{
-		icmp_hdr_t* pHdr = (icmp_hdr_t*)_pBuf;
-		pHdr->Code = (s_uint8_t)(aiCode);
-	}
+	void SetCode(const s_uint32_t aiCode);
 
-	s_uint16_t GetCheckSum()const
-	{
-		const icmp_hdr_t* pHdr = (const icmp_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->CheckSum));
-	}
+	s_uint16_t GetCheckSum() const;
 
-	void SetCheckSum(const s_uint16_t aiSum)
-	{
-		icmp_hdr_t* pHdr = (icmp_hdr_t*)_pBuf;
-		pHdr->CheckSum = g_htons(aiSum);
-	}
+	void SetCheckSum(const s_uint16_t aiSum);
 
 protected:
 	void* _pBuf;
@@ -271,153 +111,63 @@ protected:
 class IcmpEchoHelper : public IcmpHdrHelper
 {
 public:
-	IcmpEchoHelper(void* buf) :IcmpHdrHelper(buf) {}
+	IcmpEchoHelper(void* buf);
 
-	s_uint16_t GetIdent()const
-	{
-		const icmp_echo_hdr_t* pHdr = (const icmp_echo_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->Ident));
-	}
+	s_uint16_t GetIdent() const;
 
-	void SetIdent(const s_uint16_t aiId)
-	{
-		icmp_echo_hdr_t* pHdr = (icmp_echo_hdr_t*)_pBuf;
-		pHdr->Ident = g_htons(aiId);
-	}
+	void SetIdent(const s_uint16_t aiId);
 
-	s_uint16_t GetSeq()const
-	{
-		const icmp_echo_hdr_t* pHdr = (const icmp_echo_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->Seq));
-	}
+	s_uint16_t GetSeq() const;
 
-	void SetSeq(const s_uint16_t aiSeq)
-	{
-		icmp_echo_hdr_t* pHdr = (icmp_echo_hdr_t*)_pBuf;
-		pHdr->Seq = g_htons(aiSeq);
-	}
+	void SetSeq(const s_uint16_t aiSeq);
 
-	const char* GetOpt()const
-	{
-		const icmp_echo_hdr_t* pHdr = (const icmp_echo_hdr_t*)_pBuf;
-		return (const char*)(pHdr + 1);
-	}
+	const char* GetOpt() const;
 
-	void SetOpt(const char* pOpt, const s_uint32_t aiLen)
-	{
-		icmp_echo_hdr_t* pHdr = (icmp_echo_hdr_t*)_pBuf;
-		char* p = (char*)(pHdr + 1);
-		g_strncpy(p, pOpt, aiLen);
-	}
+	void SetOpt(const char* pOpt, const s_uint32_t aiLen);
 };
 
 class IcmpTStampHelper : public IcmpHdrHelper
 {
 public:
-	IcmpTStampHelper(void* pBuf) :IcmpHdrHelper(pBuf) {}
+	IcmpTStampHelper(void* pBuf);
 
-	s_uint16_t GetIdent()const
-	{
-		const icmp_tstamp_hdr_t* pHdr = (const icmp_tstamp_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->Ident));
-	}
+	s_uint16_t GetIdent() const;
 
-	void SetIdent(const s_uint16_t aiId)
-	{
-		icmp_tstamp_hdr_t* pHdr = (icmp_tstamp_hdr_t*)_pBuf;
-		pHdr->Ident = g_htons(aiId);
-	}
+	void SetIdent(const s_uint16_t aiId);
 
-	s_uint16_t GetSeq()const
-	{
-		const icmp_tstamp_hdr_t* pHdr = (const icmp_tstamp_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->Seq));
-	}
+	s_uint16_t GetSeq() const;
 
-	void SetSeq(const s_uint16_t aiSeq)
-	{
-		icmp_tstamp_hdr_t* pHdr = (icmp_tstamp_hdr_t*)_pBuf;
-		pHdr->Seq = g_htons(aiSeq);
-	}
+	void SetSeq(const s_uint16_t aiSeq);
 
-	s_uint32_t GetReqTime()const
-	{
-		const icmp_tstamp_hdr_t* pHdr = (const icmp_tstamp_hdr_t*)_pBuf;
-		return (g_ntohl(pHdr->ReqTime));
-	}
+	s_uint32_t GetReqTime() const;
 
-	void SetReqTime(const s_uint32_t aiTime)
-	{
-		icmp_tstamp_hdr_t* pHdr = (icmp_tstamp_hdr_t*)_pBuf;
-		pHdr->ReqTime = g_htonl(aiTime);
-	}
+	void SetReqTime(const s_uint32_t aiTime);
 
-	s_uint32_t GetRecvTime()const
-	{
-		const icmp_tstamp_hdr_t* pHdr = (const icmp_tstamp_hdr_t*)_pBuf;
-		return (g_ntohl(pHdr->recv_time));
-	}
+	s_uint32_t GetRecvTime() const;
 
-	void SetRecvTime(const s_uint32_t aiTime)
-	{
-		icmp_tstamp_hdr_t* pHdr = (icmp_tstamp_hdr_t*)_pBuf;
-		pHdr->recv_time = g_htonl(aiTime);
-	}
+	void SetRecvTime(const s_uint32_t aiTime);
 
-	s_uint32_t GetTransTime()const
-	{
-		const icmp_tstamp_hdr_t* pHdr = (const icmp_tstamp_hdr_t*)_pBuf;
-		return (g_ntohl(pHdr->TransTime));
-	}
+	s_uint32_t GetTransTime() const;
 
-	void SetTransTime(const s_uint32_t aiTime)
-	{
-		icmp_tstamp_hdr_t* pHdr = (icmp_tstamp_hdr_t*)_pBuf;
-		pHdr->TransTime = g_htonl(aiTime);
-	}
+	void SetTransTime(const s_uint32_t aiTime);
 };
 
 class IcmpMaskHelper : public IcmpHdrHelper
 {
 public:
-	IcmpMaskHelper(void* pBuf) :IcmpHdrHelper(pBuf) {}
+	IcmpMaskHelper(void* pBuf);
 
-	s_uint16_t GetIdent()const
-	{
-		const icmp_mask_hdr_t* pHdr = (const icmp_mask_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->Ident));
-	}
+	s_uint16_t GetIdent() const;
 
-	void SetIdent(const s_uint16_t aiId)
-	{
-		icmp_mask_hdr_t* pHdr = (icmp_mask_hdr_t*)_pBuf;
-		pHdr->Ident = g_htons(aiId);
-	}
+	void SetIdent(const s_uint16_t aiId);
 
-	s_uint16_t GetSeq()const
-	{
-		const icmp_mask_hdr_t* pHdr = (const icmp_mask_hdr_t*)_pBuf;
-		return (g_ntohs(pHdr->Seq));
-	}
+	s_uint16_t GetSeq() const;
 
-	void SetSeq(const s_uint16_t aiSeq)
-	{
-		icmp_mask_hdr_t* pHdr = (icmp_mask_hdr_t*)_pBuf;
-		pHdr->Seq = g_htons(aiSeq);
-	}
+	void SetSeq(const s_uint16_t aiSeq);
 
-	s_uint32_t GetMask()const
-	{
-		const icmp_mask_hdr_t* pHdr = (const icmp_mask_hdr_t*)_pBuf;
-		return (g_ntohl(pHdr->Mask));
-	}
+	s_uint32_t GetMask() const;
 
-	void SetMask(const s_uint32_t aiMask)
-	{
-		icmp_mask_hdr_t* pHdr = (icmp_mask_hdr_t*)_pBuf;
-		pHdr->Mask = g_htonl(aiMask);
-	}
+	void SetMask(const s_uint32_t aiMask);
 };
 
 M_SOCKET_NAMESPACE_END
-#endif

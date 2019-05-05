@@ -132,6 +132,7 @@
     <None Include="BUILD" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="socket\hdr_helper.cpp" />
     <ClInclude Include="base\atomic.hpp" />
     <ClInclude Include="base\buffer.hpp" />
     <ClInclude Include="base\circular_queue.hpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="netio\sync_connector.cpp" />
     <ClCompile Include="netio\tcp_connector.cpp" />
     <ClCompile Include="netio\tcp_socket.cpp" />
+    <ClCompile Include="socket\address.cpp" />
     <ClCompile Include="socket\error.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

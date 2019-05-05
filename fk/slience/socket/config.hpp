@@ -10,9 +10,7 @@
 //
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
-
-#ifndef M_CONFIG_INCLUDE
-#define M_CONFIG_INCLUDE
+#pragma once
 
 #define M_SOCKET_NAMESPACE_BEGIN namespace SocketLib{
 #define M_SOCKET_NAMESPACE_END   }
@@ -266,7 +264,6 @@
 #define placeholder_10 M_TR1::placeholders::_10
 #define dynamic_pointer_cast_t M_TR1::dynamic_pointer_cast
 
-#endif // M_CONFIG_INCLUDE
 
 #include "slience/socket/win_config.hpp"
 #include "slience/socket/linux_config.hpp"

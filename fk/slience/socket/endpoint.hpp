@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_ENDPOINT_INCLUDE
-#define M_ENDPOINT_INCLUDE
+#pragma once
 
 #include "slience/socket/config.hpp"
 #include "slience/socket/util.hpp"
@@ -307,6 +306,4 @@ public:
 };
 
 
-
 M_SOCKET_NAMESPACE_END
-#endif

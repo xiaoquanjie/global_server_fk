@@ -11,8 +11,7 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_ERROR_INCLUDE
-#define M_ERROR_INCLUDE
+#pragma once
 
 // error code base number
 #define M_ERR_BASE_NUM		(2000)
@@ -97,5 +96,3 @@ M_SOCKET_NAMESPACE_END
 
 #define M_DEFAULT_SOCKET_ERROR2(error) \
 	error = SocketError(M_ERR_LAST);
-
-#endif

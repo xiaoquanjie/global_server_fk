@@ -11,10 +11,10 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_CONNECTOR_SERVICE_INCLUDE
-#define M_CONNECTOR_SERVICE_INCLUDE
+#pragma once
 
 #include "slience/socket/stream_service.hpp"
+
 M_SOCKET_NAMESPACE_BEGIN
 
 template<typename Protocol, typename IoServiceType>
@@ -50,6 +50,4 @@ M_SOCKET_DECL void TcpConnectorService<Protocol, IoServiceType>::AsyncConnect(Im
 	Access::AsyncConnect(this->_ioservice, impl, ep, handler, error);
 }
 
-
 M_SOCKET_NAMESPACE_END
-#endif

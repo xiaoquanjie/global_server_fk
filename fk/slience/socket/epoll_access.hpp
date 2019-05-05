@@ -11,11 +11,11 @@
 // 版本：V1.0.0
 //----------------------------------------------------------------*/
 
-#ifndef M_EPOLL_ACCESS_INCLUDE
-#define M_EPOLL_ACCESS_INCLUDE
+#pragma once
 
 #include "slience/coroutine/coroutine.hpp"
 #include "slience/socket/linux_epoll.hpp"
+
 #ifndef M_PLATFORM_WIN
 
 using namespace coroutine;
@@ -567,5 +567,4 @@ namespace iodetail {
 }
 
 M_SOCKET_NAMESPACE_END
-#endif
 #endif

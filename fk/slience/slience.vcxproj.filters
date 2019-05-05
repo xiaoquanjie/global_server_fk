@@ -308,5 +308,11 @@
     <ClCompile Include="base\random.cpp">
       <Filter>base</Filter>
     </ClCompile>
+    <ClCompile Include="socket\address.cpp">
+      <Filter>socket</Filter>
+    </ClCompile>
+    <ClCompile Include="socket\hdr_helper.cpp">
+      <Filter>socket</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
