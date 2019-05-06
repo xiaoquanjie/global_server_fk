@@ -35,4 +35,6 @@ private:
 	ServerCfg<config::RouterSvrConfig> _svr_config;
 };
 
-typedef base::singleton<RouterApplication> RouterAppSgl;
+#ifndef RouterAppSgl
+#define RouterAppSgl base::singleton<RouterApplication>::mutable_instance()
+#endif

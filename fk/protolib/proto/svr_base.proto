@@ -19,9 +19,9 @@ message SocketClientOut {
 }
 
 message RegisterServerReq {
-	optional int32 server_type = 1;
-	optional int32 instance_id = 2;
-	optional int32 server_zone = 3;
+	optional uint32 server_type = 1;
+	optional uint32 instance_id = 2;
+	optional uint32 server_zone = 3;
 }
 
 message RegisterServerRsp {

@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	RouterAppSgl::mutable_instance().Init(argc, argv);
-	RouterAppSgl::mutable_instance().Run();
+	RouterAppSgl.Init(argc, argv);
+	RouterAppSgl.Run();
 	return 0;
 }
