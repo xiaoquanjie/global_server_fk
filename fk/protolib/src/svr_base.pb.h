@@ -539,18 +539,28 @@ class RegisterServerReq : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::int32 instance_id() const;
   void set_instance_id(::google::protobuf::int32 value);
 
+  // optional int32 server_zone = 3;
+  bool has_server_zone() const;
+  void clear_server_zone();
+  static const int kServerZoneFieldNumber = 3;
+  ::google::protobuf::int32 server_zone() const;
+  void set_server_zone(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:proto.RegisterServerReq)
  private:
   void set_has_server_type();
   void clear_has_server_type();
   void set_has_instance_id();
   void clear_has_instance_id();
+  void set_has_server_zone();
+  void clear_has_server_zone();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
   ::google::protobuf::int32 server_type_;
   ::google::protobuf::int32 instance_id_;
+  ::google::protobuf::int32 server_zone_;
   friend struct ::protobuf_svr_5fbase_2eproto::TableStruct;
   friend void ::protobuf_svr_5fbase_2eproto::InitDefaultsRegisterServerReqImpl();
 };
@@ -942,6 +952,30 @@ inline void RegisterServerReq::set_instance_id(::google::protobuf::int32 value) 
   set_has_instance_id();
   instance_id_ = value;
   // @@protoc_insertion_point(field_set:proto.RegisterServerReq.instance_id)
+}
+
+// optional int32 server_zone = 3;
+inline bool RegisterServerReq::has_server_zone() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void RegisterServerReq::set_has_server_zone() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void RegisterServerReq::clear_has_server_zone() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void RegisterServerReq::clear_server_zone() {
+  server_zone_ = 0;
+  clear_has_server_zone();
+}
+inline ::google::protobuf::int32 RegisterServerReq::server_zone() const {
+  // @@protoc_insertion_point(field_get:proto.RegisterServerReq.server_zone)
+  return server_zone_;
+}
+inline void RegisterServerReq::set_server_zone(::google::protobuf::int32 value) {
+  set_has_server_zone();
+  server_zone_ = value;
+  // @@protoc_insertion_point(field_set:proto.RegisterServerReq.server_zone)
 }
 
 // -------------------------------------------------------------------

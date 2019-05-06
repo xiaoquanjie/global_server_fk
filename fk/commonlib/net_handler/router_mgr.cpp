@@ -8,11 +8,13 @@
 RouterMgr::RouterMgr() {
 	_self_server_type = 0;
 	_self_instance_id = 0;
+	_server_zone = 0;
 }
 
-int RouterMgr::Init(int self_svr_type, int self_inst_id) {
+int RouterMgr::Init(int self_svr_type, int self_inst_id, int server_zone) {
 	_self_server_type = self_svr_type;
 	_self_instance_id = self_inst_id;
+	_server_zone = server_zone;
 	int ret = 0;
 	do {
 		ret = Reload();
@@ -80,6 +82,11 @@ int RouterMgr::ConnectRouters() {
 	std::map<int, RouterInfo> tmp_router_info_map;
 	for (int idx = 0; idx < _router_config.Data().router_list_size(); ++idx) {
 		auto& item = _router_config.Data().router_list(idx);
+		// 只连接同一个server_zone的路由
+		if (item.server_zone() != ServerZone()) {
+			continue;
+		}
+
 		if (!ExistRouter(item.listen_ip(), item.listen_port(), item.number())) {
 			NetIoHandlerSgl.ConnectOne(item.listen_ip(), item.listen_port(),
 				Enum_ConnType_Router, item.number());
@@ -202,4 +209,8 @@ int RouterMgr::SelfSeverType() {
 
 int RouterMgr::SelfInstanceId() {
 	return _self_instance_id;
+}
+
+int RouterMgr::ServerZone() {
+	return _server_zone;
 }

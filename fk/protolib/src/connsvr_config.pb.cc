@@ -56,7 +56,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::ConnsvrConfig, zone_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::ConnsvrConfig, server_zone_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::ConnsvrConfig, listen_ip_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::ConnsvrConfig, svr_inst_id_),
   1,
@@ -93,12 +93,12 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\024connsvr_config.proto\022\006config\"E\n\rConnsv"
-      "rConfig\022\014\n\004zone\030\001 \001(\005\022\021\n\tlisten_ip\030\002 \001(\t"
-      "\022\023\n\013svr_inst_id\030\003 \001(\005"
+      "\n\024connsvr_config.proto\022\006config\"L\n\rConnsv"
+      "rConfig\022\023\n\013server_zone\030\001 \001(\005\022\021\n\tlisten_i"
+      "p\030\002 \001(\t\022\023\n\013svr_inst_id\030\003 \001(\005"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 101);
+      descriptor, 108);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "connsvr_config.proto", &protobuf_RegisterTypes);
 }
@@ -121,7 +121,7 @@ namespace config {
 void ConnsvrConfig::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int ConnsvrConfig::kZoneFieldNumber;
+const int ConnsvrConfig::kServerZoneFieldNumber;
 const int ConnsvrConfig::kListenIpFieldNumber;
 const int ConnsvrConfig::kSvrInstIdFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -144,18 +144,18 @@ ConnsvrConfig::ConnsvrConfig(const ConnsvrConfig& from)
   if (from.has_listen_ip()) {
     listen_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.listen_ip_);
   }
-  ::memcpy(&zone_, &from.zone_,
+  ::memcpy(&server_zone_, &from.server_zone_,
     static_cast<size_t>(reinterpret_cast<char*>(&svr_inst_id_) -
-    reinterpret_cast<char*>(&zone_)) + sizeof(svr_inst_id_));
+    reinterpret_cast<char*>(&server_zone_)) + sizeof(svr_inst_id_));
   // @@protoc_insertion_point(copy_constructor:config.ConnsvrConfig)
 }
 
 void ConnsvrConfig::SharedCtor() {
   _cached_size_ = 0;
   listen_ip_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&zone_, 0, static_cast<size_t>(
+  ::memset(&server_zone_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&svr_inst_id_) -
-      reinterpret_cast<char*>(&zone_)) + sizeof(svr_inst_id_));
+      reinterpret_cast<char*>(&server_zone_)) + sizeof(svr_inst_id_));
 }
 
 ConnsvrConfig::~ConnsvrConfig() {
@@ -202,9 +202,9 @@ void ConnsvrConfig::Clear() {
     (*listen_ip_.UnsafeRawStringPointer())->clear();
   }
   if (cached_has_bits & 6u) {
-    ::memset(&zone_, 0, static_cast<size_t>(
+    ::memset(&server_zone_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&svr_inst_id_) -
-        reinterpret_cast<char*>(&zone_)) + sizeof(svr_inst_id_));
+        reinterpret_cast<char*>(&server_zone_)) + sizeof(svr_inst_id_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -220,14 +220,14 @@ bool ConnsvrConfig::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional int32 zone = 1;
+      // optional int32 server_zone = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-          set_has_zone();
+          set_has_server_zone();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &zone_)));
+                 input, &server_zone_)));
         } else {
           goto handle_unusual;
         }
@@ -291,9 +291,9 @@ void ConnsvrConfig::SerializeWithCachedSizes(
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // optional int32 zone = 1;
+  // optional int32 server_zone = 1;
   if (cached_has_bits & 0x00000002u) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->zone(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->server_zone(), output);
   }
 
   // optional string listen_ip = 2;
@@ -326,9 +326,9 @@ void ConnsvrConfig::SerializeWithCachedSizes(
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // optional int32 zone = 1;
+  // optional int32 server_zone = 1;
   if (cached_has_bits & 0x00000002u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->zone(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->server_zone(), target);
   }
 
   // optional string listen_ip = 2;
@@ -372,11 +372,11 @@ size_t ConnsvrConfig::ByteSizeLong() const {
           this->listen_ip());
     }
 
-    // optional int32 zone = 1;
-    if (has_zone()) {
+    // optional int32 server_zone = 1;
+    if (has_server_zone()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->zone());
+          this->server_zone());
     }
 
     // optional int32 svr_inst_id = 3;
@@ -423,7 +423,7 @@ void ConnsvrConfig::MergeFrom(const ConnsvrConfig& from) {
       listen_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.listen_ip_);
     }
     if (cached_has_bits & 0x00000002u) {
-      zone_ = from.zone_;
+      server_zone_ = from.server_zone_;
     }
     if (cached_has_bits & 0x00000004u) {
       svr_inst_id_ = from.svr_inst_id_;
@@ -457,7 +457,7 @@ void ConnsvrConfig::Swap(ConnsvrConfig* other) {
 void ConnsvrConfig::InternalSwap(ConnsvrConfig* other) {
   using std::swap;
   listen_ip_.Swap(&other->listen_ip_);
-  swap(zone_, other->zone_);
+  swap(server_zone_, other->server_zone_);
   swap(svr_inst_id_, other->svr_inst_id_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);

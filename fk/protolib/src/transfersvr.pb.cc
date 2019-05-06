@@ -58,7 +58,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferSvrConfig, listen_ip_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferSvrConfig, svr_inst_id_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferSvrConfig, zone_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferSvrConfig, server_zone_),
   0,
   1,
   2,
@@ -93,12 +93,12 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\021transfersvr.proto\022\006config\"I\n\021TransferS"
+      "\n\021transfersvr.proto\022\006config\"P\n\021TransferS"
       "vrConfig\022\021\n\tlisten_ip\030\001 \001(\t\022\023\n\013svr_inst_"
-      "id\030\002 \001(\005\022\014\n\004zone\030\003 \001(\005"
+      "id\030\002 \001(\005\022\023\n\013server_zone\030\003 \001(\005"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 102);
+      descriptor, 109);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "transfersvr.proto", &protobuf_RegisterTypes);
 }
@@ -123,7 +123,7 @@ void TransferSvrConfig::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int TransferSvrConfig::kListenIpFieldNumber;
 const int TransferSvrConfig::kSvrInstIdFieldNumber;
-const int TransferSvrConfig::kZoneFieldNumber;
+const int TransferSvrConfig::kServerZoneFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TransferSvrConfig::TransferSvrConfig()
@@ -145,8 +145,8 @@ TransferSvrConfig::TransferSvrConfig(const TransferSvrConfig& from)
     listen_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.listen_ip_);
   }
   ::memcpy(&svr_inst_id_, &from.svr_inst_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&zone_) -
-    reinterpret_cast<char*>(&svr_inst_id_)) + sizeof(zone_));
+    static_cast<size_t>(reinterpret_cast<char*>(&server_zone_) -
+    reinterpret_cast<char*>(&svr_inst_id_)) + sizeof(server_zone_));
   // @@protoc_insertion_point(copy_constructor:config.TransferSvrConfig)
 }
 
@@ -154,8 +154,8 @@ void TransferSvrConfig::SharedCtor() {
   _cached_size_ = 0;
   listen_ip_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&svr_inst_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&zone_) -
-      reinterpret_cast<char*>(&svr_inst_id_)) + sizeof(zone_));
+      reinterpret_cast<char*>(&server_zone_) -
+      reinterpret_cast<char*>(&svr_inst_id_)) + sizeof(server_zone_));
 }
 
 TransferSvrConfig::~TransferSvrConfig() {
@@ -203,8 +203,8 @@ void TransferSvrConfig::Clear() {
   }
   if (cached_has_bits & 6u) {
     ::memset(&svr_inst_id_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&zone_) -
-        reinterpret_cast<char*>(&svr_inst_id_)) + sizeof(zone_));
+        reinterpret_cast<char*>(&server_zone_) -
+        reinterpret_cast<char*>(&svr_inst_id_)) + sizeof(server_zone_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -250,14 +250,14 @@ bool TransferSvrConfig::MergePartialFromCodedStream(
         break;
       }
 
-      // optional int32 zone = 3;
+      // optional int32 server_zone = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
-          set_has_zone();
+          set_has_server_zone();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &zone_)));
+                 input, &server_zone_)));
         } else {
           goto handle_unusual;
         }
@@ -306,9 +306,9 @@ void TransferSvrConfig::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->svr_inst_id(), output);
   }
 
-  // optional int32 zone = 3;
+  // optional int32 server_zone = 3;
   if (cached_has_bits & 0x00000004u) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->zone(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->server_zone(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -342,9 +342,9 @@ void TransferSvrConfig::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->svr_inst_id(), target);
   }
 
-  // optional int32 zone = 3;
+  // optional int32 server_zone = 3;
   if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->zone(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->server_zone(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -379,11 +379,11 @@ size_t TransferSvrConfig::ByteSizeLong() const {
           this->svr_inst_id());
     }
 
-    // optional int32 zone = 3;
-    if (has_zone()) {
+    // optional int32 server_zone = 3;
+    if (has_server_zone()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->zone());
+          this->server_zone());
     }
 
   }
@@ -426,7 +426,7 @@ void TransferSvrConfig::MergeFrom(const TransferSvrConfig& from) {
       svr_inst_id_ = from.svr_inst_id_;
     }
     if (cached_has_bits & 0x00000004u) {
-      zone_ = from.zone_;
+      server_zone_ = from.server_zone_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -458,7 +458,7 @@ void TransferSvrConfig::InternalSwap(TransferSvrConfig* other) {
   using std::swap;
   listen_ip_.Swap(&other->listen_ip_);
   swap(svr_inst_id_, other->svr_inst_id_);
-  swap(zone_, other->zone_);
+  swap(server_zone_, other->server_zone_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

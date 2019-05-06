@@ -3,5 +3,5 @@ package config;
 message TransferSvrConfig {
 	optional string listen_ip = 1;
 	optional int32 svr_inst_id = 2;
-	optional int32 zone = 3;
+	optional int32 server_zone = 3;
 }

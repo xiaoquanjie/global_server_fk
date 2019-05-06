@@ -12,7 +12,7 @@ int ConnApplication::InstanceId() {
 }
 
 int ConnApplication::ServerZone() {
-	return _svr_config.Data().zone();
+	return _svr_config.Data().server_zone();
 }
 
 int ConnApplication::OnInitNetWork() {
@@ -44,7 +44,7 @@ int ConnApplication::OnInit() {
 		LogInfo("listen in: " << ip << " " << port);
 	}
 
-	int ret = RouterMgrSgl.Init(ServerType(), InstanceId());
+	int ret = RouterMgrSgl.Init(ServerType(), InstanceId(), ServerZone());
 	if (0 != ret) {
 		return -1;
 	}
@@ -80,6 +80,6 @@ int ConnApplication::OnTick(const base::timestamp& now) {
 }
 
 int ConnApplication::OnProc(base::s_int64_t fd, const AppHeadFrame& frame, const char* data, base::s_uint32_t data_len) {
-	TransactionMgr::ProcessFrame(fd, ServerType(), InstanceId(), frame, data);
+	TransactionMgr::ProcessFrame(fd, ServerType(), InstanceId(), ServerZone(), frame, data);
 	return 0;
 }

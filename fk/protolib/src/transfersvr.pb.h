@@ -168,12 +168,12 @@ class TransferSvrConfig : public ::google::protobuf::Message /* @@protoc_inserti
   ::google::protobuf::int32 svr_inst_id() const;
   void set_svr_inst_id(::google::protobuf::int32 value);
 
-  // optional int32 zone = 3;
-  bool has_zone() const;
-  void clear_zone();
-  static const int kZoneFieldNumber = 3;
-  ::google::protobuf::int32 zone() const;
-  void set_zone(::google::protobuf::int32 value);
+  // optional int32 server_zone = 3;
+  bool has_server_zone() const;
+  void clear_server_zone();
+  static const int kServerZoneFieldNumber = 3;
+  ::google::protobuf::int32 server_zone() const;
+  void set_server_zone(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:config.TransferSvrConfig)
  private:
@@ -181,15 +181,15 @@ class TransferSvrConfig : public ::google::protobuf::Message /* @@protoc_inserti
   void clear_has_listen_ip();
   void set_has_svr_inst_id();
   void clear_has_svr_inst_id();
-  void set_has_zone();
-  void clear_has_zone();
+  void set_has_server_zone();
+  void clear_has_server_zone();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable int _cached_size_;
   ::google::protobuf::internal::ArenaStringPtr listen_ip_;
   ::google::protobuf::int32 svr_inst_id_;
-  ::google::protobuf::int32 zone_;
+  ::google::protobuf::int32 server_zone_;
   friend struct ::protobuf_transfersvr_2eproto::TableStruct;
   friend void ::protobuf_transfersvr_2eproto::InitDefaultsTransferSvrConfigImpl();
 };
@@ -291,28 +291,28 @@ inline void TransferSvrConfig::set_svr_inst_id(::google::protobuf::int32 value) 
   // @@protoc_insertion_point(field_set:config.TransferSvrConfig.svr_inst_id)
 }
 
-// optional int32 zone = 3;
-inline bool TransferSvrConfig::has_zone() const {
+// optional int32 server_zone = 3;
+inline bool TransferSvrConfig::has_server_zone() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void TransferSvrConfig::set_has_zone() {
+inline void TransferSvrConfig::set_has_server_zone() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void TransferSvrConfig::clear_has_zone() {
+inline void TransferSvrConfig::clear_has_server_zone() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void TransferSvrConfig::clear_zone() {
-  zone_ = 0;
-  clear_has_zone();
+inline void TransferSvrConfig::clear_server_zone() {
+  server_zone_ = 0;
+  clear_has_server_zone();
 }
-inline ::google::protobuf::int32 TransferSvrConfig::zone() const {
-  // @@protoc_insertion_point(field_get:config.TransferSvrConfig.zone)
-  return zone_;
+inline ::google::protobuf::int32 TransferSvrConfig::server_zone() const {
+  // @@protoc_insertion_point(field_get:config.TransferSvrConfig.server_zone)
+  return server_zone_;
 }
-inline void TransferSvrConfig::set_zone(::google::protobuf::int32 value) {
-  set_has_zone();
-  zone_ = value;
-  // @@protoc_insertion_point(field_set:config.TransferSvrConfig.zone)
+inline void TransferSvrConfig::set_server_zone(::google::protobuf::int32 value) {
+  set_has_server_zone();
+  server_zone_ = value;
+  // @@protoc_insertion_point(field_set:config.TransferSvrConfig.server_zone)
 }
 
 #ifdef __GNUC__

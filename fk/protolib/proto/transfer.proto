@@ -4,6 +4,7 @@ message TransferInfo {
 	optional string listen_ip = 1;
 	optional int32 listen_port = 2;
 	optional int32 number = 3;
+	optional int32 server_zone = 4;
 }
 
 message TransferConfig {

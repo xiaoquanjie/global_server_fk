@@ -40,7 +40,14 @@ public:
 	TransRegisterServer(unsigned int cmd) : BaseTransaction(cmd) {}
 
 	int OnRequest(proto::RegisterServerReq& request) {
-		int ret_code = SeverInstanceMgrSgl.AddInstance(request.server_type(), request.instance_id(), fd());
+		int ret_code = 0;
+		if (self_server_zone() == request.server_zone()) {
+			// 只接受同一个server_zone的连接
+			ret_code = SeverInstanceMgrSgl.AddInstance(request.server_type(), request.instance_id(), fd());
+		}
+		else {
+			ret_code = -2;
+		}
 
 		proto::RegisterServerRsp respond;
 		respond.mutable_ret()->set_code(ret_code);

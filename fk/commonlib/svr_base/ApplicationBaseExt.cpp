@@ -41,7 +41,12 @@ int ApplicationBase::Run() {
 			auto* msg = _self_msg_queue.front();
 			_self_msg_queue.pop();
 			AppHeadFrame& frame = (AppHeadFrame&)*msg;
-			TransactionMgr::ProcessFrame(0, ServerType(), InstanceId(), frame, msg + sizeof(AppHeadFrame));
+			TransactionMgr::ProcessFrame(0, 
+				ServerType(), 
+				InstanceId(), 
+				ServerZone(), 
+				frame, 
+				msg + sizeof(AppHeadFrame));
 			delete[]msg;
 		}
 	}

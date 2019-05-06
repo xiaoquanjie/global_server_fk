@@ -69,7 +69,7 @@ public:
 	void Update(const base::timestamp& now);
 
 	int ProcessFrame(base::s_int64_t fd, base::s_uint32_t self_svr_type,
-		base::s_uint32_t self_inst_id,
+		base::s_uint32_t self_inst_id, base::s_uint32_t self_server_zone,
 		const AppHeadFrame& frame, const char* data);
 
 	int ProcessMysqlRsp(MysqlRsp* rsp);
@@ -135,9 +135,9 @@ public:
 	}
 
 	static int ProcessFrame(base::s_int64_t fd, base::s_uint32_t self_svr_type,
-		base::s_uint32_t self_inst_id,
+		base::s_uint32_t self_inst_id, base::s_uint32_t self_server_zone,
 		const AppHeadFrame& frame, const char* data) {
-		return GetImpl()->ProcessFrame(fd, self_svr_type, self_inst_id, frame, data);
+		return GetImpl()->ProcessFrame(fd, self_svr_type, self_inst_id, self_server_zone, frame, data);
 	}
 
 	static int ProcessMysqlRsp(MysqlRsp* rsp) {

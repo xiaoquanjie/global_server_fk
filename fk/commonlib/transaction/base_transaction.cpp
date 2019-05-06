@@ -19,6 +19,7 @@ void Transaction::Construct() {
 	_cur_frame_data = 0;
 	_self_svr_type = 0;
 	_self_inst_id = 0;
+	_self_server_zone = 0;
 	_state = E_STATE_IDLE;
 	_timer_id = 0;
 	_req_random = 0;
@@ -53,7 +54,7 @@ int Transaction::ParseMsg(google::protobuf::Message& message) {
 }
 
 int Transaction::Process(base::s_int64_t fd, base::s_uint32_t self_svr_type,
-	base::s_uint32_t self_inst_id,
+	base::s_uint32_t self_inst_id, base::s_uint32_t self_server_zone,
 	const AppHeadFrame& frame, const char* data) {
 	if (req_random() != 0) {
 		if (req_random() != frame.get_req_random()) {
@@ -67,6 +68,7 @@ int Transaction::Process(base::s_int64_t fd, base::s_uint32_t self_svr_type,
 		_fd = fd;
 		_self_svr_type = self_svr_type;
 		_self_inst_id = self_inst_id;
+		_self_server_zone = self_server_zone;
 		_ori_frame = frame;
 	}
 	else {
@@ -464,6 +466,10 @@ base::s_uint32_t Transaction::self_svr_type() {
 
 base::s_uint32_t Transaction::self_inst_id() {
 	return _self_inst_id;
+}
+
+base::s_uint32_t Transaction::self_server_zone() {
+	return _self_server_zone;
 }
 
 void Transaction::set_co_id(base::s_int32_t id) {

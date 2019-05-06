@@ -7,7 +7,7 @@
 #include "protolib/src/connsvr_config.pb.h"
 
 class ConnApplication : public ApplicationBase {
-public:
+protected:
 	int ServerType() override;
 
 	int InstanceId() override;

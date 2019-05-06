@@ -86,9 +86,11 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferInfo, listen_ip_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferInfo, listen_port_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferInfo, number_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferInfo, server_zone_),
   0,
   1,
   2,
+  3,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferConfig, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::TransferConfig, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -98,8 +100,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 8, sizeof(::config::TransferInfo)},
-  { 11, 17, sizeof(::config::TransferConfig)},
+  { 0, 9, sizeof(::config::TransferInfo)},
+  { 13, 19, sizeof(::config::TransferConfig)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -129,13 +131,14 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016transfer.proto\022\006config\"F\n\014TransferInfo"
+      "\n\016transfer.proto\022\006config\"[\n\014TransferInfo"
       "\022\021\n\tlisten_ip\030\001 \001(\t\022\023\n\013listen_port\030\002 \001(\005"
-      "\022\016\n\006number\030\003 \001(\005\"=\n\016TransferConfig\022+\n\rtr"
-      "ansfer_list\030\001 \003(\0132\024.config.TransferInfo"
+      "\022\016\n\006number\030\003 \001(\005\022\023\n\013server_zone\030\004 \001(\005\"=\n"
+      "\016TransferConfig\022+\n\rtransfer_list\030\001 \003(\0132\024"
+      ".config.TransferInfo"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 159);
+      descriptor, 180);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "transfer.proto", &protobuf_RegisterTypes);
 }
@@ -161,6 +164,7 @@ void TransferInfo::InitAsDefaultInstance() {
 const int TransferInfo::kListenIpFieldNumber;
 const int TransferInfo::kListenPortFieldNumber;
 const int TransferInfo::kNumberFieldNumber;
+const int TransferInfo::kServerZoneFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TransferInfo::TransferInfo()
@@ -182,8 +186,8 @@ TransferInfo::TransferInfo(const TransferInfo& from)
     listen_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.listen_ip_);
   }
   ::memcpy(&listen_port_, &from.listen_port_,
-    static_cast<size_t>(reinterpret_cast<char*>(&number_) -
-    reinterpret_cast<char*>(&listen_port_)) + sizeof(number_));
+    static_cast<size_t>(reinterpret_cast<char*>(&server_zone_) -
+    reinterpret_cast<char*>(&listen_port_)) + sizeof(server_zone_));
   // @@protoc_insertion_point(copy_constructor:config.TransferInfo)
 }
 
@@ -191,8 +195,8 @@ void TransferInfo::SharedCtor() {
   _cached_size_ = 0;
   listen_ip_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&listen_port_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&number_) -
-      reinterpret_cast<char*>(&listen_port_)) + sizeof(number_));
+      reinterpret_cast<char*>(&server_zone_) -
+      reinterpret_cast<char*>(&listen_port_)) + sizeof(server_zone_));
 }
 
 TransferInfo::~TransferInfo() {
@@ -238,10 +242,10 @@ void TransferInfo::Clear() {
     GOOGLE_DCHECK(!listen_ip_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
     (*listen_ip_.UnsafeRawStringPointer())->clear();
   }
-  if (cached_has_bits & 6u) {
+  if (cached_has_bits & 14u) {
     ::memset(&listen_port_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&number_) -
-        reinterpret_cast<char*>(&listen_port_)) + sizeof(number_));
+        reinterpret_cast<char*>(&server_zone_) -
+        reinterpret_cast<char*>(&listen_port_)) + sizeof(server_zone_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -301,6 +305,20 @@ bool TransferInfo::MergePartialFromCodedStream(
         break;
       }
 
+      // optional int32 server_zone = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+          set_has_server_zone();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &server_zone_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -348,6 +366,11 @@ void TransferInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->number(), output);
   }
 
+  // optional int32 server_zone = 4;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->server_zone(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -384,6 +407,11 @@ void TransferInfo::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->number(), target);
   }
 
+  // optional int32 server_zone = 4;
+  if (cached_has_bits & 0x00000008u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->server_zone(), target);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
@@ -401,7 +429,7 @@ size_t TransferInfo::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (_has_bits_[0 / 32] & 7u) {
+  if (_has_bits_[0 / 32] & 15u) {
     // optional string listen_ip = 1;
     if (has_listen_ip()) {
       total_size += 1 +
@@ -421,6 +449,13 @@ size_t TransferInfo::ByteSizeLong() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->number());
+    }
+
+    // optional int32 server_zone = 4;
+    if (has_server_zone()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->server_zone());
     }
 
   }
@@ -454,7 +489,7 @@ void TransferInfo::MergeFrom(const TransferInfo& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 15u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_listen_ip();
       listen_ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.listen_ip_);
@@ -464,6 +499,9 @@ void TransferInfo::MergeFrom(const TransferInfo& from) {
     }
     if (cached_has_bits & 0x00000004u) {
       number_ = from.number_;
+    }
+    if (cached_has_bits & 0x00000008u) {
+      server_zone_ = from.server_zone_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -496,6 +534,7 @@ void TransferInfo::InternalSwap(TransferInfo* other) {
   listen_ip_.Swap(&other->listen_ip_);
   swap(listen_port_, other->listen_port_);
   swap(number_, other->number_);
+  swap(server_zone_, other->server_zone_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

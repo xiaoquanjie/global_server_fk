@@ -181,6 +181,13 @@ class TransferInfo : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::int32 number() const;
   void set_number(::google::protobuf::int32 value);
 
+  // optional int32 server_zone = 4;
+  bool has_server_zone() const;
+  void clear_server_zone();
+  static const int kServerZoneFieldNumber = 4;
+  ::google::protobuf::int32 server_zone() const;
+  void set_server_zone(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:config.TransferInfo)
  private:
   void set_has_listen_ip();
@@ -189,6 +196,8 @@ class TransferInfo : public ::google::protobuf::Message /* @@protoc_insertion_po
   void clear_has_listen_port();
   void set_has_number();
   void clear_has_number();
+  void set_has_server_zone();
+  void clear_has_server_zone();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -196,6 +205,7 @@ class TransferInfo : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::internal::ArenaStringPtr listen_ip_;
   ::google::protobuf::int32 listen_port_;
   ::google::protobuf::int32 number_;
+  ::google::protobuf::int32 server_zone_;
   friend struct ::protobuf_transfer_2eproto::TableStruct;
   friend void ::protobuf_transfer_2eproto::InitDefaultsTransferInfoImpl();
 };
@@ -432,6 +442,30 @@ inline void TransferInfo::set_number(::google::protobuf::int32 value) {
   set_has_number();
   number_ = value;
   // @@protoc_insertion_point(field_set:config.TransferInfo.number)
+}
+
+// optional int32 server_zone = 4;
+inline bool TransferInfo::has_server_zone() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void TransferInfo::set_has_server_zone() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void TransferInfo::clear_has_server_zone() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void TransferInfo::clear_server_zone() {
+  server_zone_ = 0;
+  clear_has_server_zone();
+}
+inline ::google::protobuf::int32 TransferInfo::server_zone() const {
+  // @@protoc_insertion_point(field_get:config.TransferInfo.server_zone)
+  return server_zone_;
+}
+inline void TransferInfo::set_server_zone(::google::protobuf::int32 value) {
+  set_has_server_zone();
+  server_zone_ = value;
+  // @@protoc_insertion_point(field_set:config.TransferInfo.server_zone)
 }
 
 // -------------------------------------------------------------------

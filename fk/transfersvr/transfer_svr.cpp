@@ -11,7 +11,7 @@ int TransferApplication::InstanceId() {
 }
 
 int TransferApplication::ServerZone() {
-	return _svr_config.Data().zone();
+	return _svr_config.Data().server_zone();
 }
 
 int TransferApplication::OnInitNetWork() {

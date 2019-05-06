@@ -4,7 +4,6 @@
 #include "commonlib/transaction/transaction_mgr.h"
 #include "commonlib/net_handler/router_mgr.h"
 #include "commonlib/net_handler/net_handler.h"
-#include "connsvr/conn_svr.h"
 
 class TransClientIn 
 	: public BaseTransaction<TransClientIn, proto::SocketClientIn> {
@@ -33,14 +32,16 @@ public:
 			LogInfo("try to regist server");
 			proto::RegisterServerReq request;
 			proto::RegisterServerRsp respond;
-			request.set_server_type(ConnApplicationSgl.ServerType());
-			request.set_instance_id(ConnApplicationSgl.InstanceId());
+			request.set_server_type(self_svr_type());
+			request.set_instance_id(self_inst_id());
+			request.set_server_zone(self_server_zone());
 			int ret = SendMsgByFd(proto::CMD::CMD_REGISTER_SERVER_REQ, request, respond);
 			if (0 == ret && respond.ret().code() == 0) {
 				LogInfo("regist server success");
 				break;
 			}
 			else {
+				// Àµ√˜≈‰÷√”–ŒÛ
 				LogError("regist server fail: " << ret);
 			}
 		} while (true);

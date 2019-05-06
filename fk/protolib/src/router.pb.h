@@ -181,6 +181,13 @@ class RouterInfo : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 number() const;
   void set_number(::google::protobuf::int32 value);
 
+  // optional int32 server_zone = 4;
+  bool has_server_zone() const;
+  void clear_server_zone();
+  static const int kServerZoneFieldNumber = 4;
+  ::google::protobuf::int32 server_zone() const;
+  void set_server_zone(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:config.RouterInfo)
  private:
   void set_has_listen_ip();
@@ -189,6 +196,8 @@ class RouterInfo : public ::google::protobuf::Message /* @@protoc_insertion_poin
   void clear_has_listen_port();
   void set_has_number();
   void clear_has_number();
+  void set_has_server_zone();
+  void clear_has_server_zone();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -196,6 +205,7 @@ class RouterInfo : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::internal::ArenaStringPtr listen_ip_;
   ::google::protobuf::int32 listen_port_;
   ::google::protobuf::int32 number_;
+  ::google::protobuf::int32 server_zone_;
   friend struct ::protobuf_router_2eproto::TableStruct;
   friend void ::protobuf_router_2eproto::InitDefaultsRouterInfoImpl();
 };
@@ -432,6 +442,30 @@ inline void RouterInfo::set_number(::google::protobuf::int32 value) {
   set_has_number();
   number_ = value;
   // @@protoc_insertion_point(field_set:config.RouterInfo.number)
+}
+
+// optional int32 server_zone = 4;
+inline bool RouterInfo::has_server_zone() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void RouterInfo::set_has_server_zone() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void RouterInfo::clear_has_server_zone() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void RouterInfo::clear_server_zone() {
+  server_zone_ = 0;
+  clear_has_server_zone();
+}
+inline ::google::protobuf::int32 RouterInfo::server_zone() const {
+  // @@protoc_insertion_point(field_get:config.RouterInfo.server_zone)
+  return server_zone_;
+}
+inline void RouterInfo::set_server_zone(::google::protobuf::int32 value) {
+  set_has_server_zone();
+  server_zone_ = value;
+  // @@protoc_insertion_point(field_set:config.RouterInfo.server_zone)
 }
 
 // -------------------------------------------------------------------
