@@ -2,6 +2,8 @@ package config;
 
 message CommConf {
 	optional string router_conf_file = 1;
-	optional uint32 routersvr_port_start = 2;
-	optional uint32 connsvr_port_start = 3;
+	optional string transfer_conf_file = 2;
+	optional uint32 transfer_port_start = 3;
+	optional uint32 routersvr_port_start = 4;
+	optional uint32 connsvr_port_start = 5;
 }

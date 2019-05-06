@@ -311,7 +311,10 @@ base::s_uint32_t ApplicationBase::PortStart() {
 	}
 	else if (ServerType() == proto::SVR_TYPE_CONN) {
 		return _comm_config.Data().connsvr_port_start();
-	} 
+	}
+	else if (ServerType() == proto::SVR_TYPE_TRANSFER) {
+		return _comm_config.Data().transfer_port_start();
+	}
 
 	LogError("failed to get start port of server_type:" << ServerType());
 	return 0;

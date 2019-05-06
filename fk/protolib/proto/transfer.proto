@@ -1,7 +1,11 @@
 package config;
 
-message TransferConfig {
+message TransferInfo {
 	optional string listen_ip = 1;
-	optional int32 svr_inst_id = 2;
-	optional int32 zone = 3;
+	optional int32 listen_port = 2;
+	optional int32 number = 3;
+}
+
+message TransferConfig {
+	repeated TransferInfo transfer_list = 1;
 }

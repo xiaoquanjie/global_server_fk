@@ -1,8 +1,8 @@
 cc_binary(
-    name = 'transfer',
+    name = 'transfersvr',
     srcs = [
        'main.cpp',
-       'transfer.cpp',
+       'transfer_svr.cpp',
     ],
     deps = [
         '//commonlib:common',

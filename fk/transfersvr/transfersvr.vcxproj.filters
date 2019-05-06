@@ -5,12 +5,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="transaction">
-      <UniqueIdentifier>{61563cc8-4ed9-4817-9426-b61e59d2dc49}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="BUILD">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="..\conf\transfersvr\transfersvr.conf">
       <Filter>源文件</Filter>
     </None>
   </ItemGroup>
@@ -18,12 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="transfer.cpp">
+    <ClCompile Include="transfer_svr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="transfer.h">
+    <ClInclude Include="transfer_svr.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>

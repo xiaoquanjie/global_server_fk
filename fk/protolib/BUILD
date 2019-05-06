@@ -11,6 +11,7 @@ cc_library(
 		'src/server_agent_data.pb.cc',
 		'src/svr_base.pb.cc',
 		'src/transfer.pb.cc',
+		'src/transfersvr.pb.cc',
 	],
 	deps = [
 		'//google:protobuf',
