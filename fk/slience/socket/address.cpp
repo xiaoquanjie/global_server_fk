@@ -60,7 +60,7 @@ AddressV4::AddressV4(in4_addr_type addr) :_addr(addr) {}
 AddressV4::AddressV4(s_uint32_t addr) {
 	_addr._addr = g_htonl(addr);
 }
-
+  
 AddressV4::AddressV4(const char* addr) {
 	g_inet_pton(M_AF_INET, addr, (void*)&_addr);
 }

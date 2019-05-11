@@ -80,7 +80,7 @@ M_SOCKET_DECL BasicSocket<Protocol, SocketService>::~BasicSocket()
 	SocketError error;
 	this->Close(error);
 }
-
+ 
 template <typename Protocol, typename SocketService>
 M_SOCKET_DECL void BasicSocket<Protocol, SocketService>::Close()
 {
