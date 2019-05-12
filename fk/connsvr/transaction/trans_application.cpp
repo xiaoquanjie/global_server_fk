@@ -17,12 +17,10 @@ public:
 			if (!ptr) {
 				return 0;
 			}
-
-			ConnInfo* pinfo = (ConnInfo*)ptr->GetExtData();
-			if (pinfo && pinfo->conn_type == Enum_ConnType_Router) {
+			if (ptr->GetListenConnType() == Enum_ConnType_Router) {
 				SendRegistCmd();
-				RouterMgrSgl.AddRouter(pinfo->ip, pinfo->port, pinfo->serial_num,
-					fd());
+				const auto& ep = ptr->RemoteEndpoint();
+				RouterMgrSgl.AddRouter(ep.Address(), ep.Port(), ptr->GetListenConnNum(), fd());
 			}
 		}
 		return 0;
@@ -62,14 +60,17 @@ public:
 			if (!ptr) {
 				return 0;
 			}
-
-			ConnInfo* pinfo = (ConnInfo*)ptr->GetExtData();
-			if (pinfo && pinfo->conn_type == Enum_ConnType_Router) {
-				if (RouterMgrSgl.ExistRouter(pinfo->ip, pinfo->port, pinfo->serial_num)) {
-					// ÖØÁ¬
-					LogError(pinfo->ToString() << " connection broken, try to reconnect");
-					NetIoHandlerSgl.ConnectOne(pinfo->ip, pinfo->port,
-						pinfo->conn_type, pinfo->serial_num);
+			if (ptr->GetListenConnType() == Enum_ConnType_Router) {
+				const auto& ep = ptr->RemoteEndpoint();
+				if (RouterMgrSgl.ExistRouter(ep.Address(), ep.Port(), ptr->GetListenConnNum())) {
+					// é‡è¿ž
+					LogError("ip:" 
+						<< ep.Address() 
+						<< " port:"
+						<< ep.Port()
+						<< " connection broken, try to reconnect");
+					NetIoHandlerSgl.ConnectOne(ep.Address(),
+						ep.Port(), ptr->GetListenConnType(), ptr->GetListenConnNum());
 				}
 			}
 		}

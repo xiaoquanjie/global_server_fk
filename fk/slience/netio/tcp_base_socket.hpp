@@ -32,7 +32,7 @@ public:
 
 	int GetFd();
 
-	// µ÷ÓÃÕâ¸öº¯Êı²»ÒâÎ¶×ÅÁ¬½ÓÁ¢¼´¶Ï¿ª£¬»áµÈËùÓĞµÄÎ´´¦ÀíµÄÊı¾İ´¦ÀíÍê¾Í»á¶Ï¿ª
+	// è°ƒç”¨è¿™ä¸ªå‡½æ•°ä¸æ„å‘³ç€è¿æ¥ç«‹å³æ–­å¼€ï¼Œä¼šç­‰æ‰€æœ‰çš„æœªå¤„ç†çš„æ•°æ®å¤„ç†å®Œå°±ä¼šæ–­å¼€
 	void Close();
 
 	bool Send(const SocketLib::Buffer* buffer);
@@ -48,6 +48,12 @@ public:
 	void* GetExtData();
 
 	void SetKeepAlive(base::s_uint32_t timeo);
+
+	void SetListenConn(int type, int num);
+
+	int GetListenConnType() const;
+
+	int GetListenConnNum() const;
 
 protected:
 	bool _CheckCanSend(int len);
@@ -69,15 +75,20 @@ protected:
 
 	// endpoint
 	SocketLib::Tcp::EndPoint _localep;
-	SocketLib::Tcp::EndPoint _remoteep;
+	SocketLib::Tcp::EndPoint _remoteep; 
 
-	// ×´Ì¬±êÖ¾
+	// çŠ¶æ€æ ‡å¿—
 	unsigned short _flag;
 	void* _extdata;
 	void(*_extdata_func)(void*data);
 
-	// file descriptor, ÔÚ¶ÔÏóÉúÃüÖÜÆÚÖĞ²»»á±»Çå³ı£¬²»ÏñSocketTypeÖĞµÄfd
+	// file descriptor, åœ¨å¯¹è±¡ç”Ÿå‘½å‘¨æœŸä¸­ä¸ä¼šè¢«æ¸…é™¤ï¼Œä¸åƒSocketTypeä¸­çš„fd
 	int _fd;
+
+	// ç›‘å¬æˆ–è€…è¿æ¥ç±»å‹
+	int _listen_conn_type;
+	// ç›‘å¬æˆ–è€…è¿æ¥å·ç 
+	int _listen_conn_num;
 };
 
 template<typename T, typename SocketType>
@@ -91,6 +102,8 @@ TcpBaseSocket<T, SocketType>::TcpBaseSocket(NetIo& netio)
 	_fd = M_INVALID_SOCKET;
 	_flag = E_STATE_STOP;
 	_extdata_func = 0;
+	_listen_conn_type = -1;
+	_listen_conn_num = -1;
 	_socket = new SocketType(_netio.GetIoService());
 }
 
@@ -118,8 +131,8 @@ int TcpBaseSocket<T, SocketType>::GetFd() {
 
 template<typename T, typename SocketType>
 void TcpBaseSocket<T, SocketType>::Close() {
-	/* close±»µ÷ÓÃ£¬²¢²»ÒâÎ¶×ÅÁ¬½Ó»áÂíÉÏ¶Ï¿ª£¬socket»áµÈËùÓĞµÄÊı¾İÈ«²¿
-	* ·¢ËÍÍêºó²Å¶Ï¿ª¡£
+	/* closeè¢«è°ƒç”¨ï¼Œå¹¶ä¸æ„å‘³ç€è¿æ¥ä¼šé©¬ä¸Šæ–­å¼€ï¼Œsocketä¼šç­‰æ‰€æœ‰çš„æ•°æ®å…¨éƒ¨
+	* å‘é€å®Œåæ‰æ–­å¼€ã€‚
 	*/
 	_PostClose();
 }
@@ -189,6 +202,22 @@ void TcpBaseSocket<T, SocketType>::SetExtData(void* data) {
 }
 
 template<typename T, typename SocketType>
+void TcpBaseSocket<T, SocketType>::SetListenConn(int type, int num) {
+	this->_listen_conn_type = type;
+	this->_listen_conn_num = num;
+}
+
+template<typename T, typename SocketType>
+int TcpBaseSocket<T, SocketType>::GetListenConnType() const {
+	return this->_listen_conn_type;
+}
+
+template<typename T, typename SocketType>
+int TcpBaseSocket<T, SocketType>::GetListenConnNum() const {
+	return this->_listen_conn_num;
+}
+
+template<typename T, typename SocketType>
 void* TcpBaseSocket<T, SocketType>::GetExtData() {
 	return _extdata;
 }
@@ -228,7 +257,7 @@ bool TcpBaseSocket<T, SocketType>::_CheckCanSend(int len) {
 		return false;
 	}
 	if (_writer.msgbuffer2.Size() + len > _writerinfo_::E_MAX_BUFFER_SIZE) {
-		// ¶Ñ»ıµÄÌ«¶àÁËÃ»ÓĞ·¢³öÈ¥
+		// å †ç§¯çš„å¤ªå¤šäº†æ²¡æœ‰å‘å‡ºå»
 		M_NETIO_LOGGER(this->_socket->GetFd() << "|There is too much data that is not sent in the cache, so been discarded");
 		return false;
 	}
@@ -238,24 +267,24 @@ bool TcpBaseSocket<T, SocketType>::_CheckCanSend(int len) {
 template<typename T, typename SocketType>
 void TcpBaseSocket<T, SocketType>::_WriteHandler(base::s_uint32_t tran_byte, SocketLib::SocketError error) {
 	/*
-	*  Òª×¢Òâ·ÀÖ¹_writer.lockËÀËøµÄÎÊÌâ¡£
+	*  è¦æ³¨æ„é˜²æ­¢_writer.lockæ­»é”çš„é—®é¢˜ã€‚
 	*/
 	SocketLib::ScopedLock scoped_w(_writer.lock);
 	_writer.writing = false;
 
 	if (error) {
-		// ³ö´í¹Ø±ÕÁ¬½Ó
+		// å‡ºé”™å…³é—­è¿æ¥
 		M_NETIO_LOGGER("write handler happend error:" << M_ERROR_DESC_STR(error));
 		_Close();
 	}
 	else if (tran_byte <= 0) {
-		// Á¬½ÓÒÑ¾­¹Ø±Õ
+		// è¿æ¥å·²ç»å…³é—­
 		_Close();
 	}
 	else {
 		_writer.msgbuffer1.CutData(tran_byte);
 		if (!_TrySendData() && !(_flag == E_STATE_START)) {
-			// Êı¾İ·¢ËÍÍêºó£¬Èç¹û×´Ì¬²»ÊÇE_STATE_START£¬ÔòĞèÒª¹Ø±ÕĞ´
+			// æ•°æ®å‘é€å®Œåï¼Œå¦‚æœçŠ¶æ€ä¸æ˜¯E_STATE_STARTï¼Œåˆ™éœ€è¦å…³é—­å†™
 			_socket->Shutdown(SocketLib::E_Shutdown_WR, error);
 			_Close();
 		}

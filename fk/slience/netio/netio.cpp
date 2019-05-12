@@ -23,11 +23,17 @@ NetIo::NetIo(base::s_uint32_t backlog)
 
 NetIo::~NetIo() {}
 
-bool NetIo::ListenOne(const SocketLib::Tcp::EndPoint& ep) {
+bool NetIo::ListenOne(const std::string& addr,
+	base::s_uint16_t port, 
+	int listen_type,
+	int listen_num) {
 	try {
+		SocketLib::Tcp::EndPoint ep(SocketLib::AddressV4(addr), port);
 		TcpAcceptorPtr acceptor(new SocketLib::TcpAcceptor<SocketLib::IoService>(_ioservice, ep, _backlog));
 		TcpSocketPtr clisock(new TcpSocket(*this));
-		acceptor->AsyncAccept(m_bind_t(&NetIo::_AcceptHandler, this, placeholder_1, clisock, acceptor), clisock->GetSocket());
+		clisock->SetListenConn(listen_type, listen_num);
+		acceptor->AsyncAccept(m_bind_t(&NetIo::_AcceptHandler, this, placeholder_1, clisock, acceptor),
+			clisock->GetSocket());
 	}
 	catch (SocketLib::SocketError& error) {
 		lasterror = error;
@@ -36,17 +42,17 @@ bool NetIo::ListenOne(const SocketLib::Tcp::EndPoint& ep) {
 	return true;
 }
 
-bool NetIo::ListenOne(const std::string& addr, base::s_uint16_t port) {
-	SocketLib::Tcp::EndPoint ep(SocketLib::AddressV4(addr), port);
-	return ListenOne(ep);
-}
-
-// ½¨Á¢Ò»¸öhttp¼àÌý
-bool NetIo::ListenOneHttp(const SocketLib::Tcp::EndPoint& ep) {
+bool NetIo::ListenOneHttp(const std::string& addr,
+	base::s_uint16_t port,
+	int listen_type,
+	int listen_num) {
 	try {
+		SocketLib::Tcp::EndPoint ep(SocketLib::AddressV4(addr), port);
 		TcpAcceptorPtr acceptor(new SocketLib::TcpAcceptor<SocketLib::IoService>(_ioservice, ep, _backlog));
 		HttpSocketPtr clisock(new HttpSocket(*this));
-		acceptor->AsyncAccept(m_bind_t(&NetIo::_AcceptHttpHandler, this, placeholder_1, clisock, acceptor), clisock->GetSocket());
+		clisock->SetListenConn(listen_type, listen_num);
+		acceptor->AsyncAccept(m_bind_t(&NetIo::_AcceptHttpHandler, this, placeholder_1, clisock, acceptor), 
+			clisock->GetSocket());
 	}
 	catch (SocketLib::SocketError& error) {
 		lasterror = error;
@@ -55,37 +61,28 @@ bool NetIo::ListenOneHttp(const SocketLib::Tcp::EndPoint& ep) {
 	return true;
 }
 
-bool NetIo::ListenOneHttp(const std::string& addr, base::s_uint16_t port) {
+void NetIo::ConnectOne(const std::string& addr,
+	base::s_uint16_t port,
+	int conn_type,
+	int conn_num) {
 	SocketLib::Tcp::EndPoint ep(SocketLib::AddressV4(addr), port);
-	return ListenOneHttp(ep);
-}
-
-void NetIo::ConnectOne(const SocketLib::Tcp::EndPoint& ep) {
-	SocketLib::SocketError error;
 	netiolib::TcpConnectorPtr connector(new netiolib::TcpConnector(*this));
+
+	connector->SetListenConn(conn_type, conn_num);
+	SocketLib::SocketError error;
 	connector->AsyncConnect(ep, error);
-	connector.reset();
 }
 
-void NetIo::ConnectOne(const std::string& addr, base::s_uint16_t port) {
+void NetIo::ConnectOneHttp(const std::string& addr,
+	base::s_uint16_t port,
+	int conn_type,
+	int conn_num) {
 	SocketLib::Tcp::EndPoint ep(SocketLib::AddressV4(addr), port);
-	return ConnectOne(ep);
-}
+	netiolib::HttpConnectorPtr connector(new netiolib::HttpConnector(*this));
 
-void NetIo::ConnectOneHttp(const SocketLib::Tcp::EndPoint& ep) {
-	try {
-		netiolib::HttpConnectorPtr connector(new netiolib::HttpConnector(*this));
-		connector->AsyncConnect(ep);
-		connector.reset();
-	}
-	catch (SocketLib::SocketError& error) {
-		lasterror = error;
-	}
-}
-
-void NetIo::ConnectOneHttp(const std::string& addr, base::s_uint16_t port) {
-	SocketLib::Tcp::EndPoint ep(SocketLib::AddressV4(addr), port);
-	return ConnectOneHttp(ep);
+	connector->SetListenConn(conn_type, conn_num);
+	SocketLib::SocketError error;
+	connector->AsyncConnect(ep);
 }
 
 void NetIo::Start(unsigned int thread_cnt, bool isco) {
@@ -145,7 +142,7 @@ void NetIo::_Start(void*p) {
 	}
 	catch (SocketLib::SocketError& error) {
 		lasterror = error;
-		M_NETIO_LOGGER("run happend error:" << M_ERROR_DESC_STR(error));
+		printf("run happend error:%d|%s", error.Code(), error.What().c_str());
 	}
 	delete pb;
 	printf("%d thread is leaving..............\n", base::thread::ctid());
@@ -153,7 +150,7 @@ void NetIo::_Start(void*p) {
 
 void NetIo::_AcceptHandler(SocketLib::SocketError error, TcpSocketPtr& clisock, TcpAcceptorPtr& acceptor) {
 	if (error) {
-		M_NETIO_LOGGER("accept handler happend error:" << M_ERROR_DESC_STR(error));
+		printf("accept handler happend error:%d|%s", error.Code(), error.What().c_str());
 	}
 	else {
 		clisock->Init();
@@ -166,7 +163,7 @@ void NetIo::_AcceptHandler(SocketLib::SocketError error, TcpSocketPtr& clisock, 
 
 void NetIo::_AcceptHttpHandler(SocketLib::SocketError error, HttpSocketPtr& clisock, TcpAcceptorPtr& acceptor) {
 	if (error) {
-		M_NETIO_LOGGER("accept handler happend error:" << M_ERROR_DESC_STR(error));
+		printf("accept handler happend error:%d|%s", error.Code(), error.What().c_str());
 	}
 	else {
 		clisock->Init();
@@ -180,12 +177,12 @@ void NetIo::_AcceptHttpHandler(SocketLib::SocketError error, HttpSocketPtr& clis
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /*
-*ÒÔÏÂÈý¸öº¯Êý¶¨ÒåÎªÐéº¯Êý£¬ÒÔ±ã¸ù¾ÝÊµ¼ÊÒµÎñµÄÄ£Ê½À´×ö¾ßÌåÄ£Ê½µÄÏûÏ¢°ü·Ö·¢´¦Àí¡£
-*±£Ö¤Í¬Ò»¸ösocket£¬ÒÔÏÂÈý¸öº¯ÊýµÄµ÷ÓÃ×ñÑ­OnConnected -> OnReceiveData -> OnDisconnectedµÄË³Ðò¡£
-*±£Ö¤Í¬Ò»¸ösocket£¬ÒÔÏÂºóÁ½¸öº¯ÊýµÄµ÷ÓÃ¶¼ÔÚÍ¬Ò»¸öÏß³ÌÖÐ
+*ä»¥ä¸‹ä¸‰ä¸ªå‡½æ•°å®šä¹‰ä¸ºè™šå‡½æ•°ï¼Œä»¥ä¾¿æ ¹æ®å®žé™…ä¸šåŠ¡çš„æ¨¡å¼æ¥åšå…·ä½“æ¨¡å¼çš„æ¶ˆæ¯åŒ…åˆ†å‘å¤„ç†ã€‚
+*ä¿è¯åŒä¸€ä¸ªsocketï¼Œä»¥ä¸‹ä¸‰ä¸ªå‡½æ•°çš„è°ƒç”¨éµå¾ªOnConnected -> OnReceiveData -> OnDisconnectedçš„é¡ºåºã€‚
+*ä¿è¯åŒä¸€ä¸ªsocketï¼Œä»¥ä¸‹åŽä¸¤ä¸ªå‡½æ•°çš„è°ƒç”¨éƒ½åœ¨åŒä¸€ä¸ªçº¿ç¨‹ä¸­
 */
 
-// Á¬ÏßÍ¨Öª,Õâ¸öº¯ÊýÀï²»Òª´¦ÀíÒµÎñ£¬·ÀÖ¹¶ÂÈû
+// è¿žçº¿é€šçŸ¥,è¿™ä¸ªå‡½æ•°é‡Œä¸è¦å¤„ç†ä¸šåŠ¡ï¼Œé˜²æ­¢å µå¡ž
 void NetIo::OnConnected(TcpSocketPtr& clisock) {
 	M_PRINT("tcp socket | OnConnected one : %s %d\n", clisock->RemoteEndpoint().Address().c_str(),
 		clisock->RemoteEndpoint().Port());
@@ -217,7 +214,7 @@ void NetIo::OnConnected(HttpConnectorPtr& clisock, SocketLib::SocketError error)
 }
 
 
-// µôÏßÍ¨Öª,Õâ¸öº¯ÊýÀï²»Òª´¦ÀíÒµÎñ£¬·ÀÖ¹¶ÂÈû
+// æŽ‰çº¿é€šçŸ¥,è¿™ä¸ªå‡½æ•°é‡Œä¸è¦å¤„ç†ä¸šåŠ¡ï¼Œé˜²æ­¢å µå¡ž
 void NetIo::OnDisconnected(TcpSocketPtr& clisock) {
 	M_PRINT("tcp socket | OnDisconnected one : %s %d\n", clisock->RemoteEndpoint().Address().c_str(),
 		clisock->RemoteEndpoint().Port())
@@ -238,7 +235,7 @@ void NetIo::OnDisconnected(HttpConnectorPtr& clisock) {
 		clisock->RemoteEndpoint().Port())
 }
 
-// Êý¾Ý°üÍ¨Öª,Õâ¸öº¯ÊýÀï²»Òª´¦ÀíÒµÎñ£¬·ÀÖ¹¶ÂÈû
+// æ•°æ®åŒ…é€šçŸ¥,è¿™ä¸ªå‡½æ•°é‡Œä¸è¦å¤„ç†ä¸šåŠ¡ï¼Œé˜²æ­¢å µå¡ž
 void NetIo::OnReceiveData(TcpSocketPtr& clisock, const base::s_byte_t* data, base::s_uint32_t len) {
 	M_PRINT("tcp socket | OnReceiveData one : %s %d %d\n", clisock->RemoteEndpoint().Address().c_str(),
 		clisock->RemoteEndpoint().Port(), len);

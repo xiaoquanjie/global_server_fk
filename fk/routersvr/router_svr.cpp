@@ -34,7 +34,7 @@ int RouterApplication::OnInit() {
 	// listen
 	std::string ip = _svr_config.Data().listen_ip();
 	int port = CalcPort(0);
-	if (!NetIoHandlerSgl.ListenOne(ip, port)) {
+	if (!NetIoHandlerSgl.ListenOne(ip, port, e_listen_type_router)) {
 		LogError(ip << " " << port << "listen error:" << NetIoHandlerSgl.GetLastError().What());
 		return -1;
 	}
@@ -75,7 +75,7 @@ int RouterApplication::OnProc(base::s_int64_t fd, const AppHeadFrame& frame, con
 		TransactionMgr::ProcessFrame(fd, ServerType(), InstanceId(), frame, data);
 		return 0;
 	default:
-		// ×ª·¢
+		// è½¬å‘
 		break;
 	}
 	if (frame.get_dst_inst_id() != 0) {

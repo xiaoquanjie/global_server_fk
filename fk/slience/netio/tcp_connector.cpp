@@ -12,6 +12,7 @@ SocketLib::TcpConnector<SocketLib::IoService>& TcpConnector::GetSocket() {
 }
 
 bool TcpConnector::Connect(const SocketLib::Tcp::EndPoint& ep, base::s_uint32_t timeo_sec) {
+	this->_remoteep = ep;
 	try {
 		this->_socket->Connect(ep,timeo_sec);
 		this->_flag = E_STATE_START;
@@ -38,6 +39,7 @@ bool TcpConnector::Connect(const std::string& addr, base::s_uint16_t port, base:
 void TcpConnector::AsyncConnect(const SocketLib::Tcp::EndPoint& ep, SocketLib::SocketError& error) {
 	m_function_t<void(SocketLib::SocketError)> handler = m_bind_t(&TcpConnector::_ConnectHandler, this,
 		placeholder_1, this->shared_from_this());
+	this->_remoteep = ep;
 	this->_socket->AsyncConnect(handler, ep, error);
 	if (error)
 		lasterror = error;

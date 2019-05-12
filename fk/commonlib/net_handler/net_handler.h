@@ -4,32 +4,23 @@
 #include "slience/base/singletion.hpp"
 #include "commonlib/svr_base/svrbase.h"
 
-// ×î´óÏûÏ¢¶ÓÁĞ
+// æœ€å¤§æ¶ˆæ¯é˜Ÿåˆ—
 #ifndef M_MAX_MESSAGE_LIST
 #define M_MAX_MESSAGE_LIST (5000)
 #endif
 
-// expire¼ì²é¼ä¸ô
+// expireæ£€æŸ¥é—´éš”
 #ifndef M_EXPIRE_CHECK_INTERVAL
 #define M_EXPIRE_CHECK_INTERVAL (15)
 #endif
 
-// expireÊ±³¤
+// expireæ—¶é•¿
 #ifndef M_EXPIRE_INTERVAL
 #define M_EXPIRE_INTERVAL (30)
 #endif
 
 enum ConnType {
 	Enum_ConnType_Router = 1,
-};
-
-struct ConnInfo {
-	int conn_type;
-	int serial_num;
-	int port;
-	char ip[65];
-
-	std::string ToString();
 };
 
 class NetIoHandler : public netiolib::NetIo {
@@ -55,15 +46,7 @@ public:
 
 	netiolib::TcpSocketPtr GetSocketPtr(base::s_int64_t fd);
 
-	bool ConnectOne(const std::string& addr, base::s_uint16_t port,
-		int conn_type, int serial_num);
-
-	void ConnectOneHttp(const std::string& addr, base::s_uint16_t port,
-		int conn_type, int serial_num);
-
 protected:
-	void _ConnectOne(ConnInfo* info);
-
 	virtual void OnConnection(netiolib::TcpConnectorPtr& clisock, SocketLib::SocketError error);
 
 	virtual void OnConnection(netiolib::TcpSocketPtr& clisock);
@@ -86,7 +69,7 @@ protected:
 	void OnReceiveData(netiolib::TcpConnectorPtr& clisock, const base::s_byte_t* data, base::s_uint32_t len) override;
 
 protected:
-	// ¿ÕÊµÏÖ
+	// ç©ºå®ç°
 	void OnConnected(netiolib::HttpSocketPtr& clisock) override {}
 	void OnConnected(netiolib::HttpConnectorPtr& clisock, SocketLib::SocketError error) override {}
 	void OnDisconnected(netiolib::HttpSocketPtr& clisock) override {}

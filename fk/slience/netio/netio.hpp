@@ -1,14 +1,14 @@
 /*----------------------------------------------------------------
 // Copyright (C) 2017 public
 //
-// ĞŞ¸ÄÈË£ºxiaoquanjie
-// Ê±¼ä£º2017/11/10
+// ä¿®æ”¹äººï¼šxiaoquanjie
+// æ—¶é—´ï¼š2017/11/10
 //
-// ĞŞ¸ÄÈË£ºxiaoquanjie
-// Ê±¼ä£º
-// ĞŞ¸ÄËµÃ÷£º
+// ä¿®æ”¹äººï¼šxiaoquanjie
+// æ—¶é—´ï¼š
+// ä¿®æ”¹è¯´æ˜ï¼š
 //
-// °æ±¾£ºV1.0.0
+// ç‰ˆæœ¬ï¼šV1.0.0
 //----------------------------------------------------------------*/
 
 #pragma once
@@ -45,64 +45,89 @@ public:
 
 	virtual ~NetIo();
 
-	// ½¨Á¢Ò»¸ö¼àÌı
-	bool ListenOne(const SocketLib::Tcp::EndPoint& ep);
-	bool ListenOne(const std::string& addr, base::s_uint16_t port);
+	// å»ºç«‹ä¸€ä¸ªç›‘å¬
+	bool ListenOne(const std::string& addr, 
+		base::s_uint16_t port, 
+		int listen_type, 
+		int listen_num = 0);
 
-	// ½¨Á¢Ò»¸öhttp¼àÌı
-	bool ListenOneHttp(const SocketLib::Tcp::EndPoint& ep);
-	bool ListenOneHttp(const std::string& addr, base::s_uint16_t port);
+	// å»ºç«‹ä¸€ä¸ªhttpç›‘å¬
+	bool ListenOneHttp(const std::string& addr,
+		base::s_uint16_t port,
+		int listen_type,
+		int listen_num = 0);
 
-	// Òì²½½¨½Ó
-	void ConnectOne(const SocketLib::Tcp::EndPoint& ep);
-	void ConnectOne(const std::string& addr, base::s_uint16_t port);
+	// å¼‚æ­¥å»ºæ¥
+	void ConnectOne(const std::string& addr, 
+		base::s_uint16_t port,
+		int conn_type,
+		int conn_num = 0);
 
-	void ConnectOneHttp(const SocketLib::Tcp::EndPoint& ep);
-	void ConnectOneHttp(const std::string& addr, base::s_uint16_t port);
+	void ConnectOneHttp(const std::string& addr,
+		base::s_uint16_t port,
+		int conn_type,
+		int conn_num = 0);
 
 	virtual void Start(unsigned int thread_cnt, bool isco = false);
+	
 	virtual void Stop();
+	
 	virtual void RunHandler();
+	
 	size_t  ServiceCount();
 
-	// »ñÈ¡×îºóµÄÒì³£
+	// è·å–æœ€åçš„å¼‚å¸¸
 	SocketLib::SocketError GetLastError()const;
+	
 	SocketLib::IoService& GetIoService();
+	
 	base::s_uint32_t LocalEndian()const;
 
 	/*
-	*ÒÔÏÂÈı¸öº¯Êı¶¨ÒåÎªĞéº¯Êı£¬ÒÔ±ã¸ù¾İÊµ¼ÊÒµÎñµÄÄ£Ê½À´×ö¾ßÌåÄ£Ê½µÄÏûÏ¢°ü·Ö·¢´¦Àí¡£
-	*±£Ö¤Í¬Ò»¸ösocket£¬ÒÔÏÂÈı¸öº¯ÊıµÄµ÷ÓÃ×ñÑ­OnConnected -> OnReceiveData -> OnDisconnectedµÄË³Ğò¡£
-	*±£Ö¤Í¬Ò»¸ösocket£¬ÒÔÏÂºóÁ½¸öº¯ÊıµÄµ÷ÓÃ¶¼ÔÚÍ¬Ò»¸öÏß³ÌÖĞ
+	*ä»¥ä¸‹ä¸‰ä¸ªå‡½æ•°å®šä¹‰ä¸ºè™šå‡½æ•°ï¼Œä»¥ä¾¿æ ¹æ®å®é™…ä¸šåŠ¡çš„æ¨¡å¼æ¥åšå…·ä½“æ¨¡å¼çš„æ¶ˆæ¯åŒ…åˆ†å‘å¤„ç†ã€‚
+	*ä¿è¯åŒä¸€ä¸ªsocketï¼Œä»¥ä¸‹ä¸‰ä¸ªå‡½æ•°çš„è°ƒç”¨éµå¾ªOnConnected -> OnReceiveData -> OnDisconnectedçš„é¡ºåºã€‚
+	*ä¿è¯åŒä¸€ä¸ªsocketï¼Œä»¥ä¸‹åä¸¤ä¸ªå‡½æ•°çš„è°ƒç”¨éƒ½åœ¨åŒä¸€ä¸ªçº¿ç¨‹ä¸­
 	*/
 
-	// Á¬ÏßÍ¨Öª,Õâ¸öº¯ÊıÀï²»Òª´¦ÀíÒµÎñ£¬·ÀÖ¹¶ÂÈû
+	// è¿çº¿é€šçŸ¥,è¿™ä¸ªå‡½æ•°é‡Œä¸è¦å¤„ç†ä¸šåŠ¡ï¼Œé˜²æ­¢å µå¡
 	virtual void OnConnected(TcpSocketPtr& clisock);
+	
 	virtual void OnConnected(TcpConnectorPtr& clisock, SocketLib::SocketError error);
+	
 	virtual void OnConnected(HttpSocketPtr& clisock);
+	
 	virtual void OnConnected(HttpConnectorPtr& clisock, SocketLib::SocketError error);
 
-	// µôÏßÍ¨Öª,Õâ¸öº¯ÊıÀï²»Òª´¦ÀíÒµÎñ£¬·ÀÖ¹¶ÂÈû
+	// æ‰çº¿é€šçŸ¥,è¿™ä¸ªå‡½æ•°é‡Œä¸è¦å¤„ç†ä¸šåŠ¡ï¼Œé˜²æ­¢å µå¡
 	virtual void OnDisconnected(TcpSocketPtr& clisock);
+	
 	virtual void OnDisconnected(TcpConnectorPtr& clisock);
+	
 	virtual void OnDisconnected(HttpSocketPtr& clisock);
+	
 	virtual void OnDisconnected(HttpConnectorPtr& clisock);
 
-	// Êı¾İ°üÍ¨Öª,Õâ¸öº¯ÊıÀï²»Òª´¦ÀíÒµÎñ£¬·ÀÖ¹¶ÂÈû
+	// æ•°æ®åŒ…é€šçŸ¥,è¿™ä¸ªå‡½æ•°é‡Œä¸è¦å¤„ç†ä¸šåŠ¡ï¼Œé˜²æ­¢å µå¡
 	virtual void OnReceiveData(TcpSocketPtr& clisock, const base::s_byte_t* data, base::s_uint32_t len);
+	
 	virtual void OnReceiveData(TcpConnectorPtr& clisock, const base::s_byte_t* data, base::s_uint32_t len);
+	
 	virtual void OnReceiveData(HttpSocketPtr& clisock, HttpSvrRecvMsg& httpmsg);
+	
 	virtual void OnReceiveData(HttpConnectorPtr& clisock, HttpCliRecvMsg& httpmsg);
 
 protected:
 	void _Start(void*p);
+	
 	void _AcceptHandler(SocketLib::SocketError error, TcpSocketPtr& clisock, 
 		TcpAcceptorPtr& acceptor);
+	
 	void _AcceptHttpHandler(SocketLib::SocketError error, HttpSocketPtr& clisock, 
 		TcpAcceptorPtr& acceptor);
 
 protected:
 	NetIo(const NetIo&);
+	
 	NetIo& operator=(const NetIo&);
 
 protected:

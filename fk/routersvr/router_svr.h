@@ -6,6 +6,10 @@
 #include "protolib/src/routersvr_config.pb.h"
 #include "commonlib/svr_base/server_cfg.h"
 
+enum {
+	e_listen_type_router = 1,
+};
+
 class RouterApplication : public ApplicationBase {
 protected:
 	int ServerType() override;

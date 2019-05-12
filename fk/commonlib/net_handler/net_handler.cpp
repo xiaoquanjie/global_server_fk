@@ -3,26 +3,6 @@
 #include "protolib/src/cmd.pb.h"
 #include "protolib/src/svr_base.pb.h"
 #include <sstream>
-std::string ConnInfo::ToString() {
-	std::ostringstream oss;
-	oss << "{conn_type: " << conn_type;
-	oss << ", serial_num: " << serial_num;
-	oss << ", ip: " << ip;
-	oss << ", port: " << port;
-	oss << "}";
-	return oss.str();
-}
-
-ConnInfo* MakeConnInfo(const std::string& addr, base::s_uint16_t port,
-	int conn_type, int serial_num) {
-	ConnInfo* pinfo = (ConnInfo*)malloc(sizeof(ConnInfo));
-	pinfo->conn_type = conn_type;
-	pinfo->serial_num = serial_num;
-	pinfo->port = port;
-	memcpy(pinfo->ip, addr.c_str(), addr.length());
-	pinfo->ip[addr.length()] = 0;
-	return pinfo;
-}
 
 int NetIoHandler::Init(base::timestamp& now, callback_type callback) {
 	_now = &now;
@@ -247,35 +227,6 @@ netiolib::TcpSocketPtr NetIoHandler::GetSocketPtr(base::s_int64_t fd) {
 	return netiolib::TcpSocketPtr();
 }
 
-bool NetIoHandler::ConnectOne(const std::string& addr, base::s_uint16_t port,
-	int conn_type, int serial_num) {
-	ConnInfo* pinfo = MakeConnInfo(addr, port, conn_type, serial_num);
-	_ConnectOne(pinfo);
-	return true;
-}
-
-void NetIoHandler::ConnectOneHttp(const std::string& addr, base::s_uint16_t port,
-	int conn_type, int serial_num) {
-	try {
-		ConnInfo* pinfo = MakeConnInfo(addr, port, conn_type, serial_num);
-		SocketLib::Tcp::EndPoint ep(SocketLib::AddressV4(addr), port);
-		netiolib::HttpConnectorPtr connector(new netiolib::HttpConnector(*this));
-		connector->SetExtData(pinfo);
-		connector->AsyncConnect(ep);
-		connector.reset();
-	}
-	catch (...) {
-	}
-}
-
-void NetIoHandler::_ConnectOne(ConnInfo* info) {
-	SocketLib::SocketError error;
-	netiolib::TcpConnectorPtr connector(new netiolib::TcpConnector(*this));
-	connector->SetExtData(info);
-	SocketLib::Tcp::EndPoint ep(SocketLib::AddressV4(info->ip), info->port);
-	connector->AsyncConnect(ep, error);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 
 void NetIoHandler::OnConnection(netiolib::TcpConnectorPtr& clisock, SocketLib::SocketError error) {
@@ -306,11 +257,14 @@ void NetIoHandler::OnConnection(netiolib::TcpConnectorPtr& clisock, SocketLib::S
 		}
 	}
 	else {
-		// Ä¬ÈÏÊÇÖØÁ¬
-		ConnInfo* pinfo = (ConnInfo*)clisock->GetExtData();
-		LogError(pinfo->ToString() << " connect fail, try to reconnect");
-		ConnInfo* new_info = MakeConnInfo(pinfo->ip, pinfo->port, pinfo->conn_type, pinfo->serial_num);
-		_ConnectOne(new_info);
+		// é»˜è®¤æ˜¯é‡è¿ž
+		const auto& ep = clisock->RemoteEndpoint();
+		LogError("ip:"
+			<< ep.Address()
+			<< " port:"
+			<< ep.Port()
+			<< " connect fail, try to reconnect");
+		ConnectOne(ep.Address(), ep.Port(), clisock->GetListenConnType(), clisock->GetListenConnNum());
 	}
 }
 
@@ -342,7 +296,7 @@ void NetIoHandler::OnConnection(netiolib::TcpSocketPtr& clisock) {
 }
 
 void NetIoHandler::OnDisConnection(netiolib::TcpConnectorPtr& clisock) {
-	// Ö»ÊÇ´Ó_tcp_connector_containerÈÝÆ÷ÀïÉ¾³ýfd
+	// åªæ˜¯ä»Ž_tcp_connector_containerå®¹å™¨é‡Œåˆ é™¤fd
 	base::s_int64_t fd = M_TCP_CONNECTOR_FD_FLAG | clisock->GetFd();
 	auto &fd_index = _tcp_connector_container.get<tag_socket_context_fd>();
 	auto iter = fd_index.find(fd);
