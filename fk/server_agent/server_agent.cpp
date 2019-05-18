@@ -27,8 +27,7 @@ void AgentApplication::OnStopNetWork() {
 }
 
 int AgentApplication::UpdateNetWork() {
-	NetIoHandlerSgl.Update();
-	return 0;
+	return NetIoHandlerSgl.Update();
 }
 
 int AgentApplication::OnInit() {

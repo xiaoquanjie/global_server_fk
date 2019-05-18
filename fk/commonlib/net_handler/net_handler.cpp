@@ -3,6 +3,7 @@
 #include "protolib/src/cmd.pb.h"
 #include "protolib/src/svr_base.pb.h"
 #include <sstream>
+#include "commonlib/svr_base/svralloc.h"
 
 int NetIoHandler::Init(base::timestamp& now, callback_type callback) {
 	_now = &now;
@@ -14,10 +15,7 @@ int NetIoHandler::Init(base::timestamp& now, callback_type callback) {
 int NetIoHandler::Update() {
 	static base::svector<TcpSocketMsg*> tmp_tcp_socket_msg_list;
 	static base::svector<TcpConnectorMsg*> tmp_tcp_connector_msg_list;
-
-	auto &tcp_socket_fd_index = _tcp_socket_container.get<tag_socket_context_fd>();
-	auto &tcp_conn_fd_index = _tcp_connector_container.get<tag_socket_context_fd>();
-
+	
 	// swap message
 	if (_tcp_socket_msg_list.size() || _tcp_connector_msg_list.size()) {
 		_msg_lock.lock();
@@ -25,8 +23,12 @@ int NetIoHandler::Update() {
 		tmp_tcp_connector_msg_list.swap(_tcp_connector_msg_list);
 		_msg_lock.unlock();
 	}
+	else {
+		return -1;
+	}
 
 	// process connector msglist
+	auto &tcp_conn_fd_index = _tcp_connector_container.get<tag_socket_context_fd>();
 	for (size_t idx = 0; idx < tmp_tcp_connector_msg_list.size(); ++idx) {
 		TcpConnectorMsg* pmsg = tmp_tcp_connector_msg_list[idx];
 		if (pmsg->type == M_SOCKET_DATA) {
@@ -55,8 +57,8 @@ int NetIoHandler::Update() {
 		}
 	}
 	
-
 	// process tcp socket msg list
+	auto &tcp_socket_fd_index = _tcp_socket_container.get<tag_socket_context_fd>();
 	for (size_t idx = 0; idx < tmp_tcp_socket_msg_list.size(); ++idx) {
 		TcpSocketMsg* pmsg = tmp_tcp_socket_msg_list[idx];
 		if (pmsg->type == M_SOCKET_DATA) {
@@ -85,39 +87,18 @@ int NetIoHandler::Update() {
 		}
 	}
 	
-	if (tmp_tcp_connector_msg_list.empty() && tmp_tcp_socket_msg_list.empty()) {
-		// no message to process
-		return -1;
-	}
-
-	// recycle msg buffer
+	// 回收
 	_msg_lock.lock();
-	// tmp_tcp_connector_msg_list
-	while (tmp_tcp_connector_msg_list.size()) {
-		auto pmsg = tmp_tcp_connector_msg_list.back();
-		if (_tcp_connector_msg_list2.size() < _msg_cache_size) {
-			_tcp_connector_msg_list2.push_back(pmsg);
-		}
-		else {
-			delete pmsg;
-		}
-		tmp_tcp_connector_msg_list.pop_back();
+	for (size_t idx = 0; idx < tmp_tcp_connector_msg_list.size(); ++idx) {
+		TcpConnectorMsgAlloc::Dealloc(tmp_tcp_connector_msg_list[idx]);
 	}
-
-	// tmp_tcp_socket_msg_list
-	while (tmp_tcp_socket_msg_list.size()) {
-		auto pmsg = tmp_tcp_socket_msg_list.back();
-		if (_tcp_socket_msg_list2.size() < _msg_cache_size) {
-			_tcp_socket_msg_list2.push_back(pmsg);
-		}
-		else {
-			delete pmsg;
-		}
-		tmp_tcp_socket_msg_list.pop_back();
+	for (size_t idx = 0; idx < tmp_tcp_socket_msg_list.size(); ++idx) {
+		TcpSocketMsgAlloc::Dealloc(tmp_tcp_socket_msg_list[idx]);
 	}
 	_msg_lock.unlock();
 
-	// 
+	tmp_tcp_connector_msg_list.clear();
+	tmp_tcp_socket_msg_list.clear();
 	return 0;
 }
 
@@ -334,7 +315,7 @@ void NetIoHandler::OnDisConnection(netiolib::TcpSocketPtr& clisock) {
 
 void NetIoHandler::OnConnected(netiolib::TcpSocketPtr& clisock) {
 	base::ScopedLock scoped(_msg_lock);
-	TcpSocketMsg* pMessage = CreateTcpSocketMsg();
+	TcpSocketMsg* pMessage = TcpSocketMsgAlloc::Alloc();
 	pMessage->ptr = clisock;
 	pMessage->type = M_SOCKET_IN;
 	_tcp_socket_msg_list.push_back(pMessage);
@@ -342,7 +323,7 @@ void NetIoHandler::OnConnected(netiolib::TcpSocketPtr& clisock) {
 
 void NetIoHandler::OnConnected(netiolib::TcpConnectorPtr& clisock, SocketLib::SocketError error) {
 	base::ScopedLock scoped(_msg_lock);
-	TcpConnectorMsg* pMessage = CreateTcpConnectorMsg();
+	TcpConnectorMsg* pMessage = TcpConnectorMsgAlloc::Alloc();
 	pMessage->error = error;
 	pMessage->ptr = clisock;
 	pMessage->type = M_SOCKET_IN;
@@ -351,7 +332,7 @@ void NetIoHandler::OnConnected(netiolib::TcpConnectorPtr& clisock, SocketLib::So
 
 void NetIoHandler::OnDisconnected(netiolib::TcpSocketPtr& clisock) {
 	base::ScopedLock scoped(_msg_lock);
-	TcpSocketMsg* pMessage = CreateTcpSocketMsg();
+	TcpSocketMsg* pMessage = TcpSocketMsgAlloc::Alloc();
 	pMessage->ptr = clisock;
 	pMessage->type = M_SOCKET_OUT;
 	_tcp_socket_msg_list.push_back(pMessage);
@@ -359,7 +340,7 @@ void NetIoHandler::OnDisconnected(netiolib::TcpSocketPtr& clisock) {
 
 void NetIoHandler::OnDisconnected(netiolib::TcpConnectorPtr& clisock) {
 	base::ScopedLock scoped(_msg_lock);
-	TcpConnectorMsg* pMessage = CreateTcpConnectorMsg();
+	TcpConnectorMsg* pMessage = TcpConnectorMsgAlloc::Alloc();
 	pMessage->ptr = clisock;
 	pMessage->type = M_SOCKET_OUT;
 	_tcp_connector_msg_list.push_back(pMessage);
@@ -373,7 +354,7 @@ void NetIoHandler::OnReceiveData(netiolib::TcpSocketPtr& clisock, const base::s_
 		return;
 	}
 
-	TcpSocketMsg* pMessage = CreateTcpSocketMsg();
+	TcpSocketMsg* pMessage = TcpSocketMsgAlloc::Alloc();
 	pMessage->ptr = clisock;
 	pMessage->type = M_SOCKET_DATA;
 	pMessage->buf.Write(data, len);
@@ -388,36 +369,9 @@ void NetIoHandler::OnReceiveData(netiolib::TcpConnectorPtr& clisock, const base:
 		return;
 	}
 
-	TcpConnectorMsg* pMessage = CreateTcpConnectorMsg();
+	TcpConnectorMsg* pMessage = TcpConnectorMsgAlloc::Alloc();
 	pMessage->ptr = clisock;
 	pMessage->type = M_SOCKET_DATA;
 	pMessage->buf.Write(data, len);
 	_tcp_connector_msg_list.push_back(pMessage);
-}
-
-TcpSocketMsg* NetIoHandler::CreateTcpSocketMsg() {
-	TcpSocketMsg* pMessage = 0;
-	if (_tcp_socket_msg_list2.size() > 0) {
-		pMessage = _tcp_socket_msg_list2.back();
-		_tcp_socket_msg_list2.pop_back();
-	}
-	else {
-		pMessage = new TcpSocketMsg;
-	}
-	pMessage->Clear();
-	return pMessage;
-
-}
-
-TcpConnectorMsg* NetIoHandler::CreateTcpConnectorMsg() {
-	TcpConnectorMsg* pMessage = 0;
-	if (_tcp_connector_msg_list2.size() > 0) {
-		pMessage = _tcp_connector_msg_list2.back();
-		_tcp_connector_msg_list2.pop_back();
-	}
-	else {
-		pMessage = new TcpConnectorMsg;
-	}
-	pMessage->Clear();
-	return pMessage;
 }

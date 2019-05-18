@@ -10,6 +10,7 @@
 #include "commonlib/transaction/transaction_mgr.h"
 #include "commonlib/async/async_mysql_mgr.h"
 #include "commonlib/async/async_redis_mgr.h"
+#include "commonlib/svr_base/svralloc.h"
 
 /////////////////////////////////////////////////////////////
 
@@ -268,10 +269,7 @@ void ApplicationBase::Usage()const {
 }
 
 bool ApplicationBase::CheckReload() {
-	static base::timestamp last_check_time;
-	if ((GetNow().second() - last_check_time.second()) > 2) {
-		last_check_time = GetNow();
-
+	if (TickCount() % (100 * 3) == 0) {
 		static const char* filename = "_reload_";
 		FILE *fp = myfopen(filename, "r", _SH_DENYNO);
 		if (fp) {
@@ -284,13 +282,12 @@ bool ApplicationBase::CheckReload() {
 }
 
 int ApplicationBase::SendMsgToSelf(int cmd, base::s_uint64_t uid, const google::protobuf::Message& msg) {
-	// ÔÝÊ±ÏÞÖÆ4k
-	const int len = 4 * 1024;
-	char* buf = new char[len];
-
-	AppHeadFrame* frame = (AppHeadFrame*)buf;
-	char* ser_buf = buf + sizeof(AppHeadFrame);
-	msg.SerializePartialToArray(ser_buf, len - sizeof(AppHeadFrame));
+	// æš‚æ—¶é™åˆ¶4k
+	SelfMsg* buffer = SelfMsgAlloc::Alloc();
+	
+	AppHeadFrame* frame = (AppHeadFrame*)buffer->body;
+	char* ser_buf = buffer->body + sizeof(AppHeadFrame);
+	msg.SerializePartialToArray(ser_buf, SelfMsg::len - sizeof(AppHeadFrame));
 
 	frame->set_is_broadcast(false);
 	frame->set_src_svr_type(ServerType());
@@ -301,7 +298,7 @@ int ApplicationBase::SendMsgToSelf(int cmd, base::s_uint64_t uid, const google::
 	frame->set_cmd(cmd);
 	frame->set_cmd_length(msg.ByteSize());
 	frame->set_userid(uid);
-	_self_msg_queue.push(buf);
+	_self_msg_queue.push(buffer);
 	return 0;
 }
 

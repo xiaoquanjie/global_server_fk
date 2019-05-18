@@ -77,9 +77,6 @@ protected:
 	void OnReceiveData(netiolib::HttpSocketPtr& clisock, netiolib::HttpSvrRecvMsg& httpmsg) override {}
 	void OnReceiveData(netiolib::HttpConnectorPtr& clisock, netiolib::HttpCliRecvMsg& httpmsg) override {}
 
-	TcpSocketMsg* CreateTcpSocketMsg();
-	TcpConnectorMsg* CreateTcpConnectorMsg();
-
 protected:
 	size_t _msg_cache_size;
 	base::timestamp* _now;
@@ -93,9 +90,7 @@ protected:
 	// message list
 	base::MutexLock _msg_lock;
 	base::svector<TcpSocketMsg*> _tcp_socket_msg_list;
-	base::svector<TcpSocketMsg*> _tcp_socket_msg_list2;
 	base::svector<TcpConnectorMsg*> _tcp_connector_msg_list;
-	base::svector<TcpConnectorMsg*> _tcp_connector_msg_list2;
 
 	// socket container
 	TcpSocketContextContainer _tcp_socket_container;

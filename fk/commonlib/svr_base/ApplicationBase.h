@@ -72,6 +72,7 @@ protected:
 
 	bool CheckReload();
 
+	void PrintStatus();
 protected:
 	ServerCfg<config::CommConf> _comm_config;
 	std::string _workdir;
@@ -86,14 +87,14 @@ protected:
 	int _daemon;
 	int _svr_thread_cnt;
 
-	// ¾«¶ÈÊÇ1 tick /100ºÁÃë
+	// ç²¾åº¦æ˜¯1 tick /10æ¯«ç§’
 	size_t _total_tick_count_;
 	base::timestamp _now;
 	
 	// application state
 	static bool _app_exit;
 
-	std::queue<char*> _self_msg_queue;
+	std::queue<SelfMsg*> _self_msg_queue;
 };
 
 #endif

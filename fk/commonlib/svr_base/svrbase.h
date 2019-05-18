@@ -1,5 +1,4 @@
-#ifndef M_SVR_BASE_INCLUDE
-#define M_SVR_BASE_INCLUDE
+#pragma once
 
 #include "slience/base/buffer.hpp"
 #include "slience/netio/netio.h"
@@ -221,4 +220,9 @@ private:
 	time_t _tt;
 };
 
-#endif
+struct SelfMsg {
+	enum {
+		len = 4 * 1024,
+	};
+	char body[len];
+};

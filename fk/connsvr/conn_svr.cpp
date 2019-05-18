@@ -24,8 +24,7 @@ void ConnApplication::OnStopNetWork() {
 }
 
 int ConnApplication::UpdateNetWork() {
-	NetIoHandlerSgl.Update();
-	return 0;
+	return NetIoHandlerSgl.Update();
 }
 
 int ConnApplication::OnInit() {

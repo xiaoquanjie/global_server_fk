@@ -774,6 +774,9 @@
     <ClInclude Include="async\async_redis_mgr.h">
       <Filter>async</Filter>
     </ClInclude>
+    <ClInclude Include="svr_base\svralloc.h">
+      <Filter>svr_base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="BUILD" />
