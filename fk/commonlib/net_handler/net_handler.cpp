@@ -234,8 +234,6 @@ void NetIoHandler::OnConnection(netiolib::TcpConnectorPtr& clisock, SocketLib::S
 		// connect success
 		base::s_int64_t fd = M_TCP_CONNECTOR_FD_FLAG | clisock->GetFd();
 		TcpConnectorContext context;
-		context.svr_type = -1;
-		context.instid = 0;
 		context.fd = fd;
 		context.ptr = clisock;
 		context.msgcount = 0;
@@ -271,8 +269,6 @@ void NetIoHandler::OnConnection(netiolib::TcpConnectorPtr& clisock, SocketLib::S
 void NetIoHandler::OnConnection(netiolib::TcpSocketPtr& clisock) {
 	base::s_int64_t fd = M_TCP_FD_FLAG | clisock->GetFd();
 	TcpSocketContext context;
-	context.svr_type = -1;
-	context.instid = 0;
 	context.fd = fd;
 	context.ptr = clisock;
 	context.msgcount = 0;
@@ -323,11 +319,9 @@ void NetIoHandler::OnDisConnection(netiolib::TcpSocketPtr& clisock) {
 		LogError("fd: " << fd << " not exist, this is a big bug!!!!!!!!!!!!!!!!!");
 	}
 	else {
-		int instid = iter->instid;
 		proto::SocketClientOut client_out;
 		std::string str = client_out.SerializeAsString();
 		AppHeadFrame frame;
-		frame.set_dst_inst_id(instid);
 		frame.set_cmd(proto::CMD::CMD_SOCKET_CLIENT_OUT);
 
 		LogInfo("connection broken, remote_ip: " << clisock->RemoteEndpoint().Address() << " fd: " << fd << " time: " << GetNow().format_ymd_hms());

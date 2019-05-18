@@ -25,17 +25,17 @@ struct AppHeadFrame {
 #else
 struct __attribute__((__packed__)) AppHeadFrame {
 #endif
-	GETSETVAR(base::s_uint16_t, is_broadcast);			// ÏûÏ¢ÊÇ·ñ¹ã²¥
-	GETSETVAR(base::s_uint32_t, src_svr_type);			// Ô´·şÎñÆ÷ÀàĞÍ
-	GETSETVAR(base::s_uint32_t, dst_svr_type);			// Ä¿±ê·şÎñÆ÷ÀàĞÍ
-	GETSETVAR(base::s_uint32_t, src_inst_id);			// Ô´·şÎñÆ÷ÊµÀı
-	GETSETVAR(base::s_uint32_t, dst_inst_id);			// Ä¿±ê·şÎñÆ÷ÊµÀı
-	GETSETVAR(base::s_uint32_t, src_trans_id);			// Ô´ÊÂÎñid
-	GETSETVAR(base::s_uint32_t, dst_trans_id);			// Ä¿±êÊÂÎñid
+	GETSETVAR(base::s_uint16_t, is_broadcast);			// æ¶ˆæ¯æ˜¯å¦å¹¿æ’­
+	GETSETVAR(base::s_uint32_t, src_svr_type);			// æºæœåŠ¡å™¨ç±»å‹
+	GETSETVAR(base::s_uint32_t, dst_svr_type);			// ç›®æ ‡æœåŠ¡å™¨ç±»å‹
+	GETSETVAR(base::s_uint32_t, src_inst_id);			// æºæœåŠ¡å™¨å®ä¾‹
+	GETSETVAR(base::s_uint32_t, dst_inst_id);			// ç›®æ ‡æœåŠ¡å™¨å®ä¾‹
+	GETSETVAR(base::s_uint32_t, src_trans_id);			// æºäº‹åŠ¡id
+	GETSETVAR(base::s_uint32_t, dst_trans_id);			// ç›®æ ‡äº‹åŠ¡id
 	GETSETVAR(base::s_uint32_t, cmd);					// cmd
-	GETSETVAR(base::s_uint32_t, cmd_length);			// cmd³¤¶È
+	GETSETVAR(base::s_uint32_t, cmd_length);			// cmdé•¿åº¦
 	GETSETVAR(base::s_uint64_t, userid);				// user id
-	GETSETVAR(base::s_uint32_t, req_random);			// cmd³¤¶È
+	GETSETVAR(base::s_uint32_t, req_random);			// cmdé•¿åº¦
 
 public:
 	AppHeadFrame() {
@@ -139,8 +139,6 @@ public:
 
 // context
 struct TcpSocketContext {
-	int svr_type;
-	int instid;
 	base::s_int64_t fd;
 	int msgcount;
 	time_t tt;
@@ -148,8 +146,6 @@ struct TcpSocketContext {
 };
 
 struct TcpConnectorContext {
-	int svr_type;
-	int instid;
 	base::s_int64_t fd;
 	int msgcount;
 	time_t tt;
@@ -223,27 +219,6 @@ public:
 private:
 	int _cnt;
 	time_t _tt;
-};
-
-// add instance id
-class FuncAddSocketContextInstId {
-public:
-	FuncAddSocketContextInstId(int svr_type, int instid) {
-		_svr_type = svr_type;
-		_instid = instid;
-	}
-
-	void operator()(TcpSocketContext& ctxt) {
-		ctxt.instid = _instid;
-	}
-
-	void operator()(TcpConnectorContext& ctxt) {
-		ctxt.instid = _instid;
-	}
-
-private:
-	int _svr_type;
-	int _instid;
 };
 
 #endif

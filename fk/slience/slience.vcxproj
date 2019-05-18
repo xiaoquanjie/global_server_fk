@@ -144,6 +144,7 @@
     <ClInclude Include="base\md5.hpp" />
     <ClInclude Include="base\md5_helper.ipp" />
     <ClInclude Include="base\mutexlock.hpp" />
+    <ClInclude Include="base\newonce_pool.h" />
     <ClInclude Include="base\noncopyable.hpp" />
     <ClInclude Include="base\object_pool.h" />
     <ClInclude Include="base\random.hpp" />

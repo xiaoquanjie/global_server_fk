@@ -243,6 +243,9 @@
     <ClInclude Include="netio\netio.h">
       <Filter>netio</Filter>
     </ClInclude>
+    <ClInclude Include="base\newonce_pool.h">
+      <Filter>base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\buffer.cpp">

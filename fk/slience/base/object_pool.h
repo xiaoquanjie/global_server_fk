@@ -8,7 +8,7 @@
 M_BASE_NAMESPACE_BEGIN
 
 
-template<typename T, typename LockMode = base::FakeLock>
+template<typename T, int MaxAllocNum = 10000, typename LockMode = base::FakeLock>
 class ObjectPool {
 	struct ObjectPoolInfo {
 		ObjectPoolInfo() {
@@ -116,19 +116,23 @@ public:
 	static void Dealloc(T* elem) {
 		base::ScopedLock lock(_info._lock);
 		elem->~T();
-		memset(elem, 0xfe, _info._elemsize);
-		_info._numalloc--;
-		*(reinterpret_cast<T**>(elem)) = _info._listhead;
-		_info._listhead = elem;
+		if (_info._numalloc > MaxAllocNum) {
+			_info._numalloc--;
+			free(elem);
+		}
+		else {
+			*(reinterpret_cast<T**>(elem)) = _info._listhead;
+			_info._listhead = elem;
+		}
 	}
 
 protected:
 	static T* _alloc() {
 		base::ScopedLock lock(_info._lock);
 		T* ret = 0;
-		_info._numalloc++;
 		if (_info._listhead == NULL) {
 			ret = (T*)malloc(_info._elemsize);
+			_info._numalloc++;
 		}
 		else {
 			ret = _info._listhead;
@@ -142,9 +146,9 @@ protected:
 	static ObjectPoolInfo _info;
 };
 
-template<typename T, typename LockMode>
-typename ObjectPool<T, LockMode>::ObjectPoolInfo
-ObjectPool<T, LockMode>::_info;
+template<typename T, int MaxAllocNum, typename LockMode>
+typename ObjectPool<T, MaxAllocNum, LockMode>::ObjectPoolInfo
+ObjectPool<T, MaxAllocNum, LockMode>::_info;
 
 M_BASE_NAMESPACE_END
 
