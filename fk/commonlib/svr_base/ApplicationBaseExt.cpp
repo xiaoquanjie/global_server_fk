@@ -18,13 +18,14 @@ int ApplicationBase::Run() {
 			_total_tick_count_ += 1;
 			_now = t_now;
 			OnTick(_now);
+			PrintStatus();
+			if (CheckReload()) {
+				LogInfo("reload begin.................");
+				OnReload();
+				LogInfo("reload end....................");
+			}
 		}
 		TransactionMgr::Update(_now);
-		if (CheckReload()) {
-			LogInfo("reload begin.................");
-			OnReload();
-			LogInfo("reload end....................");
-		}
 		if (0 == UpdateNetWork()) {
 			is_idle = false;
 		}
@@ -52,7 +53,6 @@ int ApplicationBase::Run() {
 			TransactionMgr::ProcessFrame(0, ServerType(), InstanceId(), frame, msg->body + sizeof(AppHeadFrame));
 			SelfMsgAlloc::Dealloc(msg);
 		}
-		PrintStatus();
 		if (is_idle) {
 			idle_count++;
 		}
