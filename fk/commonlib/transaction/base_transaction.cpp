@@ -19,6 +19,7 @@ void Transaction::Construct() {
 	_cur_frame_data = 0;
 	_self_svr_type = 0;
 	_self_inst_id = 0;
+	_self_svr_zone = 0;
 	_state = E_STATE_IDLE;
 	_timer_id = 0;
 	_req_random = 0;
@@ -52,8 +53,10 @@ int Transaction::ParseMsg(google::protobuf::Message& message) {
 	}
 }
 
-int Transaction::Process(base::s_int64_t fd, base::s_uint32_t self_svr_type,
+int Transaction::Process(base::s_int64_t fd,
+	base::s_uint32_t self_svr_type,
 	base::s_uint32_t self_inst_id,
+	base::s_uint32_t self_svr_zone,
 	const AppHeadFrame& frame, const char* data) {
 	if (req_random() != 0) {
 		if (req_random() != frame.get_req_random()) {
@@ -67,6 +70,7 @@ int Transaction::Process(base::s_int64_t fd, base::s_uint32_t self_svr_type,
 		_fd = fd;
 		_self_svr_type = self_svr_type;
 		_self_inst_id = self_inst_id;
+		_self_svr_zone = self_svr_zone;
 		_ori_frame = frame;
 	}
 	else {
@@ -150,15 +154,15 @@ Transaction::Wait_Return Transaction::Wait(int interval) {
 }
 
 int Transaction::OnIdle() {
-	// ·ÖÅätrans_id
+	// åˆ†é…trans_id
 	_trans_id = TransactionMgr::GeneratorTransId();
-	// Æô¶¯Ğ­³Ì
+	// å¯åŠ¨åç¨‹
 	coroutine::CoroutineTask::doTask(&TransactionMgr::CoroutineEnter, (void*)this);
 	return 0;
 }
 
 int Transaction::OnActive() {
-	// »½ĞÑĞ­³Ì
+	// å”¤é†’åç¨‹
 	if (0 != co_id()) {
 		coroutine::CoroutineTask::resumeTask(co_id());
 	}
@@ -166,7 +170,7 @@ int Transaction::OnActive() {
 }
 
 int Transaction::OnTimeOut() {
-	// »½ĞÑĞ­³Ì
+	// å”¤é†’åç¨‹
 	_timer_id = 0;
 	if (0 != co_id()) {
 		set_req_random(0);
@@ -310,7 +314,7 @@ int Transaction::SendMsgByFd(int cmd, google::protobuf::Message& request
 	return 0;
 }
 
-// ĞèÒª×¢ÒâÒ»ÏÂ·µ»ØÖµ
+// éœ€è¦æ³¨æ„ä¸€ä¸‹è¿”å›å€¼
 int Transaction::MysqlQuery(base::s_uint64_t orderid,
 	const std::string& url,
 	const std::string& sql,
@@ -360,7 +364,7 @@ int Transaction::MysqlQuery(base::s_uint64_t orderid,
 				<< " ,sql:"
 				<< sql;
 			);
-			// ÖØ¼ü´íÎó¡¡
+			// é‡é”®é”™è¯¯ã€€
 			ret = rsp->is_dup_entry ? E_MYSQL_DUP_KEY : E_MYSQL_ERROR;
 			break;
 		}
@@ -464,6 +468,10 @@ base::s_uint32_t Transaction::self_svr_type() {
 
 base::s_uint32_t Transaction::self_inst_id() {
 	return _self_inst_id;
+}
+
+base::s_uint32_t Transaction::self_svr_zone() {
+	return _self_svr_zone;
 }
 
 void Transaction::set_co_id(base::s_int32_t id) {

@@ -16,7 +16,7 @@ class RouterMgr {
 public:
 	RouterMgr();
 
-	int Init(int self_svr_type, int self_inst_id);
+	int Init(int self_svr_type, int self_inst_id, int self_server_zone);
 
 	int Reload();
 
@@ -45,6 +45,7 @@ public:
 
 	int SelfInstanceId();
 
+	int SelfServerZone();
 protected:
 	int ConnectRouters();
 
@@ -56,6 +57,7 @@ private:
 
 	int _self_server_type;
 	int _self_instance_id;
+	int _self_server_zone;
 };
 
 #ifndef RouterMgrSgl

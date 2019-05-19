@@ -37,20 +37,17 @@ namespace protobuf_routersvr_5fconfig_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[3];
+  static const ::google::protobuf::internal::ParseTable schema[2];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
-void InitDefaultsRouterListenInfoImpl();
-void InitDefaultsRouterListenInfo();
 void InitDefaultsPolicyImpl();
 void InitDefaultsPolicy();
 void InitDefaultsRouterSvrConfigImpl();
 void InitDefaultsRouterSvrConfig();
 inline void InitDefaults() {
-  InitDefaultsRouterListenInfo();
   InitDefaultsPolicy();
   InitDefaultsRouterSvrConfig();
 }
@@ -59,9 +56,6 @@ namespace config {
 class Policy;
 class PolicyDefaultTypeInternal;
 extern PolicyDefaultTypeInternal _Policy_default_instance_;
-class RouterListenInfo;
-class RouterListenInfoDefaultTypeInternal;
-extern RouterListenInfoDefaultTypeInternal _RouterListenInfo_default_instance_;
 class RouterSvrConfig;
 class RouterSvrConfigDefaultTypeInternal;
 extern RouterSvrConfigDefaultTypeInternal _RouterSvrConfig_default_instance_;
@@ -90,134 +84,6 @@ inline bool PolicyType_Parse(
     PolicyType_descriptor(), name, value);
 }
 // ===================================================================
-
-class RouterListenInfo : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:config.RouterListenInfo) */ {
- public:
-  RouterListenInfo();
-  virtual ~RouterListenInfo();
-
-  RouterListenInfo(const RouterListenInfo& from);
-
-  inline RouterListenInfo& operator=(const RouterListenInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  RouterListenInfo(RouterListenInfo&& from) noexcept
-    : RouterListenInfo() {
-    *this = ::std::move(from);
-  }
-
-  inline RouterListenInfo& operator=(RouterListenInfo&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields();
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const RouterListenInfo& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const RouterListenInfo* internal_default_instance() {
-    return reinterpret_cast<const RouterListenInfo*>(
-               &_RouterListenInfo_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    0;
-
-  void Swap(RouterListenInfo* other);
-  friend void swap(RouterListenInfo& a, RouterListenInfo& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline RouterListenInfo* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  RouterListenInfo* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const RouterListenInfo& from);
-  void MergeFrom(const RouterListenInfo& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(RouterListenInfo* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // optional string listen_ip = 1;
-  bool has_listen_ip() const;
-  void clear_listen_ip();
-  static const int kListenIpFieldNumber = 1;
-  const ::std::string& listen_ip() const;
-  void set_listen_ip(const ::std::string& value);
-  #if LANG_CXX11
-  void set_listen_ip(::std::string&& value);
-  #endif
-  void set_listen_ip(const char* value);
-  void set_listen_ip(const char* value, size_t size);
-  ::std::string* mutable_listen_ip();
-  ::std::string* release_listen_ip();
-  void set_allocated_listen_ip(::std::string* listen_ip);
-
-  // optional int32 listen_port = 2;
-  bool has_listen_port() const;
-  void clear_listen_port();
-  static const int kListenPortFieldNumber = 2;
-  ::google::protobuf::int32 listen_port() const;
-  void set_listen_port(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:config.RouterListenInfo)
- private:
-  void set_has_listen_ip();
-  void clear_has_listen_ip();
-  void set_has_listen_port();
-  void clear_has_listen_port();
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::HasBits<1> _has_bits_;
-  mutable int _cached_size_;
-  ::google::protobuf::internal::ArenaStringPtr listen_ip_;
-  ::google::protobuf::int32 listen_port_;
-  friend struct ::protobuf_routersvr_5fconfig_2eproto::TableStruct;
-  friend void ::protobuf_routersvr_5fconfig_2eproto::InitDefaultsRouterListenInfoImpl();
-};
-// -------------------------------------------------------------------
 
 class Policy : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:config.Policy) */ {
  public:
@@ -261,7 +127,7 @@ class Policy : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
                &_Policy_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
+    0;
 
   void Swap(Policy* other);
   friend void swap(Policy& a, Policy& b) {
@@ -381,7 +247,7 @@ class RouterSvrConfig : public ::google::protobuf::Message /* @@protoc_insertion
                &_RouterSvrConfig_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+    1;
 
   void Swap(RouterSvrConfig* other);
   friend void swap(RouterSvrConfig& a, RouterSvrConfig& b) {
@@ -474,12 +340,21 @@ class RouterSvrConfig : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::int32 svr_inst_id() const;
   void set_svr_inst_id(::google::protobuf::int32 value);
 
+  // optional int32 svr_zone = 5;
+  bool has_svr_zone() const;
+  void clear_svr_zone();
+  static const int kSvrZoneFieldNumber = 5;
+  ::google::protobuf::int32 svr_zone() const;
+  void set_svr_zone(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:config.RouterSvrConfig)
  private:
   void set_has_listen_ip();
   void clear_has_listen_ip();
   void set_has_svr_inst_id();
   void clear_has_svr_inst_id();
+  void set_has_svr_zone();
+  void clear_has_svr_zone();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -488,6 +363,7 @@ class RouterSvrConfig : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::RepeatedPtrField< ::config::Policy > policy_list_;
   ::google::protobuf::internal::ArenaStringPtr listen_ip_;
   ::google::protobuf::int32 svr_inst_id_;
+  ::google::protobuf::int32 svr_zone_;
   friend struct ::protobuf_routersvr_5fconfig_2eproto::TableStruct;
   friend void ::protobuf_routersvr_5fconfig_2eproto::InitDefaultsRouterSvrConfigImpl();
 };
@@ -500,97 +376,6 @@ class RouterSvrConfig : public ::google::protobuf::Message /* @@protoc_insertion
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// RouterListenInfo
-
-// optional string listen_ip = 1;
-inline bool RouterListenInfo::has_listen_ip() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void RouterListenInfo::set_has_listen_ip() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void RouterListenInfo::clear_has_listen_ip() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void RouterListenInfo::clear_listen_ip() {
-  listen_ip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  clear_has_listen_ip();
-}
-inline const ::std::string& RouterListenInfo::listen_ip() const {
-  // @@protoc_insertion_point(field_get:config.RouterListenInfo.listen_ip)
-  return listen_ip_.GetNoArena();
-}
-inline void RouterListenInfo::set_listen_ip(const ::std::string& value) {
-  set_has_listen_ip();
-  listen_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:config.RouterListenInfo.listen_ip)
-}
-#if LANG_CXX11
-inline void RouterListenInfo::set_listen_ip(::std::string&& value) {
-  set_has_listen_ip();
-  listen_ip_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:config.RouterListenInfo.listen_ip)
-}
-#endif
-inline void RouterListenInfo::set_listen_ip(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  set_has_listen_ip();
-  listen_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:config.RouterListenInfo.listen_ip)
-}
-inline void RouterListenInfo::set_listen_ip(const char* value, size_t size) {
-  set_has_listen_ip();
-  listen_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:config.RouterListenInfo.listen_ip)
-}
-inline ::std::string* RouterListenInfo::mutable_listen_ip() {
-  set_has_listen_ip();
-  // @@protoc_insertion_point(field_mutable:config.RouterListenInfo.listen_ip)
-  return listen_ip_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* RouterListenInfo::release_listen_ip() {
-  // @@protoc_insertion_point(field_release:config.RouterListenInfo.listen_ip)
-  clear_has_listen_ip();
-  return listen_ip_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void RouterListenInfo::set_allocated_listen_ip(::std::string* listen_ip) {
-  if (listen_ip != NULL) {
-    set_has_listen_ip();
-  } else {
-    clear_has_listen_ip();
-  }
-  listen_ip_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), listen_ip);
-  // @@protoc_insertion_point(field_set_allocated:config.RouterListenInfo.listen_ip)
-}
-
-// optional int32 listen_port = 2;
-inline bool RouterListenInfo::has_listen_port() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void RouterListenInfo::set_has_listen_port() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void RouterListenInfo::clear_has_listen_port() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void RouterListenInfo::clear_listen_port() {
-  listen_port_ = 0;
-  clear_has_listen_port();
-}
-inline ::google::protobuf::int32 RouterListenInfo::listen_port() const {
-  // @@protoc_insertion_point(field_get:config.RouterListenInfo.listen_port)
-  return listen_port_;
-}
-inline void RouterListenInfo::set_listen_port(::google::protobuf::int32 value) {
-  set_has_listen_port();
-  listen_port_ = value;
-  // @@protoc_insertion_point(field_set:config.RouterListenInfo.listen_port)
-}
-
-// -------------------------------------------------------------------
-
 // Policy
 
 // optional uint32 svr_type = 1;
@@ -792,11 +577,33 @@ RouterSvrConfig::policy_list() const {
   return policy_list_;
 }
 
+// optional int32 svr_zone = 5;
+inline bool RouterSvrConfig::has_svr_zone() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void RouterSvrConfig::set_has_svr_zone() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void RouterSvrConfig::clear_has_svr_zone() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void RouterSvrConfig::clear_svr_zone() {
+  svr_zone_ = 0;
+  clear_has_svr_zone();
+}
+inline ::google::protobuf::int32 RouterSvrConfig::svr_zone() const {
+  // @@protoc_insertion_point(field_get:config.RouterSvrConfig.svr_zone)
+  return svr_zone_;
+}
+inline void RouterSvrConfig::set_svr_zone(::google::protobuf::int32 value) {
+  set_has_svr_zone();
+  svr_zone_ = value;
+  // @@protoc_insertion_point(field_set:config.RouterSvrConfig.svr_zone)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 

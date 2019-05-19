@@ -209,8 +209,10 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::RegisterServerReq, server_type_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::RegisterServerReq, instance_id_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::RegisterServerReq, server_zone_),
   0,
   1,
+  2,
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::RegisterServerRsp, _has_bits_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto::RegisterServerRsp, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -232,9 +234,9 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 0, 7, sizeof(::proto::Ret)},
   { 9, 14, sizeof(::proto::SocketClientIn)},
   { 14, 19, sizeof(::proto::SocketClientOut)},
-  { 19, 26, sizeof(::proto::RegisterServerReq)},
-  { 28, 34, sizeof(::proto::RegisterServerRsp)},
-  { 35, 42, sizeof(::proto::SvrHeatBeat)},
+  { 19, 27, sizeof(::proto::RegisterServerReq)},
+  { 30, 36, sizeof(::proto::RegisterServerRsp)},
+  { 37, 44, sizeof(::proto::SvrHeatBeat)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -270,15 +272,16 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\016svr_base.proto\022\005proto\"!\n\003Ret\022\014\n\004code\030\001"
       " \001(\005\022\014\n\004what\030\002 \001(\t\"\020\n\016SocketClientIn\"\021\n\017"
-      "SocketClientOut\"=\n\021RegisterServerReq\022\023\n\013"
-      "server_type\030\001 \001(\005\022\023\n\013instance_id\030\002 \001(\005\","
-      "\n\021RegisterServerRsp\022\027\n\003ret\030\001 \001(\0132\n.proto"
-      ".Ret\"7\n\013SvrHeatBeat\022\023\n\013server_type\030\001 \001(\005"
-      "\022\023\n\013instance_id\030\002 \001(\005*4\n\nServerType\022\023\n\017S"
-      "VR_TYPE_ROUTER\020\001\022\021\n\rSVR_TYPE_CONN\020\002"
+      "SocketClientOut\"R\n\021RegisterServerReq\022\023\n\013"
+      "server_type\030\001 \001(\005\022\023\n\013instance_id\030\002 \001(\005\022\023"
+      "\n\013server_zone\030\003 \001(\005\",\n\021RegisterServerRsp"
+      "\022\027\n\003ret\030\001 \001(\0132\n.proto.Ret\"7\n\013SvrHeatBeat"
+      "\022\023\n\013server_type\030\001 \001(\005\022\023\n\013instance_id\030\002 \001"
+      "(\005*K\n\nServerType\022\023\n\017SVR_TYPE_ROUTER\020\001\022\021\n"
+      "\rSVR_TYPE_CONN\020\002\022\025\n\021SVR_TYPE_TRANSFER\020\003"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 315);
+      descriptor, 359);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "svr_base.proto", &protobuf_RegisterTypes);
 }
@@ -303,6 +306,7 @@ bool ServerType_IsValid(int value) {
   switch (value) {
     case 1:
     case 2:
+    case 3:
       return true;
     default:
       return false;
@@ -1021,6 +1025,7 @@ void RegisterServerReq::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int RegisterServerReq::kServerTypeFieldNumber;
 const int RegisterServerReq::kInstanceIdFieldNumber;
+const int RegisterServerReq::kServerZoneFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RegisterServerReq::RegisterServerReq()
@@ -1038,16 +1043,16 @@ RegisterServerReq::RegisterServerReq(const RegisterServerReq& from)
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&server_type_, &from.server_type_,
-    static_cast<size_t>(reinterpret_cast<char*>(&instance_id_) -
-    reinterpret_cast<char*>(&server_type_)) + sizeof(instance_id_));
+    static_cast<size_t>(reinterpret_cast<char*>(&server_zone_) -
+    reinterpret_cast<char*>(&server_type_)) + sizeof(server_zone_));
   // @@protoc_insertion_point(copy_constructor:proto.RegisterServerReq)
 }
 
 void RegisterServerReq::SharedCtor() {
   _cached_size_ = 0;
   ::memset(&server_type_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&instance_id_) -
-      reinterpret_cast<char*>(&server_type_)) + sizeof(instance_id_));
+      reinterpret_cast<char*>(&server_zone_) -
+      reinterpret_cast<char*>(&server_type_)) + sizeof(server_zone_));
 }
 
 RegisterServerReq::~RegisterServerReq() {
@@ -1088,10 +1093,10 @@ void RegisterServerReq::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     ::memset(&server_type_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&instance_id_) -
-        reinterpret_cast<char*>(&server_type_)) + sizeof(instance_id_));
+        reinterpret_cast<char*>(&server_zone_) -
+        reinterpret_cast<char*>(&server_type_)) + sizeof(server_zone_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -1135,6 +1140,20 @@ bool RegisterServerReq::MergePartialFromCodedStream(
         break;
       }
 
+      // optional int32 server_zone = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+          set_has_server_zone();
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &server_zone_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
       default: {
       handle_unusual:
         if (tag == 0) {
@@ -1172,6 +1191,11 @@ void RegisterServerReq::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->instance_id(), output);
   }
 
+  // optional int32 server_zone = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->server_zone(), output);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         _internal_metadata_.unknown_fields(), output);
@@ -1197,6 +1221,11 @@ void RegisterServerReq::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->instance_id(), target);
   }
 
+  // optional int32 server_zone = 3;
+  if (cached_has_bits & 0x00000004u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->server_zone(), target);
+  }
+
   if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target);
@@ -1214,7 +1243,7 @@ size_t RegisterServerReq::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (_has_bits_[0 / 32] & 3u) {
+  if (_has_bits_[0 / 32] & 7u) {
     // optional int32 server_type = 1;
     if (has_server_type()) {
       total_size += 1 +
@@ -1227,6 +1256,13 @@ size_t RegisterServerReq::ByteSizeLong() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::Int32Size(
           this->instance_id());
+    }
+
+    // optional int32 server_zone = 3;
+    if (has_server_zone()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->server_zone());
     }
 
   }
@@ -1260,12 +1296,15 @@ void RegisterServerReq::MergeFrom(const RegisterServerReq& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       server_type_ = from.server_type_;
     }
     if (cached_has_bits & 0x00000002u) {
       instance_id_ = from.instance_id_;
+    }
+    if (cached_has_bits & 0x00000004u) {
+      server_zone_ = from.server_zone_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -1297,6 +1336,7 @@ void RegisterServerReq::InternalSwap(RegisterServerReq* other) {
   using std::swap;
   swap(server_type_, other->server_type_);
   swap(instance_id_, other->instance_id_);
+  swap(server_zone_, other->server_zone_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

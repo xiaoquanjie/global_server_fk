@@ -41,6 +41,8 @@ protected:
 
 	virtual int InstanceId() = 0;
 
+	virtual int ServerZone() = 0;
+
 	virtual int OnInitNetWork() = 0;
 
 	virtual void OnStopNetWork() = 0;

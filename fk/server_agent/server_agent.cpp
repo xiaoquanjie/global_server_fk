@@ -14,6 +14,10 @@ int AgentApplication::InstanceId() {
 	return -1;
 }
 
+int AgentApplication::ServerZone() {
+	return -1;
+}
+
 int AgentApplication::OnInitNetWork() {
 	auto func = m_bind_t(&AgentApplication::OnProc, this, placeholder_1,
 		placeholder_2, placeholder_3, placeholder_4);

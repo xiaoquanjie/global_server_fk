@@ -11,6 +11,10 @@ int TestApplication::InstanceId() {
 	return 0;
 }
 
+int TestApplication::ServerZone() {
+	return 0;
+}
+
 int TestApplication::OnInitNetWork() {
 	// start network thread
 	auto func = m_bind_t(&TestApplication::OnProc, this, placeholder_1,

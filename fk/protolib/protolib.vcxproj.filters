@@ -47,6 +47,15 @@
     <None Include="proto\mytest.proto">
       <Filter>proto</Filter>
     </None>
+    <None Include="proto\transfer.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="proto\transfersvr_config.proto">
+      <Filter>proto</Filter>
+    </None>
+    <None Include="..\conf\comm_conf\transfer.conf">
+      <Filter>comm_conf</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
@@ -80,6 +89,12 @@
     <ClCompile Include="src/mytest.pb.cc">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src/transfer.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src/transfersvr_config.pb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/cmd.pb.h">
@@ -107,6 +122,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src/mytest.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/transfer.pb.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src/transfersvr_config.pb.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,9 +1,10 @@
 package proto;
 
-// ·şÎñÆ÷ÀàĞÍ£¬ĞÂ¼Ó¶¼ĞèÒªÔÚÌîĞ´
+// æœåŠ¡å™¨ç±»å‹ï¼Œæ–°åŠ éƒ½éœ€è¦åœ¨å¡«å†™
 enum ServerType {
-	SVR_TYPE_ROUTER = 0x1;		// Â·ÓÉ·ş„Õ
-	SVR_TYPE_CONN = 0x2;		// ¿Í»§¶ËÁ¬½Ó·şÎñ
+	SVR_TYPE_ROUTER = 0x1;		// è·¯ç”±æœå‹™
+	SVR_TYPE_CONN = 0x2;		// å®¢æˆ·ç«¯è¿æ¥æœåŠ¡
+	SVR_TYPE_TRANSFER = 0x3;	// è½¬å‘æœåŠ¡
 }
 
 message Ret {
@@ -20,6 +21,7 @@ message SocketClientOut {
 message RegisterServerReq {
 	optional int32 server_type = 1;
 	optional int32 instance_id = 2;
+	optional int32 server_zone = 3;
 }
 
 message RegisterServerRsp {

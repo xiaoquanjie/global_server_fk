@@ -80,6 +80,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj",
 		{55B3A9ED-1AC1-40E3-909F-267712FD6080} = {55B3A9ED-1AC1-40E3-909F-267712FD6080}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "transfersvr", "transfersvr\transfersvr.vcxproj", "{7AFAAB79-1C26-446E-93C7-B673C2423CEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -196,6 +198,14 @@ Global
 		{5FCD096B-A4E5-4A06-9E5C-D7008331A6CB}.Release|Win32.Build.0 = Release|Win32
 		{5FCD096B-A4E5-4A06-9E5C-D7008331A6CB}.Release|x64.ActiveCfg = Release|x64
 		{5FCD096B-A4E5-4A06-9E5C-D7008331A6CB}.Release|x64.Build.0 = Release|x64
+		{7AFAAB79-1C26-446E-93C7-B673C2423CEA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7AFAAB79-1C26-446E-93C7-B673C2423CEA}.Debug|Win32.Build.0 = Debug|Win32
+		{7AFAAB79-1C26-446E-93C7-B673C2423CEA}.Debug|x64.ActiveCfg = Debug|x64
+		{7AFAAB79-1C26-446E-93C7-B673C2423CEA}.Debug|x64.Build.0 = Debug|x64
+		{7AFAAB79-1C26-446E-93C7-B673C2423CEA}.Release|Win32.ActiveCfg = Release|Win32
+		{7AFAAB79-1C26-446E-93C7-B673C2423CEA}.Release|Win32.Build.0 = Release|Win32
+		{7AFAAB79-1C26-446E-93C7-B673C2423CEA}.Release|x64.ActiveCfg = Release|x64
+		{7AFAAB79-1C26-446E-93C7-B673C2423CEA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -40,7 +40,22 @@ public:
 	TransRegisterServer(unsigned int cmd) : BaseTransaction(cmd) {}
 
 	int OnRequest(proto::RegisterServerReq& request) {
-		int ret_code = SeverInstanceMgrSgl.AddInstance(request.server_type(), request.instance_id(), fd());
+		// 相同服务区才允许注册
+		int ret_code = 0;
+		do {
+			if (request.server_zone() != self_svr_zone()) {
+				ret_code = -1;
+				LogWarn("register server failed, because of different svr_zone, self_zone="
+					<< self_svr_zone()
+					<< " request_zone="
+					<< request.server_zone()
+				);
+				break;
+			}
+
+			ret_code = SeverInstanceMgrSgl.AddInstance(request.server_type(), request.instance_id(), fd());
+
+		} while (false);
 
 		proto::RegisterServerRsp respond;
 		respond.mutable_ret()->set_code(ret_code);

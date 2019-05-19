@@ -4,7 +4,6 @@
 #include "commonlib/transaction/transaction_mgr.h"
 #include "commonlib/net_handler/router_mgr.h"
 #include "commonlib/net_handler/net_handler.h"
-#include "connsvr/conn_svr.h"
 
 class TransClientIn 
 	: public BaseTransaction<TransClientIn, proto::SocketClientIn> {
@@ -27,19 +26,38 @@ public:
 	}
 
 	void SendRegistCmd() {
+		int retry_type = 0;
+		proto::RegisterServerReq request;
+		proto::RegisterServerRsp respond;
 		do {
-			LogInfo("try to regist server");
-			proto::RegisterServerReq request;
-			proto::RegisterServerRsp respond;
-			request.set_server_type(ConnApplicationSgl.ServerType());
-			request.set_instance_id(ConnApplicationSgl.InstanceId());
-			int ret = SendMsgByFd(proto::CMD::CMD_REGISTER_SERVER_REQ, request, respond);
-			if (0 == ret && respond.ret().code() == 0) {
-				LogInfo("regist server success");
-				break;
+			int ret = 0;
+			if (retry_type == 0) {
+				LogInfo("try to regist server");
+				request.set_server_type(self_svr_type());
+				request.set_instance_id(self_inst_id());
+				request.set_server_zone(self_svr_zone());
+				ret = SendMsgByFd(proto::CMD::CMD_REGISTER_SERVER_REQ, request, respond);
+				if (ret != 0) {
+					retry_type = -2;
+					continue;
+				}
+				if (respond.ret().code() == 0) {
+					LogInfo("regist server success");
+					break;
+				}
+				else {
+					retry_type = -1;
+					continue;
+				}
+			}
+			else if (retry_type == -1) {
+				LogInfo("regiest server fail, because of " << respond.ShortDebugString());
+				retry_type = 0;
+				Wait(1000);
 			}
 			else {
-				LogError("regist server fail: " << ret);
+				LogError("regist server fail, because of timeout: " << ret);
+				retry_type = 0;
 			}
 		} while (true);
 	}

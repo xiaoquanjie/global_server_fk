@@ -8,11 +8,13 @@
 RouterMgr::RouterMgr() {
 	_self_server_type = 0;
 	_self_instance_id = 0;
+	_self_server_zone = 0;
 }
 
-int RouterMgr::Init(int self_svr_type, int self_inst_id) {
+int RouterMgr::Init(int self_svr_type, int self_inst_id, int self_server_zone) {
 	_self_server_type = self_svr_type;
 	_self_instance_id = self_inst_id;
+	_self_server_zone = self_server_zone;
 	int ret = 0;
 	do {
 		ret = Reload();
@@ -76,10 +78,14 @@ void RouterMgr::SetRouterFile(const std::string& router_file) {
 }
 
 int RouterMgr::ConnectRouters() {
-	// Éè¼ÆÔ­ÔòÊÇ£¬¶àÁ¬ÉÙ¹Ø
+	// è®¾è®¡åŸåˆ™æ˜¯ï¼Œå¤šè¿å°‘å…³
 	std::map<int, RouterInfo> tmp_router_info_map;
 	for (int idx = 0; idx < _router_config.Data().router_list_size(); ++idx) {
 		auto& item = _router_config.Data().router_list(idx);
+		// åªè¿æ¥ç›¸åŒåŒºçš„è·¯ç”±
+		if (item.svr_zone() != SelfServerZone()) {
+			continue;
+		}
 		if (!ExistRouter(item.listen_ip(), item.listen_port(), item.number())) {
 			NetIoHandlerSgl.ConnectOne(item.listen_ip(), item.listen_port(),
 				Enum_ConnType_Router, item.number());
@@ -93,7 +99,7 @@ int RouterMgr::ConnectRouters() {
 		}
 	}
 
-	// ÒÑ±»¹Ø±ÕÁËµÄ
+	// å·²è¢«å…³é—­äº†çš„
 	for (auto iter = _router_info_vec.begin(); iter != _router_info_vec.end();) {
 		bool exist = false;
 		for (int idx = 0; idx < _router_config.Data().router_list_size(); ++idx) {
@@ -152,7 +158,7 @@ int RouterMgr::SendMsg(int cmd, base::s_int64_t userid, bool is_broadcast,
 	base::s_uint32_t src_trans_id, base::s_uint32_t dst_trans_id,
 	base::s_uint32_t req_random,
 	google::protobuf::Message& msg) {
-	// ÌôÑ¡Ò»¸öÂ·ÓÉ
+	// æŒ‘é€‰ä¸€ä¸ªè·¯ç”±
 	if (_router_info_vec.empty()) {
 		LogError("no router to send");
 		return -1;
@@ -202,4 +208,8 @@ int RouterMgr::SelfSeverType() {
 
 int RouterMgr::SelfInstanceId() {
 	return _self_instance_id;
+}
+
+int RouterMgr::SelfServerZone() {
+	return _self_server_zone;
 }

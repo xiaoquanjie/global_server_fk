@@ -57,8 +57,10 @@ public:
 protected:
 	virtual int InCoroutine() = 0;
 
-	int Process(base::s_int64_t fd, base::s_uint32_t self_svr_type, 
+	int Process(base::s_int64_t fd, 
+		base::s_uint32_t self_svr_type, 
 		base::s_uint32_t self_inst_id,
+		base::s_uint32_t self_svr_zone,
 		const AppHeadFrame& frame, const char* data);
 
 	int ProcessMysqlRsp(void* rsp);
@@ -140,6 +142,8 @@ protected:
 
 	base::s_uint32_t self_inst_id();
 
+	base::s_uint32_t self_svr_zone();
+
 	void set_co_id(base::s_int32_t);
 
 	const AppHeadFrame& cur_frame();
@@ -161,6 +165,7 @@ private:
 	base::s_int64_t _cur_fd;
 	base::s_uint32_t _self_svr_type;
 	base::s_uint32_t _self_inst_id;
+	base::s_uint32_t _self_svr_zone;
 	base::s_uint32_t _req_random;
 	const AppHeadFrame* _cur_frame;
 	AppHeadFrame _ori_frame;

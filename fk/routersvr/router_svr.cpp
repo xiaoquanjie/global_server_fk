@@ -13,6 +13,10 @@ int RouterApplication::InstanceId() {
 	return _svr_config.Data().svr_inst_id();
 }
 
+int RouterApplication::ServerZone() {
+	return _svr_config.Data().svr_zone();
+}
+
 int RouterApplication::OnInitNetWork() {
 	// start network thread
 	auto func = m_bind_t(&RouterApplication::OnProc, this, placeholder_1,
@@ -72,7 +76,7 @@ int RouterApplication::OnProc(base::s_int64_t fd, const AppHeadFrame& frame, con
 	case proto::CMD::CMD_SOCKET_CLIENT_IN:
 	case proto::CMD::CMD_REGISTER_SERVER_REQ:
 	case proto::CMD::CMD_SVR_HEATBEAT:
-		TransactionMgr::ProcessFrame(fd, ServerType(), InstanceId(), frame, data);
+		TransactionMgr::ProcessFrame(fd, ServerType(), InstanceId(), ServerZone(), frame, data);
 		return 0;
 	default:
 		// 转发

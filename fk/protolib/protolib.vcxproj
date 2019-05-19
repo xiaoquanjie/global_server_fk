@@ -140,6 +140,7 @@
   <ItemGroup>
     <None Include="..\conf\comm_conf\comm.conf" />
     <None Include="..\conf\comm_conf\router.conf" />
+    <None Include="..\conf\comm_conf\transfer.conf" />
     <None Include="BUILD" />
     <None Include="proto\cmd.proto" />
     <None Include="proto\comm_conf.proto" />
@@ -150,6 +151,8 @@
     <None Include="proto\server_agent_conf.proto" />
     <None Include="proto\server_agent_data.proto" />
     <None Include="proto\svr_base.proto" />
+    <None Include="proto\transfer.proto" />
+    <None Include="proto\transfersvr_config.proto" />
     <None Include="run_me.py" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +172,8 @@
     <ClCompile Include="src/server_agent_data.pb.cc" />
     <ClCompile Include="src/svr_base.pb.cc" />
     <ClCompile Include="src/mytest.pb.cc" />
+    <ClCompile Include="src/transfer.pb.cc" />
+    <ClCompile Include="src/transfersvr_config.pb.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src/cmd.pb.h" />
@@ -180,5 +185,7 @@
     <ClInclude Include="src/server_agent_data.pb.h" />
     <ClInclude Include="src/svr_base.pb.h" />
     <ClInclude Include="src/mytest.pb.h" />
+    <ClInclude Include="src/transfer.pb.h" />
+    <ClInclude Include="src/transfersvr_config.pb.h" />
   </ItemGroup>
 </Project>
