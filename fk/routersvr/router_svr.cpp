@@ -38,7 +38,7 @@ int RouterApplication::OnInit() {
 	// listen
 	std::string ip = _svr_config.Data().listen_ip();
 	int port = CalcPort(0);
-	if (!NetIoHandlerSgl.ListenOne(ip, port, e_listen_type_router)) {
+	if (!NetIoHandlerSgl.ListenOne(ip, port, Enum_ListenType_Router)) {
 		LogError(ip << " " << port << "listen error:" << NetIoHandlerSgl.GetLastError().What());
 		return -1;
 	}

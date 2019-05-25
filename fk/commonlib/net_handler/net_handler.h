@@ -23,6 +23,12 @@ enum ConnType {
 	Enum_ConnType_Router = 1,
 };
 
+enum ListenType {
+	Enum_ListenType_Router = 1,
+	Enum_ListenType_Conn = 2,
+	Enum_ListenType_Transfer = 3,
+};
+
 class NetIoHandler : public netiolib::NetIo {
 public:
 	typedef m_function_t<int(base::s_int64_t fd, const AppHeadFrame& frame, 
