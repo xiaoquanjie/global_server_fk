@@ -97,7 +97,7 @@ void TransactionMgrImpl::CoroutineEnter(void* p) {
 	
 	LogInfo(
 		"run a new transaction: "
-		<< "co_id："
+		<< "co_id: "
 		<< trans->co_id()
 		<< " trans_id: "
 		<< trans->trans_id()

@@ -1,13 +1,7 @@
-#ifndef M_NET_HANDLER_INCLUDE
-#define M_NET_HANDLER_INCLUDE
+#pragma once
 
 #include "slience/base/singletion.hpp"
-#include "commonlib/svr_base/svrbase.h"
-
-// 最大消息队列
-#ifndef M_MAX_MESSAGE_LIST
-#define M_MAX_MESSAGE_LIST (5000)
-#endif
+#include "commonlib/net_handler/base_net_handler.h"
 
 // expire检查间隔
 #ifndef M_EXPIRE_CHECK_INTERVAL
@@ -29,7 +23,7 @@ enum ListenType {
 	Enum_ListenType_Transfer = 3,
 };
 
-class NetIoHandler : public netiolib::NetIo {
+class NetIoHandler : public BaseNetIoHandler {
 public:
 	typedef m_function_t<int(base::s_int64_t fd, const AppHeadFrame& frame, 
 		const char* data, base::s_uint32_t data_len)> callback_type;
@@ -39,8 +33,6 @@ public:
 	int Update();
 
 	void OnTick();
-
-	const base::timestamp& GetNow()const;
 
 	void CheckTcpSocketExpire();
 
@@ -53,6 +45,10 @@ public:
 	netiolib::TcpSocketPtr GetSocketPtr(base::s_int64_t fd);
 
 protected:
+	int ConsumTcpSocketMsg();
+
+	int ConsumTcpConnectorMsg();
+
 	virtual void OnConnection(netiolib::TcpConnectorPtr& clisock, SocketLib::SocketError error);
 
 	virtual void OnConnection(netiolib::TcpSocketPtr& clisock);
@@ -62,41 +58,8 @@ protected:
 	virtual void OnDisConnection(netiolib::TcpSocketPtr& clisock);
 
 protected:
-	void OnConnected(netiolib::TcpSocketPtr& clisock) override;
-
-	void OnConnected(netiolib::TcpConnectorPtr& clisock, SocketLib::SocketError error) override;
-
-	void OnDisconnected(netiolib::TcpSocketPtr& clisock) override;
-
-	void OnDisconnected(netiolib::TcpConnectorPtr& clisock) override;
-
-	void OnReceiveData(netiolib::TcpSocketPtr& clisock, const base::s_byte_t* data, base::s_uint32_t len) override;
-
-	void OnReceiveData(netiolib::TcpConnectorPtr& clisock, const base::s_byte_t* data, base::s_uint32_t len) override;
-
-protected:
-	// 空实现
-	void OnConnected(netiolib::HttpSocketPtr& clisock) override {}
-	void OnConnected(netiolib::HttpConnectorPtr& clisock, SocketLib::SocketError error) override {}
-	void OnDisconnected(netiolib::HttpSocketPtr& clisock) override {}
-	void OnDisconnected(netiolib::HttpConnectorPtr& clisock) override {}
-	void OnReceiveData(netiolib::HttpSocketPtr& clisock, netiolib::HttpSvrRecvMsg& httpmsg) override {}
-	void OnReceiveData(netiolib::HttpConnectorPtr& clisock, netiolib::HttpCliRecvMsg& httpmsg) override {}
-
-protected:
-	size_t _msg_cache_size;
-	base::timestamp* _now;
-
 	// callback
 	callback_type _callback;
-
-	// send buff
-	base::Buffer _snd_buff;
-
-	// message list
-	base::MutexLock _msg_lock;
-	base::svector<TcpSocketMsg*> _tcp_socket_msg_list;
-	base::svector<TcpConnectorMsg*> _tcp_connector_msg_list;
 
 	// socket container
 	TcpSocketContextContainer _tcp_socket_container;
@@ -108,6 +71,4 @@ protected:
 
 #ifndef NetIoHandlerSgl
 #define NetIoHandlerSgl base::singleton<NetIoHandler>::mutable_instance()
-#endif
-
 #endif

@@ -100,6 +100,9 @@
     <ClCompile Include="async\async_redis_mgr.cpp">
       <Filter>async</Filter>
     </ClCompile>
+    <ClCompile Include="net_handler\base_net_handler.cpp">
+      <Filter>net_handler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="svr_base\ApplicationBase.h">
@@ -776,6 +779,9 @@
     </ClInclude>
     <ClInclude Include="svr_base\svralloc.h">
       <Filter>svr_base</Filter>
+    </ClInclude>
+    <ClInclude Include="net_handler\base_net_handler.h">
+      <Filter>net_handler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

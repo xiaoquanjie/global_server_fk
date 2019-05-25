@@ -13,12 +13,14 @@ class NewOncePool {
 protected:
 	struct ObjectInfo {
 		int _numalloc;
+		int _numusing;
 		size_t _elemsize;
 		T*_listhead;
 		LockMode _lock;
 
 		ObjectInfo() {
 			_numalloc = 0;
+			_numusing = 0;
 			_elemsize = sizeof(T) + sizeof(T*);
 			_listhead = 0;
 		}
@@ -44,6 +46,10 @@ public:
 		return _info._numalloc *_info._elemsize;
 	}
 
+	static int GetUsingCount() {
+		return _info._numusing;
+	}
+
 	static T* Alloc() {
 		base::ScopedLock lock(_info._lock);
 		T* obj = 0;
@@ -58,6 +64,7 @@ public:
 			_info._listhead = *(reinterpret_cast<T**>(_info._listhead));
 			obj = (T*)(ret + sizeof(T*));
 		}
+		_info._numusing++;
 		return obj;
 	}
 
@@ -72,8 +79,8 @@ public:
 		else {
 			*(reinterpret_cast<T**>(ori)) = _info._listhead;
 			_info._listhead = (T*)ori;
-
 		}
+		_info._numusing--;
 	}
 };
 

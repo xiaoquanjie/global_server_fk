@@ -22,6 +22,10 @@ public:
 	static int GetAllocSize() {
 		return base::NewOncePool<TcpSocketMsg>::GetAllocSize();
 	}
+
+	static int GetUsingCount() {
+		return base::NewOncePool<TcpSocketMsg>::GetUsingCount();
+	}
 };
 
 class TcpConnectorMsgAlloc {
@@ -43,6 +47,10 @@ public:
 	static int GetAllocSize() {
 		return base::NewOncePool<TcpConnectorMsg>::GetAllocSize();
 	}
+
+	static int GetUsingCount() {
+		return base::NewOncePool<TcpConnectorMsg>::GetUsingCount();
+	}
 };
 
 class SelfMsgAlloc {
@@ -62,5 +70,9 @@ public:
 
 	static int GetAllocSize() {
 		return base::NewOncePool<SelfMsg, 100>::GetAllocSize();
+	}
+
+	static int GetUsingCount() {
+		return base::NewOncePool<SelfMsg, 100>::GetUsingCount();
 	}
 };
