@@ -11,10 +11,14 @@ RouterMgr::RouterMgr() {
 	_self_server_zone = 0;
 }
 
-int RouterMgr::Init(int self_svr_type, int self_inst_id, int self_server_zone) {
+int RouterMgr::Init(int self_svr_type,
+	int self_inst_id,
+	int self_server_zone, 
+	const std::string& router_file) {
 	_self_server_type = self_svr_type;
 	_self_instance_id = self_inst_id;
 	_self_server_zone = self_server_zone;
+	_router_file = router_file;
 	int ret = 0;
 	do {
 		ret = Reload();
@@ -27,6 +31,10 @@ int RouterMgr::Init(int self_svr_type, int self_inst_id, int self_server_zone) {
 }
 
 int RouterMgr::Reload() {
+	if (_router_file.empty()) {
+		return 0;
+	}
+
 	ServerCfg<config::RouterConfig> tmp_router_config;
 	if (0 != tmp_router_config.Parse(_router_file.c_str())) {
 		LogError("_router_config.Parse fail: " << _router_file);
@@ -40,10 +48,10 @@ int RouterMgr::Reload() {
 			LogError("router number is duplicated: " << number);
 			return -1;
 		}
+		number_set.insert(number);
 	}
 
-	_router_config.Data().Swap(&tmp_router_config.Data());
-	if (0 != ConnectRouters()) {
+	if (0 != ConnectRouters(tmp_router_config)) {
 		LogError("ConnectRouters fail");
 		return -1;
 	}
@@ -75,15 +83,11 @@ void RouterMgr::Tick(const base::timestamp& now) {
 	}
 }
 
-void RouterMgr::SetRouterFile(const std::string& router_file) {
-	_router_file = router_file;
-}
-
-int RouterMgr::ConnectRouters() {
+int RouterMgr::ConnectRouters(ServerCfg<config::RouterConfig>& router_config) {
 	// 设计原则是，多连少关
 	std::map<int, RouterInfo> tmp_router_info_map;
-	for (int idx = 0; idx < _router_config.Data().router_list_size(); ++idx) {
-		auto& item = _router_config.Data().router_list(idx);
+	for (int idx = 0; idx < router_config.Data().router_list_size(); ++idx) {
+		auto& item = router_config.Data().router_list(idx);
 		// 只连接相同区的路由
 		if (item.svr_zone() != SelfServerZone()) {
 			continue;
@@ -104,8 +108,8 @@ int RouterMgr::ConnectRouters() {
 	// 已被关闭了的
 	for (auto iter = _router_info_vec.begin(); iter != _router_info_vec.end();) {
 		bool exist = false;
-		for (int idx = 0; idx < _router_config.Data().router_list_size(); ++idx) {
-			auto& item = _router_config.Data().router_list(idx);
+		for (int idx = 0; idx < router_config.Data().router_list_size(); ++idx) {
+			auto& item = router_config.Data().router_list(idx);
 			if (iter->ip == item.listen_ip()
 				&& iter->port == item.listen_port()
 				&& iter->number == item.number()) {
@@ -130,7 +134,9 @@ int RouterMgr::ConnectRouters() {
 	return 0;
 }
 
-bool RouterMgr::ExistRouter(const std::string& ip, unsigned int port, int number) {
+bool RouterMgr::ExistRouter(const std::string& ip,
+	unsigned int port, 
+	int number) {
 	for (auto iter = _router_info_vec.begin(); iter != _router_info_vec.end(); ++iter) {
 		if (ip == iter->ip
 			&& port == iter->port
@@ -141,7 +147,9 @@ bool RouterMgr::ExistRouter(const std::string& ip, unsigned int port, int number
 	return false;
 }
 
-int RouterMgr::AddRouter(const std::string& ip, unsigned int port, int number,
+int RouterMgr::AddRouter(const std::string& ip,
+	unsigned int port,
+	int number,
 	base::s_int64_t fd) {
 	for (auto iter = _router_info_vec.begin(); iter != _router_info_vec.end();
 		++iter) {

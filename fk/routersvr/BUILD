@@ -4,6 +4,7 @@ cc_binary(
        'main.cpp',
        'router_svr.cpp',
 	   'server_instance_mgr.cpp',
+	   'transfer_mgr.cpp',
 	   'transaction/trans_application.cpp',
     ],
     deps = [

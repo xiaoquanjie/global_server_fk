@@ -4,6 +4,7 @@
 #include "protolib/src/cmd.pb.h"
 #include "routersvr/server_instance_mgr.h"
 #include "commonlib/net_handler/net_handler.h"
+#include "routersvr/transfer_mgr.h"
 
 int RouterApplication::ServerType() {
 	return proto::SVR_TYPE_ROUTER;
@@ -45,9 +46,15 @@ int RouterApplication::OnInit() {
 	else {
 		LogInfo("listen in: " << ip << " " << port);
 	}
+	LogInfo("server listen success");
+
+	std::string transfer_file = _confdir + _comm_config.Data().transfer_conf_file();
+	int ret = TransferMgrSgl.Init(ServerType(), InstanceId(), ServerZone(), transfer_file);
+	if (0 != ret) {
+		return -1;
+	}
 
 	SeverInstanceMgrSgl.Init(&_svr_config.Data());
-	LogInfo("server listen success");
 	return 0;
 }
 
@@ -55,6 +62,10 @@ int RouterApplication::OnReload() {
 	const std::string config_path = ConfigFilePath();
 	if (_svr_config.Parse(config_path.c_str()) != 0) {
 		LogError("_svr_config.Parse fail");
+		return -1;
+	}
+	if (0 != TransferMgrSgl.Reload()) {
+		LogError("TransferMgrSgl.Reload fail");
 		return -1;
 	}
 	return 0;
@@ -82,16 +93,22 @@ int RouterApplication::OnProc(base::s_int64_t fd, const AppHeadFrame& frame, con
 		// 转发
 		break;
 	}
-	if (frame.get_dst_inst_id() != 0) {
-		ForwardPkg(frame.get_dst_svr_type(), frame.get_dst_inst_id(), frame, data, data_len);
+	if (frame.get_dst_zone() == ServerZone()) {
+		// 同一个服务区
+		if (frame.get_dst_inst_id() != 0) {
+			ForwardPkg(frame.get_dst_svr_type(), frame.get_dst_inst_id(), frame, data, data_len);
+		}
+		else {
+			std::vector<int> inst_vec;
+			SeverInstanceMgrSgl.RouterPolicy(frame.get_userid(), frame.get_dst_svr_type(),
+				frame.get_is_broadcast(), inst_vec);
+			for (auto iter = inst_vec.begin(); iter != inst_vec.end(); ++iter) {
+				ForwardPkg(frame.get_dst_svr_type(), *iter, frame, data, data_len);
+			}
+		}
 	}
 	else {
-		std::vector<int> inst_vec;
-		SeverInstanceMgrSgl.RouterPolicy(frame.get_userid(), frame.get_dst_svr_type(),
-			frame.get_is_broadcast(), inst_vec);
-		for (auto iter = inst_vec.begin(); iter != inst_vec.end(); ++iter) {
-			ForwardPkg(frame.get_dst_svr_type(), *iter, frame, data, data_len);
-		}
+		// 不是同一个服务
 	}
 	return 0;
 }

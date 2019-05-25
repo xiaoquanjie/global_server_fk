@@ -43,7 +43,11 @@ int ConnApplication::OnInit() {
 		LogInfo("listen in: " << ip << " " << port);
 	}
 
-	int ret = RouterMgrSgl.Init(ServerType(), InstanceId(), ServerZone());
+	std::string router_conf_file = _confdir + _comm_config.Data().router_conf_file();
+	int ret = RouterMgrSgl.Init(ServerType(),
+		InstanceId(), 
+		ServerZone(),
+		router_conf_file);
 	if (0 != ret) {
 		return -1;
 	}
@@ -58,8 +62,6 @@ int ConnApplication::OnReload() {
 		return -1;
 	}
 
-	std::string router_conf_file = _confdir + _comm_config.Data().router_conf_file();
-	RouterMgrSgl.SetRouterFile(router_conf_file);
 	if (0 != RouterMgrSgl.Reload()) {
 		LogError("RouterMgrSgl.Reload fail");
 		return -1;

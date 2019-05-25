@@ -15,6 +15,7 @@
 
 enum ConnType {
 	Enum_ConnType_Router = 1,
+	Enum_ConnType_Transfer = 2,
 };
 
 enum ListenType {
