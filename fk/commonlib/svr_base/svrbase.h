@@ -25,6 +25,8 @@ struct AppHeadFrame {
 struct __attribute__((__packed__)) AppHeadFrame {
 #endif
 	GETSETVAR(base::s_uint16_t, is_broadcast);			// 消息是否广播
+	GETSETVAR(base::s_uint16_t, src_zone);				// 源区
+	GETSETVAR(base::s_uint16_t, dst_zone);				// 目標区
 	GETSETVAR(base::s_uint32_t, src_svr_type);			// 源服务器类型
 	GETSETVAR(base::s_uint32_t, dst_svr_type);			// 目标服务器类型
 	GETSETVAR(base::s_uint32_t, src_inst_id);			// 源服务器实例
@@ -39,6 +41,8 @@ struct __attribute__((__packed__)) AppHeadFrame {
 public:
 	AppHeadFrame() {
 		is_broadcast = 0;
+		src_zone = 0;
+		dst_zone = 0;
 		src_svr_type = 0;
 		dst_svr_type = 0;
 		src_inst_id = 0;
@@ -57,6 +61,8 @@ public:
 		oss << " cmd:" << cmd;
 		oss << " cmd_length:" << cmd_length;
 		oss << " is_broadcast:" << is_broadcast;
+		oss << " src_zone:" << src_zone;
+		oss << " dst_zone:" << dst_zone;
 		oss << " src_svr_type:" << src_svr_type;
 		oss << " dst_svr_type:" << dst_svr_type;
 		oss << " src_inst_id:" << src_inst_id;
@@ -69,6 +75,8 @@ public:
 
 	void n2h() {
 		is_broadcast = ntohs(is_broadcast);
+		src_zone = ntohs(src_zone);
+		dst_zone = ntohs(dst_zone);
 		src_svr_type = ntohl(src_svr_type);
 		dst_svr_type = ntohl(dst_svr_type);
 		src_inst_id = ntohl(src_inst_id);
@@ -83,6 +91,8 @@ public:
 
 	void h2n() {
 		is_broadcast = htons(is_broadcast);
+		src_zone = htons(src_zone);
+		dst_zone = htons(dst_zone);
 		src_svr_type = htonl(src_svr_type);
 		dst_svr_type = htonl(dst_svr_type);
 		src_inst_id = htonl(src_inst_id);

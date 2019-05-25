@@ -51,7 +51,8 @@ int RouterMgr::Reload() {
 }
 
 void RouterMgr::Tick(const base::timestamp& now) {
-	if ((now.second() - _last_snd_heatbeat_time.second()) > 5) {
+	// 这个心跳的设计，暂时意义不是太大，因为不支持router动态变化
+	if ((now.second() - _last_snd_heatbeat_time.second()) > 20) {
 		// send heat beat
 		_last_snd_heatbeat_time = now;
 		proto::SvrHeatBeat msg;
@@ -63,6 +64,7 @@ void RouterMgr::Tick(const base::timestamp& now) {
 				proto::CMD::CMD_SVR_HEATBEAT,
 				0,
 				false,
+				SelfServerZone(),
 				proto::SVR_TYPE_ROUTER,
 				iter->number,
 				0,
@@ -153,9 +155,14 @@ int RouterMgr::AddRouter(const std::string& ip, unsigned int port, int number,
 	return -1;
 }
 
-int RouterMgr::SendMsg(int cmd, base::s_int64_t userid, bool is_broadcast,
-	base::s_uint32_t dst_svr_type, base::s_uint32_t dst_inst_id,
-	base::s_uint32_t src_trans_id, base::s_uint32_t dst_trans_id,
+int RouterMgr::SendMsg(int cmd, 
+	base::s_int64_t userid, 
+	bool is_broadcast,
+	base::s_uint16_t dst_zone,
+	base::s_uint32_t dst_svr_type,
+	base::s_uint32_t dst_inst_id,
+	base::s_uint32_t src_trans_id,
+	base::s_uint32_t dst_trans_id,
 	base::s_uint32_t req_random,
 	google::protobuf::Message& msg) {
 	// 挑选一个路由
@@ -164,20 +171,29 @@ int RouterMgr::SendMsg(int cmd, base::s_int64_t userid, bool is_broadcast,
 		return -1;
 	}
 	int r = userid % _router_info_vec.size();
-	return SendMsgByFd(_router_info_vec[r].fd,
-		cmd, userid, is_broadcast,
-		dst_svr_type, dst_inst_id,
-		src_trans_id, dst_trans_id,
-		req_random, msg);
+	return SendMsgByFd(_router_info_vec[r].fd, cmd,
+		userid, is_broadcast,
+		dst_zone, dst_svr_type,
+		dst_inst_id, src_trans_id, 
+		dst_trans_id, req_random, 
+		msg);
 }
 
-int RouterMgr::SendMsgByFd(base::s_int64_t fd, int cmd, base::s_int64_t userid,
-	bool is_broadcast, base::s_uint32_t dst_svr_type,
-	base::s_uint32_t dst_inst_id, base::s_uint32_t src_trans_id, 
-	base::s_uint32_t dst_trans_id, base::s_uint32_t req_random,
+int RouterMgr::SendMsgByFd(base::s_int64_t fd,
+	int cmd,
+	base::s_int64_t userid, 
+	bool is_broadcast,
+	base::s_uint16_t dst_zone, 
+	base::s_uint32_t dst_svr_type,
+	base::s_uint32_t dst_inst_id,
+	base::s_uint32_t src_trans_id, 
+	base::s_uint32_t dst_trans_id, 
+	base::s_uint32_t req_random,
 	google::protobuf::Message& msg) {
 	AppHeadFrame frame;
 	frame.set_is_broadcast(is_broadcast);
+	frame.set_src_zone(SelfServerZone());
+	frame.set_dst_zone(dst_zone);
 	frame.set_src_svr_type(SelfSeverType());
 	frame.set_dst_svr_type(dst_svr_type);
 	frame.set_src_inst_id(SelfInstanceId());

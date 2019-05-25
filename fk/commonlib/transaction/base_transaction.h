@@ -229,6 +229,7 @@ protected:
 			RouterMgrSgl.SendMsg(cmd() + 1,
 				userid(),
 				false,
+				ori_frame().get_src_zone(),
 				ori_frame().get_src_svr_type(),
 				ori_frame().get_src_inst_id(),
 				trans_id(),

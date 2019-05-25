@@ -29,16 +29,27 @@ public:
 	int AddRouter(const std::string& ip, unsigned int port, int number,
 		base::s_int64_t fd);
 
-	int SendMsg(int cmd, base::s_int64_t userid, bool is_broadcast,
-		base::s_uint32_t dst_svr_type, base::s_uint32_t dst_inst_id,
-		base::s_uint32_t src_trans_id, base::s_uint32_t dst_trans_id,
+	int SendMsg(int cmd, 
+		base::s_int64_t userid,
+		bool is_broadcast,
+		base::s_uint16_t dst_zone,
+		base::s_uint32_t dst_svr_type, 
+		base::s_uint32_t dst_inst_id,
+		base::s_uint32_t src_trans_id, 
+		base::s_uint32_t dst_trans_id,
 		base::s_uint32_t req_random,
 		google::protobuf::Message& msg);
 
-	int SendMsgByFd(base::s_int64_t fd, int cmd, base::s_int64_t userid,
-		bool is_broadcast, base::s_uint32_t dst_svr_type, 
-		base::s_uint32_t dst_inst_id, base::s_uint32_t src_trans_id, 
-		base::s_uint32_t dst_trans_id, base::s_uint32_t req_random,
+	int SendMsgByFd(base::s_int64_t fd, 
+		int cmd,
+		base::s_int64_t userid, 
+		bool is_broadcast,
+		base::s_uint16_t dst_zone, 
+		base::s_uint32_t dst_svr_type,
+		base::s_uint32_t dst_inst_id,
+		base::s_uint32_t src_trans_id, 
+		base::s_uint32_t dst_trans_id,
+		base::s_uint32_t req_random,
 		google::protobuf::Message& msg);
 
 	int SelfSeverType();
