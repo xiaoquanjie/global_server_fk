@@ -43,7 +43,7 @@ public:
 		// 相同服务区才允许注册
 		int ret_code = 0;
 		do {
-			if (request.server_zone() != self_svr_zone()) {
+			if ((base::s_uint32_t)request.server_zone() != self_svr_zone()) {
 				ret_code = -1;
 				LogWarn("register server failed, because of different svr_zone, self_zone="
 					<< self_svr_zone()
