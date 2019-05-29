@@ -85,8 +85,6 @@ void test() {
 	catch (RedisException& e) {
 		cout << e.What() << endl;
 	}
-
-	system("pause");
 }
 
 void test_newonce() {

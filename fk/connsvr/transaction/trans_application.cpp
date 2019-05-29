@@ -32,7 +32,7 @@ public:
 		do {
 			int ret = 0;
 			if (retry_type == 0) {
-				LogInfo("try to regist server");
+				LogInfo("try to regist self server to routersvr");
 				request.set_server_type(self_svr_type());
 				request.set_instance_id(self_inst_id());
 				request.set_server_zone(self_svr_zone());
@@ -42,7 +42,7 @@ public:
 					continue;
 				}
 				if (respond.ret().code() == 0) {
-					LogInfo("regist server success");
+					LogInfo("regist self server  to routersvr success");
 					break;
 				}
 				else {
@@ -51,12 +51,12 @@ public:
 				}
 			}
 			else if (retry_type == -1) {
-				LogInfo("regiest server fail, because of " << respond.ShortDebugString());
+				LogInfo("regiest self server  to routersvr fail, because of " << respond.ShortDebugString());
 				retry_type = 0;
 				Wait(1000);
 			}
 			else {
-				LogError("regist server fail, because of timeout: " << ret);
+				LogError("regist self server  to routersvr fail, because of timeout: " << ret);
 				retry_type = 0;
 			}
 		} while (true);
@@ -86,7 +86,7 @@ public:
 						<< ep.Address() 
 						<< " port:"
 						<< ep.Port()
-						<< " connection broken, try to reconnect");
+						<< " routersvr's connection broken, try to reconnect");
 					NetIoHandlerSgl.ConnectOne(ep.Address(),
 						ep.Port(), ptr->GetListenConnType(), ptr->GetListenConnNum());
 				}

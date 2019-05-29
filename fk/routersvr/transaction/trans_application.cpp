@@ -3,6 +3,7 @@
 #include "commonlib/transaction/base_transaction.h"
 #include "commonlib/transaction/transaction_mgr.h"
 #include "routersvr/server_instance_mgr.h"
+#include "routersvr/transfer_mgr.h"
 #include "commonlib/net_handler/net_handler.h"
 
 class TransClientIn 
@@ -11,7 +12,55 @@ public:
 	TransClientIn(unsigned int cmd) : BaseTransaction(cmd) {}
 
 	int OnRequest(proto::SocketClientIn& request) {
+		if (M_CHECK_IS_TCP_CONNECTOR_FD(fd())) {
+			// 判断是不是连transfer的连接
+			auto ptr = NetIoHandlerSgl.GetConnectorPtr(fd());
+			if (!ptr) {
+				return 0;
+			}
+			if (ptr->GetListenConnType() == Enum_ConnType_Transfer) {
+				SendRegistCmd();
+				const auto& ep = ptr->RemoteEndpoint();
+				TransferMgrSgl.AddTransfer(ep.Address(), ep.Port(), ptr->GetListenConnNum(), fd());
+			}
+		}
 		return 0;
+	}
+
+	void SendRegistCmd() {
+		// 一直到注册成功才退出
+		int retry_type = 0;
+		proto::RegisterServerReq request;
+		proto::RegisterServerRsp respond;
+		do {
+			if (retry_type == 0) {
+				LogInfo("try to regist self server to transfersvr");
+				request.set_server_type(self_svr_type());
+				request.set_instance_id(self_inst_id());
+				request.set_server_zone(self_svr_zone());
+				int ret = SendMsgByFd(proto::CMD::CMD_REGISTER_SERVER_REQ, request, respond);
+				if (ret != 0) {
+					retry_type = -2;
+					continue;
+				}
+				if (respond.ret().code() == 0) {
+					LogInfo("regist self server  to transfersvr success");
+					break;
+				} else {
+					retry_type = -1;
+					continue;
+				}
+			}
+			else if (retry_type == -1) {
+				LogInfo("regiest self server  to transfersvr fail, because of " << respond.ShortDebugString());
+				retry_type = 0;
+				Wait(1000);
+			}
+			else {
+				LogError("regist self server  to transfersvr fail, because of timeout");
+				retry_type = 0;
+			}
+		} while (true);
 	}
 };
 
@@ -25,8 +74,38 @@ public:
 	TransClientOut(unsigned int cmd) : BaseTransaction(cmd) {}
 
 	int OnRequest(proto::SocketClientOut& request) {
-		SeverInstanceMgrSgl.DelInstance(fd());
+		if (M_CHECK_IS_TCP_CONNECTOR_FD(fd())) {
+			onTransfer();
+		}
+		else {
+			OnRouter();
+		}
 		return 0;
+	}
+
+	void onTransfer () {
+		auto ptr = NetIoHandlerSgl.GetConnectorPtr(fd());
+		if (!ptr) {
+			return;
+		}
+
+		if (ptr->GetListenConnType() == Enum_ConnType_Transfer) {
+			// 重连
+			const auto& ep = ptr->RemoteEndpoint();
+			if (TransferMgrSgl.ExistTransfer(ep.Address(), ep.Port(), ptr->GetListenConnNum())) {
+				LogError("ip:"
+					<< ep.Address()
+					<< " port:"
+					<< ep.Port()
+					<< " transfersvr's connection broken, try to reconnect");
+				NetIoHandlerSgl.ConnectOne(ep.Address(),
+					ep.Port(), ptr->GetListenConnType(), ptr->GetListenConnNum());
+			}
+		}
+	}
+
+	void OnRouter() {
+		SeverInstanceMgrSgl.DelInstance(fd());
 	}
 };
 
