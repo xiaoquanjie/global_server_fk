@@ -23,6 +23,8 @@ public:
 
 	int Reload();
 
+	void Tick(const base::timestamp& now);
+
 	bool ExistTransfer(const std::string& ip,
 		unsigned int port,
 		int number);
@@ -31,6 +33,8 @@ public:
 		unsigned int port, 
 		int number,
 		base::s_int64_t fd);
+
+	int GetTransferInstId(base::s_uint64_t userid, std::vector<base::s_uint64_t>& inst_vec);
 
 	int SelfSeverType();
 
@@ -41,12 +45,23 @@ public:
 protected:
 	int ConnectTransfers(ServerCfg<config::TransferConfig>&);
 
+	int SendMsgByFd(base::s_uint64_t fd,
+		int cmd,
+		base::s_uint64_t userid,
+		base::s_uint16_t dst_zone,
+		base::s_uint32_t dst_svr_type,
+		base::s_uint32_t dst_inst_id,
+		base::s_uint32_t src_trans_id,
+		base::s_uint32_t dst_trans_id,
+		google::protobuf::Message& msg);
+
 private:
 	std::string _transfer_file;
 	int _self_server_type;
 	int _self_instance_id;
 	int _self_server_zone;
 
+	base::timestamp _last_snd_time;
 	std::vector<TransferInfo> _transfer_info_vec;
 };
 

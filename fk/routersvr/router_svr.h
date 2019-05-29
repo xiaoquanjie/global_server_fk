@@ -32,6 +32,7 @@ protected:
 
 	int ForwardPkg(unsigned int dst_svr_type, int dst_inst_id, const AppHeadFrame& frame, const char* data, base::s_uint32_t data_len);
 
+	int ForwarPkgToTransfer(const AppHeadFrame& frame, const char* data, base::s_uint32_t data_len);
 private:
 	ServerCfg<config::RouterSvrConfig> _svr_config;
 };

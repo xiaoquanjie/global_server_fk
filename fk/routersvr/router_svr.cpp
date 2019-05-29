@@ -108,7 +108,8 @@ int RouterApplication::OnProc(base::s_int64_t fd, const AppHeadFrame& frame, con
 		}
 	}
 	else {
-		// 不是同一个服务
+		// 不是同一个服务,转发到transfersvr服
+		ForwarPkgToTransfer(frame, data, data_len);
 	}
 	return 0;
 }
@@ -118,6 +119,22 @@ int RouterApplication::ForwardPkg(unsigned int dst_svr_type, int dst_inst_id, co
 	int src_len = data_len + sizeof(frame);
 	base::s_int64_t fd = SeverInstanceMgrSgl.GetFdByTypeId(dst_svr_type, dst_inst_id);
 	if (fd != 0) {
+		NetIoHandlerSgl.SendDataByFd(fd, src, src_len);
+	}
+	return 0;
+}
+
+int RouterApplication::ForwarPkgToTransfer(const AppHeadFrame& frame, const char* data, base::s_uint32_t data_len) {
+	std::vector<base::s_uint64_t> inst_vec;
+	TransferMgrSgl.GetTransferInstId(frame.get_userid(), inst_vec);
+	if (inst_vec.empty()) {
+		LogError("no transfersvr to send");
+		return -1;
+	}
+
+	const char* src = data - sizeof(frame);
+	int src_len = data_len + sizeof(frame);
+	for (auto fd : inst_vec) {
 		NetIoHandlerSgl.SendDataByFd(fd, src, src_len);
 	}
 	return 0;
