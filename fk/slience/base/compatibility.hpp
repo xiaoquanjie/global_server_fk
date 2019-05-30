@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <functional>
 #include <unordered_map>
+#include <memory>
 
 #if defined(_MSC_VER) && _MSC_VER<1900   // MS VC++ 14.0 _MSC_VER = 1900 (Visual Studio 2015)
 #define snprintf sprintf_s  
@@ -36,6 +37,7 @@
 #include <unistd.h>
 #include <tr1/functional>
 #include <tr1/unordered_map>
+#include <memory>
 
 // windows's macro, just for compatibility
 #define _SH_DENYRW      0x10    // deny read/write mode
