@@ -129,14 +129,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="router_mgr.cpp" />
+    <ClCompile Include="transaction\trans_application.cpp" />
     <ClCompile Include="transfersvr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="router_mgr.h" />
     <ClInclude Include="transfersvr.h" />
+    <ClInclude Include="transfer_mgr.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\conf\transfersvr\transfersvr.conf" />
     <None Include="BUILD" />
+    <None Include="transfer_mgr.pp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

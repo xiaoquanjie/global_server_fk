@@ -105,7 +105,7 @@ public:
 	}
 
 	void OnRouter() {
-		SeverInstanceMgrSgl.DelInstance(fd());
+		SeverInstanceMgrSgl.LogoutInstance(fd());
 	}
 };
 
@@ -132,7 +132,7 @@ public:
 				break;
 			}
 
-			ret_code = SeverInstanceMgrSgl.AddInstance(request.server_type(), request.instance_id(), fd());
+			ret_code = SeverInstanceMgrSgl.LoginInstance(request.server_type(), request.instance_id(), fd());
 
 		} while (false);
 

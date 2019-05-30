@@ -5,6 +5,9 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="transaction">
+      <UniqueIdentifier>{79aa3d32-0467-47c4-a91f-3c72e4cbd368}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -13,9 +16,21 @@
     <ClCompile Include="transfersvr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="transaction\trans_application.cpp">
+      <Filter>transaction</Filter>
+    </ClCompile>
+    <ClCompile Include="router_mgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="transfersvr.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="router_mgr.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="transfer_mgr.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -24,6 +39,9 @@
       <Filter>源文件</Filter>
     </None>
     <None Include="BUILD">
+      <Filter>源文件</Filter>
+    </None>
+    <None Include="transfer_mgr.pp">
       <Filter>源文件</Filter>
     </None>
   </ItemGroup>

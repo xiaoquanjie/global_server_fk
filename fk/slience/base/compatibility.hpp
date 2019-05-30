@@ -27,6 +27,10 @@
 #define m_unorder_map_t std::unordered_map
 #endif
 
+#ifndef shard_ptr_t
+#define shard_ptr_t std::shared_ptr 
+#endif
+
 #else
 // for linux
 #include <unistd.h>
@@ -57,4 +61,10 @@
 #define m_unorder_map_t std::tr1::unordered_map
 #endif
 
+#ifndef shard_ptr_t
+#define shard_ptr_t std::tr1::shared_ptr 
 #endif
+
+#endif
+
+

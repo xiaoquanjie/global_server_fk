@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="router_svr.h" />
+    <ClInclude Include="server_instance_info.h" />
     <ClInclude Include="server_instance_mgr.h" />
     <ClInclude Include="transfer_mgr.h" />
   </ItemGroup>

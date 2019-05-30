@@ -19,6 +19,9 @@
     <ClInclude Include="transfer_mgr.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="server_instance_info.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="BUILD" />

@@ -14,104 +14,98 @@ int SeverInstanceMgr::Init(const config::RouterSvrConfig* conf) {
 	return 0;
 }
 
-int SeverInstanceMgr::AddInstance(unsigned int server_type, int instance_id, base::s_int64_t fd) {
+int SeverInstanceMgr::LoginInstance(unsigned int server_type, int instance_id, base::s_int64_t fd) {
 	const config::Policy* policy = GetPolicy(server_type);
-	if (!policy) {
+	if (!policy || instance_id ==0) {
 		LogError("add instance fail, server_type:" << server_type << "instance_id" << instance_id);
 		return -1;
 	}
+	
+	base::s_int32_t basic_id = SvrInstInfo::CalcTypeId(server_type, 0);
+	auto& type_inst_index = _info_container.get<SvrInstInfo::tag_type_inst>();
+	auto basic_iter = type_inst_index.find(basic_id);
+	if (basic_iter == type_inst_index.end()) {
+		SvrInstInfo info;
+		info.fd = 0;
+		info.type_inst = basic_id;
+		info.inst_id = 0;
+		info.online = false;
+		info.info.reset(new InstContainer);
+		info.info->policy = policy->policy();
+		info.info->svr_type = server_type;
+		auto p = type_inst_index.insert(info);
+		if (!p.second) {
+			LogError("insert instance fail, basic_id=" << basic_id << " server_type=" << server_type);
+			return -1;
+		}
+		basic_iter = p.first;
+	}
 
-	auto iter_type = _type_id_map.find(server_type);
-	if (iter_type == _type_id_map.end()) {
-		_type_id_map[server_type] = InstanceInfo();
-		iter_type = _type_id_map.find(server_type);
+	base::s_int32_t type_inst = SvrInstInfo::CalcTypeId(server_type, instance_id);
+	auto iter = type_inst_index.find(type_inst);
+	if (iter == type_inst_index.end()) {
+		SvrInstInfo svr_info;
+		svr_info.fd = fd;
+		svr_info.type_inst = type_inst;
+		svr_info.inst_id = instance_id;
+		svr_info.online = true;
+		svr_info.info = basic_iter->info;
+		svr_info.info->inst_set.insert(instance_id);
+		if (!type_inst_index.insert(svr_info).second) {
+			LogError("add instance fail, server_type:" << server_type << "instance_id" << instance_id);
+			return -1;
+		}
+	}
+	else {
+		type_inst_index.modify(iter, FuncModifySvrInstInfo(fd, true));
 	}
 	
-	iter_type->second.svr_type = server_type;
-	iter_type->second.policy = policy->policy();
-	iter_type->second.inst_vec.insert(instance_id);
-	
-	SvrInfo svrinfo;
-	svrinfo.svr_type = server_type;
-	svrinfo.svr_inst = instance_id;
-	_svrinfo_fd_map[svrinfo] = fd;
-	_fd_svrinfo_map[fd] = svrinfo;
-	LogInfo("add server instance: server_type=" << server_type << " instance_id=" << instance_id << " fd=" << fd);
+	LogInfo("login server instance: server_type=" << server_type << " instance_id=" << instance_id << " fd=" << fd);
 	return 0;
 }
 
-void SeverInstanceMgr::DelInstance(unsigned int server_type, int instance_id) {
-	auto iter_type = _type_id_map.find(server_type);
-	if (iter_type == _type_id_map.end()) {
-		LogError("can't find server instance in _type_id_map: server_type=" << server_type << " instance_id=" << instance_id);
-	}
-	else {
-		iter_type->second.inst_vec.erase(instance_id);
-		LogInfo("del server instance: server_type=" << server_type << " instance_id=" << instance_id);
-	}
-
-	SvrInfo svrinfo;
-	svrinfo.svr_type = server_type;
-	svrinfo.svr_inst = instance_id;
-	auto iter_svr = _svrinfo_fd_map.find(svrinfo);
-	if (iter_svr != _svrinfo_fd_map.end()) {
-		LogInfo("del server instance: server_type=" << server_type << " instance_id=" << instance_id << " fd=" << iter_svr->second);
-		_fd_svrinfo_map.erase(iter_svr->second);
-		_svrinfo_fd_map.erase(iter_svr);
-	}
-	else {
-		LogError("can't find server instance in _svrinfo_fd_map : server_type=" << server_type << " instance_id=" << instance_id);
-	}
-}
-
-void SeverInstanceMgr::DelInstance(base::s_int64_t fd) {
-	auto iter_fd = _fd_svrinfo_map.find(fd);
-	if (iter_fd == _fd_svrinfo_map.end()) {
-		LogError("can't find fd=" << fd);
+void SeverInstanceMgr::LogoutInstance(base::s_int64_t fd) {
+	if (fd == 0) {
 		return;
 	}
 
+	auto& fd_index = _info_container.get<SvrInstInfo::tag_fd>();
+	auto iter = fd_index.find(fd);
+	if (iter == fd_index.end()) {
+		return;
+	}
+
+
 	// 暂时不从_type_id_map里删除
-	LogInfo("del server instance: server_type=" << iter_fd->second.svr_type << " instance_id=" << iter_fd->second.svr_inst << " fd=" << fd);
-	_svrinfo_fd_map.erase(iter_fd->second);
-	_fd_svrinfo_map.erase(iter_fd);
+	LogInfo("logout server instance: server_type=" << iter->info->svr_type << " instance_id=" << iter->inst_id << " fd=" << fd);
+	fd_index.modify(iter, FuncModifySvrInstInfo(fd, false));
 }
 
 base::s_int64_t SeverInstanceMgr::GetFdByTypeId(unsigned int server_type, int instance_id) {
-	SvrInfo info;
-	info.svr_type = server_type;
-	info.svr_inst = instance_id;
-	auto iter_svrinfo = _svrinfo_fd_map.find(info);
-	if (iter_svrinfo == _svrinfo_fd_map.end()) {
+	base::s_int32_t id = SvrInstInfo::CalcTypeId(server_type, instance_id);
+	auto& type_inst_index = _info_container.get<SvrInstInfo::tag_type_inst>();
+	auto iter = type_inst_index.find(id);
+	if (iter == type_inst_index.end()) {
 		return 0;
 	}
 	else {
-		return iter_svrinfo->second;
-	}
-}
-
-SvrInfo* SeverInstanceMgr::GetSvrInfoByFd(base::s_int64_t fd) {
-	auto iter_fd = _fd_svrinfo_map.find(fd);
-	if (iter_fd == _fd_svrinfo_map.end()) {
-		return 0;
-	}
-	else {
-		return &iter_fd->second;
+		return iter->fd;
 	}
 }
 
 void SeverInstanceMgr::RouterPolicy(
 	base::s_uint64_t uid, unsigned int server_type, bool is_broadcast, std::vector<int>& inst_vec) {
-	auto iter_type = _type_id_map.find(server_type);
-	if (iter_type == _type_id_map.end()) {
+	base::s_int32_t id = SvrInstInfo::CalcTypeId(server_type, 0);
+	auto& type_inst_index = _info_container.get<SvrInstInfo::tag_type_inst>();
+	auto iter = type_inst_index.find(id);
+	if (iter == type_inst_index.end()) {
 		LogError("can't find instance, server_type:" << server_type);
 		return;
 	}
 
 	std::vector<int> all_inst;
-	for (auto iter_id = iter_type->second.inst_vec.begin(); iter_id != iter_type->second.inst_vec.end();
-		++iter_id) {
-		all_inst.push_back(*iter_id);
+	for (auto id : iter->info->inst_set) {
+		all_inst.push_back(id);
 	}
 	if (all_inst.empty()) {
 		LogError("instance vector is empty, server_type:" << server_type);
@@ -123,7 +117,7 @@ void SeverInstanceMgr::RouterPolicy(
 		return;
 	}
 
-	switch (iter_type->second.policy) {
+	switch (iter->info->policy) {
 	case config::POLICY_ROUTER:
 		break;
 	case config::POLICY_RANDOM:{
