@@ -44,7 +44,7 @@
     <None Include="BUILD">
       <Filter>源文件</Filter>
     </None>
-    <None Include="transfer_mgr.pp">
+    <None Include="transfer_mgr.cpp">
       <Filter>源文件</Filter>
     </None>
   </ItemGroup>
