@@ -5,7 +5,7 @@ cc_binary(
        'transfersvr.cpp',
 	   'transaction/trans_application.cpp',
 	   'router_inst_mgr.cpp',
-	   'transfer_mgr.pp',
+	   'transfer_mgr.cpp',
     ],
     deps = [
         '//commonlib:common',
