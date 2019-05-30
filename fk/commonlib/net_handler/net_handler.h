@@ -15,13 +15,15 @@
 
 enum ConnType {
 	Enum_ConnType_Router = 1,
-	Enum_ConnType_Transfer = 2,
+	Enum_ConnType_Transfer = 2,	 // 用于router连接的类型
+	Enum_ConnType_Transfer2 = 3, // 用于transfer连接的类型
 };
 
 enum ListenType {
 	Enum_ListenType_Router = 1,
 	Enum_ListenType_Conn = 2,
-	Enum_ListenType_Transfer = 3,
+	Enum_ListenType_Transfer = 3,	// 用于router连接的监听类型
+	Enum_ListenType_Transfer2 = 4,	// 用于transfer连接的监听类型
 };
 
 class NetIoHandler : public BaseNetIoHandler {

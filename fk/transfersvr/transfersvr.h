@@ -31,6 +31,7 @@ protected:
 
 	int ForwardPkg(unsigned int dst_svr_type, int dst_inst_id, const AppHeadFrame& frame, const char* data, base::s_uint32_t data_len);
 
+	base::s_uint32_t CalcPort(int type) override;
 private:
 	ServerCfg<config::TransfersvrConfig> _svr_config;
 };

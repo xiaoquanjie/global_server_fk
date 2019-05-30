@@ -40,7 +40,9 @@ int TransferApplication::UpdateNetWork() {
 int TransferApplication::OnInit() {
 	// listen
 	std::string ip = _svr_config.Data().listen_ip();
-	int port = CalcPort(0);
+
+	// 用于router连
+	int port = CalcPort(Enum_ListenType_Transfer);
 	if (!NetIoHandlerSgl.ListenOne(ip, port, Enum_ListenType_Transfer)) {
 		LogError(ip << " " << port << "listen error:" << NetIoHandlerSgl.GetLastError().What());
 		return -1;
@@ -48,6 +50,17 @@ int TransferApplication::OnInit() {
 	else {
 		LogInfo("listen in: " << ip << " " << port);
 	}
+
+	// 用于transfer之间连
+	int port2 = CalcPort(Enum_ListenType_Transfer2);
+	if (!NetIoHandlerSgl.ListenOne(ip, port2, Enum_ListenType_Transfer2)) {
+		LogError(ip << " " << port2 << "listen error:" << NetIoHandlerSgl.GetLastError().What());
+		return -1;
+	}
+	else {
+		LogInfo("listen in: " << ip << " " << port2);
+	}
+
 	return 0;
 }
 
@@ -71,10 +84,39 @@ int TransferApplication::OnTick(const base::timestamp& now) {
 }
 
 int TransferApplication::OnProc(base::s_int64_t fd, const AppHeadFrame& frame, const char* data, base::s_uint32_t data_len) {
+	switch (frame.get_cmd()) {
+	case proto::CMD::CMD_SOCKET_CLIENT_OUT:
+	case proto::CMD::CMD_SOCKET_CLIENT_IN:
+	case proto::CMD::CMD_REGISTER_SERVER_REQ:
+	case proto::CMD::CMD_REGISTER_SERVER_RSP:
+	case proto::CMD::CMD_SVR_HEATBEAT:
+		TransactionMgr::ProcessFrame(fd, ServerType(), InstanceId(), ServerZone(), frame, data);
+		return 0;
+	default:
+		// 转发
+		break;
+	}
+
+	if (frame.get_dst_zone() != 0) {
+		// 查找相应的zone区transfer服务
+	}
+	else {
+		// 根据uid找出它所在的transfer服务区
+	}
 	return 0;
 }
 
 int TransferApplication::ForwardPkg(unsigned int dst_svr_type, int dst_inst_id, const AppHeadFrame& frame,
 	const char* data, base::s_uint32_t data_len) {
 	return 0;
+}
+
+base::s_uint32_t TransferApplication::CalcPort(int type) {
+	// 一个server占用两个端口，一个server预留10个端口
+	if (type == Enum_ListenType_Transfer) {
+		return (PortStart() + InstanceId() * 10 + 1);
+	}
+	else {
+		return (PortStart() + InstanceId() * 10 + 2);
+	}
 }

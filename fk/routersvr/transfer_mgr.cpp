@@ -64,12 +64,13 @@ void TransferMgr::Tick(const base::timestamp& now) {
 	msg.set_server_type(SelfSeverType());
 	msg.set_instance_id(SelfInstanceId());
 	for (auto& info : _transfer_info_vec) {
-		SendMsgByFd(info.fd,
+		SendMsgToTransferByFd(info.fd,
 			proto::CMD::CMD_SVR_HEATBEAT,
 			0,
 			SelfServerZone(),
 			proto::SVR_TYPE_TRANSFER,
 			info.number,
+			0,
 			0,
 			0,
 			msg);
@@ -115,7 +116,7 @@ int TransferMgr::GetTransferInstId(base::s_uint64_t userid, std::vector<base::s_
 	return 0;
 }
 
-int TransferMgr::SendMsgByFd(base::s_uint64_t fd,
+int TransferMgr::SendMsgToTransferByFd(base::s_uint64_t fd,
 	int cmd,
 	base::s_uint64_t userid,
 	base::s_uint16_t dst_zone,
@@ -123,6 +124,7 @@ int TransferMgr::SendMsgByFd(base::s_uint64_t fd,
 	base::s_uint32_t dst_inst_id,
 	base::s_uint32_t src_trans_id,
 	base::s_uint32_t dst_trans_id,
+	base::s_uint32_t req_random,
 	google::protobuf::Message& msg) {
 	AppHeadFrame frame;
 	frame.set_is_broadcast(false);
@@ -136,7 +138,7 @@ int TransferMgr::SendMsgByFd(base::s_uint64_t fd,
 	frame.set_dst_trans_id(dst_trans_id);
 	frame.set_cmd(cmd);
 	frame.set_userid(userid);
-	frame.set_req_random(0);
+	frame.set_req_random(req_random);
 
 	std::string data = msg.SerializePartialAsString();
 	frame.set_cmd_length(data.length());

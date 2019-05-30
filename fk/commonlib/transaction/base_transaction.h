@@ -83,8 +83,10 @@ protected:
 	int SendMsgByServerId(int cmd, int svr_type, int inst_id,
 		google::protobuf::Message& request);
 
+	// 这两个接口基本上只做服务之间的注册使用，它的frame里数据不全
 	int SendMsgByFd(int cmd, google::protobuf::Message& request);
 
+	// 这两个接口基本上只做服务之间的注册使用，它的frame里数据不全
 	int SendMsgByFd(int cmd, google::protobuf::Message& request
 		, google::protobuf::Message& respond);
 

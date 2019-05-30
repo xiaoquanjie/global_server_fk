@@ -272,50 +272,6 @@ int Transaction::SendMsgByServerId(int cmd, int svr_type, int inst_id,
 	return ret;
 }
 
-int Transaction::SendMsgByFd(int cmd, google::protobuf::Message& request) {
-	set_req_random(base::random().rand(10000, 100000));
-	int ret = RouterMgrSgl.SendMsgByFd(fd(),
-		cmd,
-		userid(),
-		false,
-		0,
-		0,
-		0,
-		trans_id(),
-		0,
-		req_random(),
-		request);
-	return ret;
-}
-
-int Transaction::SendMsgByFd(int cmd, google::protobuf::Message& request
-	, google::protobuf::Message& respond) {
-	if (0 != SendMsgByFd(cmd, request)) {
-		return -1;
-	}
-	Wait_Return ret = Wait(E_WAIT_FIVE_SECOND);
-	if (ret == E_RETURN_TIMEOUT) {
-		LogError(
-			"{userid:" << userid() <<
-			" fd:" << fd() <<
-			"} Timeout to wait response of SendMsgByFd");
-		return -1;
-	}
-	else if (ret == E_RETURN_ERROR) {
-		LogError(
-			"{userid:" << userid() <<
-			" fd:" << fd() <<
-			"} Error to wait response of SendMsgByFd");
-		return -1;
-	}
-
-	// parse msg
-	if (0 != ParseMsg(respond)) {
-		LogError(request.GetTypeName() << ".ParseFromArray fail");
-		return -1;
-	}
-	return 0;
-}
 
 // 需要注意一下返回值
 int Transaction::MysqlQuery(base::s_uint64_t orderid,

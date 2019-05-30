@@ -4,6 +4,8 @@
 #include "commonlib/transaction/transaction_mgr.h"
 #include "routersvr/server_instance_mgr.h"
 #include "routersvr/transfer_mgr.h"
+#include "slience/base/random.hpp"
+#include "routersvr/transfer_mgr.h"
 #include "commonlib/net_handler/net_handler.h"
 
 class TransClientIn 
@@ -38,7 +40,7 @@ public:
 				request.set_server_type(self_svr_type());
 				request.set_instance_id(self_inst_id());
 				request.set_server_zone(self_svr_zone());
-				int ret = SendMsgByFd(proto::CMD::CMD_REGISTER_SERVER_REQ, request, respond);
+				int ret = SendMsgToTransferByFd(proto::CMD::CMD_REGISTER_SERVER_REQ, request, respond);
 				if (ret != 0) {
 					retry_type = -2;
 					continue;
@@ -61,6 +63,50 @@ public:
 				retry_type = 0;
 			}
 		} while (true);
+	}
+
+	int SendMsgToTransferByFd(int cmd, google::protobuf::Message& request) {
+		set_req_random(base::random().rand(10000, 100000));
+		int ret = TransferMgrSgl.SendMsgToTransferByFd(fd(),
+			cmd,
+			userid(),
+			self_svr_zone(),
+			proto::SVR_TYPE_TRANSFER,
+			0,
+			trans_id(),
+			0,
+			req_random(),
+			request);
+		return ret;
+	}
+
+	int SendMsgToTransferByFd(int cmd, google::protobuf::Message& request
+		, google::protobuf::Message& respond) {
+		if (0 != SendMsgToTransferByFd(cmd, request)) {
+			return -1;
+		}
+		Wait_Return ret = Wait(E_WAIT_FIVE_SECOND);
+		if (ret == E_RETURN_TIMEOUT) {
+			LogError(
+				"{userid:" << userid() <<
+				" fd:" << fd() <<
+				"} Timeout to wait response of SendMsgByFd");
+			return -1;
+		}
+		else if (ret == E_RETURN_ERROR) {
+			LogError(
+				"{userid:" << userid() <<
+				" fd:" << fd() <<
+				"} Error to wait response of SendMsgByFd");
+			return -1;
+		}
+
+		// parse msg
+		if (0 != ParseMsg(respond)) {
+			LogError(request.GetTypeName() << ".ParseFromArray fail");
+			return -1;
+		}
+		return 0;
 	}
 };
 
@@ -139,32 +185,36 @@ public:
 		proto::RegisterServerRsp respond;
 		respond.mutable_ret()->set_code(ret_code);
 
-		AppHeadFrame frame;
-		frame.set_is_broadcast(false);
-		frame.set_src_svr_type(self_svr_type());
-		frame.set_dst_svr_type(ori_frame().get_src_svr_type());
-		frame.set_src_inst_id(self_inst_id());
-		frame.set_dst_inst_id(ori_frame().get_src_inst_id());
-		frame.set_src_trans_id(trans_id());
-		frame.set_dst_trans_id(ori_frame().get_src_trans_id());
-		frame.set_cmd(cmd() + 1);
-		frame.set_userid(userid());
-		frame.set_req_random(ori_frame().get_req_random());
+		_frame.set_is_broadcast(false);
+		_frame.set_src_zone(self_svr_zone());
+		_frame.set_dst_zone(ori_frame().get_src_zone());
+		_frame.set_src_svr_type(self_svr_type());
+		_frame.set_dst_svr_type(ori_frame().get_src_svr_type());
+		_frame.set_src_inst_id(self_inst_id());
+		_frame.set_dst_inst_id(ori_frame().get_src_inst_id());
+		_frame.set_src_trans_id(trans_id());
+		_frame.set_dst_trans_id(ori_frame().get_src_trans_id());
+		_frame.set_cmd(cmd() + 1);
+		_frame.set_userid(userid());
+		_frame.set_req_random(ori_frame().get_req_random());
 
 		std::string data = respond.SerializePartialAsString();
-		frame.set_cmd_length(data.length());
+		_frame.set_cmd_length(data.length());
 
-		base::Buffer buffer;
-		buffer.Write(frame);
-		buffer.Write(data.c_str(), data.length());
-		if (NetIoHandlerSgl.SendDataByFd(fd(), buffer.Data(), buffer.Length())) {
+		_buffer.Clear();
+		_buffer.Write(_frame);
+		_buffer.Write(data.c_str(), data.length());
+		if (NetIoHandlerSgl.SendDataByFd(fd(), _buffer.Data(), _buffer.Length())) {
 			return 0;
 		}
 		else {
 			return -1;
 		}
-		return 0;
 	}
+
+private:
+	AppHeadFrame _frame;
+	base::Buffer _buffer;
 };
 
 REGISTER_TRANSACTION(CMD_REGISTER_SERVER_REQ, TransRegisterServer);

@@ -87,6 +87,7 @@ int RouterApplication::OnProc(base::s_int64_t fd, const AppHeadFrame& frame, con
 	case proto::CMD::CMD_SOCKET_CLIENT_OUT:
 	case proto::CMD::CMD_SOCKET_CLIENT_IN:
 	case proto::CMD::CMD_REGISTER_SERVER_REQ:
+	case proto::CMD::CMD_REGISTER_SERVER_RSP:
 	case proto::CMD::CMD_SVR_HEATBEAT:
 		TransactionMgr::ProcessFrame(fd, ServerType(), InstanceId(), ServerZone(), frame, data);
 		return 0;

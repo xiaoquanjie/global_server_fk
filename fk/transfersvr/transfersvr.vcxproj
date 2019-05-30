@@ -129,12 +129,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="router_mgr.cpp" />
+    <ClCompile Include="router_inst_mgr.cpp" />
     <ClCompile Include="transaction\trans_application.cpp" />
     <ClCompile Include="transfersvr.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="router_mgr.h" />
+    <ClInclude Include="router_instance_info.h" />
+    <ClInclude Include="router_inst_mgr.h" />
     <ClInclude Include="transfersvr.h" />
     <ClInclude Include="transfer_mgr.h" />
   </ItemGroup>

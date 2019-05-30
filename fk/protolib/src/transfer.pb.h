@@ -174,17 +174,24 @@ class TransferInfo : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::int32 listen_port() const;
   void set_listen_port(::google::protobuf::int32 value);
 
-  // optional int32 number = 3;
+  // optional int32 listen_port2 = 3;
+  bool has_listen_port2() const;
+  void clear_listen_port2();
+  static const int kListenPort2FieldNumber = 3;
+  ::google::protobuf::int32 listen_port2() const;
+  void set_listen_port2(::google::protobuf::int32 value);
+
+  // optional int32 number = 4;
   bool has_number() const;
   void clear_number();
-  static const int kNumberFieldNumber = 3;
+  static const int kNumberFieldNumber = 4;
   ::google::protobuf::int32 number() const;
   void set_number(::google::protobuf::int32 value);
 
-  // optional int32 svr_zone = 4;
+  // optional int32 svr_zone = 5;
   bool has_svr_zone() const;
   void clear_svr_zone();
-  static const int kSvrZoneFieldNumber = 4;
+  static const int kSvrZoneFieldNumber = 5;
   ::google::protobuf::int32 svr_zone() const;
   void set_svr_zone(::google::protobuf::int32 value);
 
@@ -194,6 +201,8 @@ class TransferInfo : public ::google::protobuf::Message /* @@protoc_insertion_po
   void clear_has_listen_ip();
   void set_has_listen_port();
   void clear_has_listen_port();
+  void set_has_listen_port2();
+  void clear_has_listen_port2();
   void set_has_number();
   void clear_has_number();
   void set_has_svr_zone();
@@ -204,6 +213,7 @@ class TransferInfo : public ::google::protobuf::Message /* @@protoc_insertion_po
   mutable int _cached_size_;
   ::google::protobuf::internal::ArenaStringPtr listen_ip_;
   ::google::protobuf::int32 listen_port_;
+  ::google::protobuf::int32 listen_port2_;
   ::google::protobuf::int32 number_;
   ::google::protobuf::int32 svr_zone_;
   friend struct ::protobuf_transfer_2eproto::TableStruct;
@@ -420,15 +430,39 @@ inline void TransferInfo::set_listen_port(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:config.TransferInfo.listen_port)
 }
 
-// optional int32 number = 3;
-inline bool TransferInfo::has_number() const {
+// optional int32 listen_port2 = 3;
+inline bool TransferInfo::has_listen_port2() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void TransferInfo::set_has_number() {
+inline void TransferInfo::set_has_listen_port2() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void TransferInfo::clear_has_number() {
+inline void TransferInfo::clear_has_listen_port2() {
   _has_bits_[0] &= ~0x00000004u;
+}
+inline void TransferInfo::clear_listen_port2() {
+  listen_port2_ = 0;
+  clear_has_listen_port2();
+}
+inline ::google::protobuf::int32 TransferInfo::listen_port2() const {
+  // @@protoc_insertion_point(field_get:config.TransferInfo.listen_port2)
+  return listen_port2_;
+}
+inline void TransferInfo::set_listen_port2(::google::protobuf::int32 value) {
+  set_has_listen_port2();
+  listen_port2_ = value;
+  // @@protoc_insertion_point(field_set:config.TransferInfo.listen_port2)
+}
+
+// optional int32 number = 4;
+inline bool TransferInfo::has_number() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void TransferInfo::set_has_number() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void TransferInfo::clear_has_number() {
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void TransferInfo::clear_number() {
   number_ = 0;
@@ -444,15 +478,15 @@ inline void TransferInfo::set_number(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:config.TransferInfo.number)
 }
 
-// optional int32 svr_zone = 4;
+// optional int32 svr_zone = 5;
 inline bool TransferInfo::has_svr_zone() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
 inline void TransferInfo::set_has_svr_zone() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000010u;
 }
 inline void TransferInfo::clear_has_svr_zone() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void TransferInfo::clear_svr_zone() {
   svr_zone_ = 0;

@@ -42,10 +42,7 @@ public:
 
 	int SelfServerZone();
 
-protected:
-	int ConnectTransfers(ServerCfg<config::TransferConfig>&);
-
-	int SendMsgByFd(base::s_uint64_t fd,
+	int SendMsgToTransferByFd(base::s_uint64_t fd,
 		int cmd,
 		base::s_uint64_t userid,
 		base::s_uint16_t dst_zone,
@@ -53,7 +50,11 @@ protected:
 		base::s_uint32_t dst_inst_id,
 		base::s_uint32_t src_trans_id,
 		base::s_uint32_t dst_trans_id,
+		base::s_uint32_t req_random,
 		google::protobuf::Message& msg);
+
+protected:
+	int ConnectTransfers(ServerCfg<config::TransferConfig>&);
 
 private:
 	std::string _transfer_file;

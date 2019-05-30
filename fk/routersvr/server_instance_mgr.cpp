@@ -17,7 +17,7 @@ int SeverInstanceMgr::Init(const config::RouterSvrConfig* conf) {
 int SeverInstanceMgr::LoginInstance(unsigned int server_type, int instance_id, base::s_int64_t fd) {
 	const config::Policy* policy = GetPolicy(server_type);
 	if (!policy || instance_id ==0) {
-		LogError("add instance fail, server_type:" << server_type << "instance_id" << instance_id);
+		LogError("login instance fail, server_type:" << server_type << "instance_id" << instance_id);
 		return -1;
 	}
 	

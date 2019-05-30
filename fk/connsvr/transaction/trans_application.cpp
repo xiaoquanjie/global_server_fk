@@ -4,6 +4,7 @@
 #include "commonlib/transaction/transaction_mgr.h"
 #include "commonlib/net_handler/router_mgr.h"
 #include "commonlib/net_handler/net_handler.h"
+#include "slience/base/random.hpp"
 
 class TransClientIn 
 	: public BaseTransaction<TransClientIn, proto::SocketClientIn> {
@@ -36,7 +37,7 @@ public:
 				request.set_server_type(self_svr_type());
 				request.set_instance_id(self_inst_id());
 				request.set_server_zone(self_svr_zone());
-				ret = SendMsgByFd(proto::CMD::CMD_REGISTER_SERVER_REQ, request, respond);
+				ret = SendMsgToRouterByFd(proto::CMD::CMD_REGISTER_SERVER_REQ, request, respond);
 				if (ret != 0) {
 					retry_type = -2;
 					continue;
@@ -60,6 +61,51 @@ public:
 				retry_type = 0;
 			}
 		} while (true);
+	}
+
+	int SendMsgToRouterByFd(int cmd, google::protobuf::Message& request) {
+		set_req_random(base::random().rand(10000, 100000));
+		int ret = RouterMgrSgl.SendMsgByFd(fd(),
+			cmd,
+			userid(),
+			false,
+			self_svr_zone(),
+			proto::SVR_TYPE_ROUTER,
+			0,
+			trans_id(),
+			0,
+			req_random(),
+			request);
+		return ret;
+	}
+
+	int SendMsgToRouterByFd(int cmd, google::protobuf::Message& request
+		, google::protobuf::Message& respond) {
+		if (0 != SendMsgToRouterByFd(cmd, request)) {
+			return -1;
+		}
+		Wait_Return ret = Wait(E_WAIT_FIVE_SECOND);
+		if (ret == E_RETURN_TIMEOUT) {
+			LogError(
+				"{userid:" << userid() <<
+				" fd:" << fd() <<
+				"} Timeout to wait response of SendMsgByFd");
+			return -1;
+		}
+		else if (ret == E_RETURN_ERROR) {
+			LogError(
+				"{userid:" << userid() <<
+				" fd:" << fd() <<
+				"} Error to wait response of SendMsgByFd");
+			return -1;
+		}
+
+		// parse msg
+		if (0 != ParseMsg(respond)) {
+			LogError(request.GetTypeName() << ".ParseFromArray fail");
+			return -1;
+		}
+		return 0;
 	}
 };
 
