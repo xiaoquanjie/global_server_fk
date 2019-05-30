@@ -37,7 +37,7 @@
 #include <unistd.h>
 #include <tr1/functional>
 #include <tr1/unordered_map>
-#include <memory>
+#include <tr1/memory>
 
 // windows's macro, just for compatibility
 #define _SH_DENYRW      0x10    // deny read/write mode
