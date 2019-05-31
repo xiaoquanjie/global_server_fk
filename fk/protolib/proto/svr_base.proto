@@ -42,3 +42,8 @@ message RegisterTransferReq {
 message RegisterTransferRsp {
 	optional Ret ret = 1;
 }
+
+message TransferHeatBeat {
+	optional int32 server_zone = 1;
+	optional int32 instance_id = 2;
+}

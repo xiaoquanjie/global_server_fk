@@ -1,5 +1,7 @@
 #include "transfersvr/transfer_inst_mgr.h"
 #include "commonlib/net_handler/net_handler.h"
+#include "protolib/src/svr_base.pb.h"
+#include "protolib/src/cmd.pb.h"
 
 TransferInstanceMgr::TransferInstanceMgr() {
 	_self_instance_id = 0;
@@ -52,6 +54,33 @@ int TransferInstanceMgr::Reload() {
 	}
 
 	return 0;
+}
+
+void TransferInstanceMgr::Tick(const base::timestamp& now) {
+	if ((now.second() - _last_snd_time.second()) < 20) {
+		return;
+	}
+
+	_last_snd_time = now;
+	proto::TransferHeatBeat msg;
+	msg.set_server_zone(SelfServerZone());
+	msg.set_instance_id(SelfInstanceId());
+	for (auto iter1 = _zone_transfer_map.begin(); iter1 != _zone_transfer_map.end(); ++iter1) {
+		for (auto iter2 = iter1->second.begin(); iter2 != iter1->second.end(); ++iter2) {
+			if (!iter2->active) {
+				SendMsgToTransferByFd(iter2->fd,
+					proto::CMD::CMD_TRANSFER_HEATBEAT,
+					0,
+					iter2->zone,
+					proto::SVR_TYPE_TRANSFER,
+					iter2->inst_id,
+					0,
+					0,
+					0,
+					msg);
+			}
+		}
+	}
 }
 
 int TransferInstanceMgr::SelfSeverType() {
@@ -110,17 +139,20 @@ int TransferInstanceMgr::LoginTransfer(base::s_int32_t server_zone,
 	return 0;
 }
 
-int TransferInstanceMgr::LogoutTransfer(base::s_int32_t server_zone, base::s_int32_t inst_id, base::s_int64_t fd) {
+int TransferInstanceMgr::LogoutTransfer(base::s_int64_t fd) {
+	if (fd == 0) {
+		return -1;
+	}
 	for (auto iter1 = _zone_transfer_map.begin(); iter1 != _zone_transfer_map.end(); ++iter1) {
 		for (auto iter2 = iter1->second.begin(); iter2 != iter1->second.end(); ++iter2) {
-			if (iter2->zone == server_zone && iter2->inst_id == inst_id) {
+			if (iter2->fd == fd) {
 				iter2->online = false;
 				iter2->fd = 0;
-				break;
+				return 0;
 			}
 		}
 	}
-	return 0;
+	return -1;
 }
 
 int TransferInstanceMgr::SendMsgToTransferByFd(base::s_uint64_t fd,

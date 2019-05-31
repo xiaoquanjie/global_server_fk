@@ -123,8 +123,8 @@ public:
 			}
 
 			if (ptr->GetListenConnType() == Enum_ConnType_Transfer2) {
-				// 主动的transfe的连接
-				OnActiveTransfer();
+				// 主动的transfer的连接
+				OnActiveTransfer(ptr);
 			}
 		}
 		else {
@@ -149,11 +149,22 @@ public:
 	}
 
 	void OnPasiveTransfer() {
-
+		// 标识掉线
+		TransferInstanceMgrSgl.LogoutTransfer(fd());
 	}
 
-	void OnActiveTransfer() {
-
+	void OnActiveTransfer(netiolib::TcpConnectorPtr ptr) {
+		// 发起从连
+		const auto& ep = ptr->RemoteEndpoint();
+		if (TransferInstanceMgrSgl.ExistTransfer(ep.Address(), ep.Port(), ptr->GetListenConnNum())) {
+			LogError("ip:"
+				<< ep.Address()
+				<< " port:"
+				<< ep.Port()
+				<< " transfersvr's connection broken, try to reconnect");
+			NetIoHandlerSgl.ConnectOne(ep.Address(),
+				ep.Port(), ptr->GetListenConnType(), ptr->GetListenConnNum());
+		}
 	}
 };
 

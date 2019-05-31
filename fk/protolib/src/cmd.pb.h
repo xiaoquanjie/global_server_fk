@@ -57,17 +57,18 @@ extern CMDDefaultTypeInternal _CMD_default_instance_;
 namespace proto {
 
 enum CMD_SvrBase {
+  CMD_SvrBase_CMD_SVR_HEATBEAT = 16,
+  CMD_SvrBase_CMD_TRANSFER_HEATBEAT = 17,
   CMD_SvrBase_CMD_SOCKET_CLIENT_IN = 1,
   CMD_SvrBase_CMD_SOCKET_CLIENT_OUT = 2,
   CMD_SvrBase_CMD_REGISTER_SERVER_REQ = 3,
   CMD_SvrBase_CMD_REGISTER_SERVER_RSP = 4,
-  CMD_SvrBase_CMD_SVR_HEATBEAT = 5,
-  CMD_SvrBase_CMD_REGISETR_TRANSFER_REQ = 6,
-  CMD_SvrBase_CMD_REGISETR_TRANSFER_RSP = 7
+  CMD_SvrBase_CMD_REGISETR_TRANSFER_REQ = 5,
+  CMD_SvrBase_CMD_REGISETR_TRANSFER_RSP = 6
 };
 bool CMD_SvrBase_IsValid(int value);
 const CMD_SvrBase CMD_SvrBase_SvrBase_MIN = CMD_SvrBase_CMD_SOCKET_CLIENT_IN;
-const CMD_SvrBase CMD_SvrBase_SvrBase_MAX = CMD_SvrBase_CMD_REGISETR_TRANSFER_RSP;
+const CMD_SvrBase CMD_SvrBase_SvrBase_MAX = CMD_SvrBase_CMD_TRANSFER_HEATBEAT;
 const int CMD_SvrBase_SvrBase_ARRAYSIZE = CMD_SvrBase_SvrBase_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* CMD_SvrBase_descriptor();
@@ -170,6 +171,10 @@ class CMD : public ::google::protobuf::Message /* @@protoc_insertion_point(class
   // nested types ----------------------------------------------------
 
   typedef CMD_SvrBase SvrBase;
+  static const SvrBase CMD_SVR_HEATBEAT =
+    CMD_SvrBase_CMD_SVR_HEATBEAT;
+  static const SvrBase CMD_TRANSFER_HEATBEAT =
+    CMD_SvrBase_CMD_TRANSFER_HEATBEAT;
   static const SvrBase CMD_SOCKET_CLIENT_IN =
     CMD_SvrBase_CMD_SOCKET_CLIENT_IN;
   static const SvrBase CMD_SOCKET_CLIENT_OUT =
@@ -178,8 +183,6 @@ class CMD : public ::google::protobuf::Message /* @@protoc_insertion_point(class
     CMD_SvrBase_CMD_REGISTER_SERVER_REQ;
   static const SvrBase CMD_REGISTER_SERVER_RSP =
     CMD_SvrBase_CMD_REGISTER_SERVER_RSP;
-  static const SvrBase CMD_SVR_HEATBEAT =
-    CMD_SvrBase_CMD_SVR_HEATBEAT;
   static const SvrBase CMD_REGISETR_TRANSFER_REQ =
     CMD_SvrBase_CMD_REGISETR_TRANSFER_REQ;
   static const SvrBase CMD_REGISETR_TRANSFER_RSP =

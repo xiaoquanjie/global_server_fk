@@ -26,6 +26,8 @@ public:
 
 	int Reload();  
 
+	void Tick(const base::timestamp& now);
+
 	int SelfSeverType();
 
 	int SelfInstanceId();
@@ -45,7 +47,7 @@ public:
 	// 被动
 	int LoginTransfer(base::s_int32_t server_zone, base::s_int32_t inst_id, base::s_int64_t fd);
 
-	int LogoutTransfer(base::s_int32_t server_zone, base::s_int32_t inst_id, base::s_int64_t fd);
+	int LogoutTransfer(base::s_int64_t fd);
 
 	int SendMsgToTransferByFd(base::s_uint64_t fd,
 		int cmd,
@@ -67,6 +69,7 @@ private:
 	int _self_instance_id;
 	int _self_server_zone;
 
+	base::timestamp _last_snd_time;
 	// 所有的transfer(除了自己)
 	std::unordered_map <base::s_int32_t, std::vector<TransferSvrInfo>> _zone_transfer_map;
 

@@ -3,6 +3,8 @@
 #include "commonlib/transaction/transaction_mgr.h"
 #include "protolib/src/cmd.pb.h"
 #include "commonlib/net_handler/net_handler.h"
+#include "transfersvr/transfer_inst_mgr.h"
+#include "transfersvr/router_inst_mgr.h"
 
 int TransferApplication::ServerType() {
 	return proto::SVR_TYPE_TRANSFER;
@@ -61,6 +63,11 @@ int TransferApplication::OnInit() {
 		LogInfo("listen in: " << ip << " " << port2);
 	}
 
+	std::string transfer_file = _confdir + _comm_config.Data().transfer_conf_file();
+	int ret = TransferInstanceMgrSgl.Init(ServerType(), InstanceId(), ServerZone(), transfer_file);
+	if (0 != ret) {
+		return -1;
+	}
 	return 0;
 }
 
@@ -68,6 +75,10 @@ int TransferApplication::OnReload() {
 	const std::string config_path = ConfigFilePath();
 	if (_svr_config.Parse(config_path.c_str()) != 0) {
 		LogError("_svr_config.Parse fail");
+		return -1;
+	}
+	if (0 != TransferInstanceMgrSgl.Reload()) {
+		LogError("TransferInstanceMgrSgl.Reload fail");
 		return -1;
 	}
 	return 0;
@@ -80,6 +91,7 @@ int TransferApplication::OnExit() {
 
 int TransferApplication::OnTick(const base::timestamp& now) {
 	NetIoHandlerSgl.OnTick();
+	TransferInstanceMgrSgl.Tick(now);
 	return 0;
 }
 
