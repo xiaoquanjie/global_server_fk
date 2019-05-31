@@ -9,7 +9,7 @@ struct TransferInfo {
 	std::string ip;
 	unsigned short port;
 	int number;
-	base::s_uint64_t fd;
+	base::s_int64_t fd;
 };
 
 class TransferMgr {

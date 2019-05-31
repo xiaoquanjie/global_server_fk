@@ -27,13 +27,13 @@
     <ClInclude Include="transfersvr.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="transfer_mgr.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="router_inst_mgr.h">
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="router_instance_info.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="transfer_inst_mgr.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,7 +44,7 @@
     <None Include="BUILD">
       <Filter>源文件</Filter>
     </None>
-    <None Include="transfer_mgr.cpp">
+    <None Include="transfer_inst_mgr.cpp">
       <Filter>源文件</Filter>
     </None>
   </ItemGroup>

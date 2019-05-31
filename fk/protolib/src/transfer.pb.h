@@ -195,6 +195,13 @@ class TransferInfo : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::int32 svr_zone() const;
   void set_svr_zone(::google::protobuf::int32 value);
 
+  // optional int32 inst_id = 6;
+  bool has_inst_id() const;
+  void clear_inst_id();
+  static const int kInstIdFieldNumber = 6;
+  ::google::protobuf::int32 inst_id() const;
+  void set_inst_id(::google::protobuf::int32 value);
+
   // @@protoc_insertion_point(class_scope:config.TransferInfo)
  private:
   void set_has_listen_ip();
@@ -207,6 +214,8 @@ class TransferInfo : public ::google::protobuf::Message /* @@protoc_insertion_po
   void clear_has_number();
   void set_has_svr_zone();
   void clear_has_svr_zone();
+  void set_has_inst_id();
+  void clear_has_inst_id();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -216,6 +225,7 @@ class TransferInfo : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::google::protobuf::int32 listen_port2_;
   ::google::protobuf::int32 number_;
   ::google::protobuf::int32 svr_zone_;
+  ::google::protobuf::int32 inst_id_;
   friend struct ::protobuf_transfer_2eproto::TableStruct;
   friend void ::protobuf_transfer_2eproto::InitDefaultsTransferInfoImpl();
 };
@@ -500,6 +510,30 @@ inline void TransferInfo::set_svr_zone(::google::protobuf::int32 value) {
   set_has_svr_zone();
   svr_zone_ = value;
   // @@protoc_insertion_point(field_set:config.TransferInfo.svr_zone)
+}
+
+// optional int32 inst_id = 6;
+inline bool TransferInfo::has_inst_id() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void TransferInfo::set_has_inst_id() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void TransferInfo::clear_has_inst_id() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void TransferInfo::clear_inst_id() {
+  inst_id_ = 0;
+  clear_has_inst_id();
+}
+inline ::google::protobuf::int32 TransferInfo::inst_id() const {
+  // @@protoc_insertion_point(field_get:config.TransferInfo.inst_id)
+  return inst_id_;
+}
+inline void TransferInfo::set_inst_id(::google::protobuf::int32 value) {
+  set_has_inst_id();
+  inst_id_ = value;
+  // @@protoc_insertion_point(field_set:config.TransferInfo.inst_id)
 }
 
 // -------------------------------------------------------------------

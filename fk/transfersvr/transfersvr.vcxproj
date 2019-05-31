@@ -137,12 +137,12 @@
     <ClInclude Include="router_instance_info.h" />
     <ClInclude Include="router_inst_mgr.h" />
     <ClInclude Include="transfersvr.h" />
-    <ClInclude Include="transfer_mgr.h" />
+    <ClInclude Include="transfer_inst_mgr.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\conf\transfersvr\transfersvr.conf" />
     <None Include="BUILD" />
-    <None Include="transfer_mgr.cpp" />
+    <None Include="transfer_inst_mgr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

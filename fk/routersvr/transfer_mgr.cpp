@@ -44,6 +44,7 @@ int TransferMgr::Reload() {
 			LogError("router number is duplicated: " << number);
 			return -1;
 		}
+		number_set.insert(number);
 	}
 
 	if (0 != ConnectTransfers(transfer_config)) {
