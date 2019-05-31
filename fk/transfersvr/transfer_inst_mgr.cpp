@@ -231,7 +231,7 @@ int TransferInstanceMgr::ConnectTransfers(ServerCfg<config::TransferConfig>& tra
 			for (int idx = 0; idx < transfer_config.Data().transfer_list_size(); ++idx) {
 				auto& item = transfer_config.Data().transfer_list(idx);
 				if (iter2->ip == item.listen_ip()
-					&& iter2->port == item.listen_port2()
+					&& iter2->port == (unsigned int)item.listen_port2()
 					&& iter2->inst_id == item.inst_id()) {
 					exist = true;
 					break;
