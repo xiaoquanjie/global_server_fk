@@ -116,8 +116,6 @@ void test_newonce() {
 }
 
 int main(int argc, char* argv[]) {
-	test_newonce();
-	return 0;
 	if (false) {
 		test();
 	}

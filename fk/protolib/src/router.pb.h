@@ -174,12 +174,12 @@ class RouterInfo : public ::google::protobuf::Message /* @@protoc_insertion_poin
   ::google::protobuf::int32 listen_port() const;
   void set_listen_port(::google::protobuf::int32 value);
 
-  // optional int32 number = 3;
-  bool has_number() const;
-  void clear_number();
-  static const int kNumberFieldNumber = 3;
-  ::google::protobuf::int32 number() const;
-  void set_number(::google::protobuf::int32 value);
+  // optional int32 inst_id = 3;
+  bool has_inst_id() const;
+  void clear_inst_id();
+  static const int kInstIdFieldNumber = 3;
+  ::google::protobuf::int32 inst_id() const;
+  void set_inst_id(::google::protobuf::int32 value);
 
   // optional int32 svr_zone = 4;
   bool has_svr_zone() const;
@@ -194,8 +194,8 @@ class RouterInfo : public ::google::protobuf::Message /* @@protoc_insertion_poin
   void clear_has_listen_ip();
   void set_has_listen_port();
   void clear_has_listen_port();
-  void set_has_number();
-  void clear_has_number();
+  void set_has_inst_id();
+  void clear_has_inst_id();
   void set_has_svr_zone();
   void clear_has_svr_zone();
 
@@ -204,7 +204,7 @@ class RouterInfo : public ::google::protobuf::Message /* @@protoc_insertion_poin
   mutable int _cached_size_;
   ::google::protobuf::internal::ArenaStringPtr listen_ip_;
   ::google::protobuf::int32 listen_port_;
-  ::google::protobuf::int32 number_;
+  ::google::protobuf::int32 inst_id_;
   ::google::protobuf::int32 svr_zone_;
   friend struct ::protobuf_router_2eproto::TableStruct;
   friend void ::protobuf_router_2eproto::InitDefaultsRouterInfoImpl();
@@ -420,28 +420,28 @@ inline void RouterInfo::set_listen_port(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:config.RouterInfo.listen_port)
 }
 
-// optional int32 number = 3;
-inline bool RouterInfo::has_number() const {
+// optional int32 inst_id = 3;
+inline bool RouterInfo::has_inst_id() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void RouterInfo::set_has_number() {
+inline void RouterInfo::set_has_inst_id() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void RouterInfo::clear_has_number() {
+inline void RouterInfo::clear_has_inst_id() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void RouterInfo::clear_number() {
-  number_ = 0;
-  clear_has_number();
+inline void RouterInfo::clear_inst_id() {
+  inst_id_ = 0;
+  clear_has_inst_id();
 }
-inline ::google::protobuf::int32 RouterInfo::number() const {
-  // @@protoc_insertion_point(field_get:config.RouterInfo.number)
-  return number_;
+inline ::google::protobuf::int32 RouterInfo::inst_id() const {
+  // @@protoc_insertion_point(field_get:config.RouterInfo.inst_id)
+  return inst_id_;
 }
-inline void RouterInfo::set_number(::google::protobuf::int32 value) {
-  set_has_number();
-  number_ = value;
-  // @@protoc_insertion_point(field_set:config.RouterInfo.number)
+inline void RouterInfo::set_inst_id(::google::protobuf::int32 value) {
+  set_has_inst_id();
+  inst_id_ = value;
+  // @@protoc_insertion_point(field_set:config.RouterInfo.inst_id)
 }
 
 // optional int32 svr_zone = 4;

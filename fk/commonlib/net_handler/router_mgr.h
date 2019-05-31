@@ -8,7 +8,7 @@
 struct RouterInfo {
 	std::string ip;
 	unsigned short port;
-	int number;
+	base::s_int32_t inst_id;
 	base::s_int64_t fd;
 };
 
@@ -27,11 +27,11 @@ public:
 
 	bool ExistRouter(const std::string& ip,
 		unsigned int port,
-		int number);
+		base::s_int32_t inst_id);
 
-	int AddRouter(const std::string& ip,
+	int LoginRouter(const std::string& ip,
 		unsigned int port,
-		int number,
+		base::s_int32_t inst_id,
 		base::s_int64_t fd);
 
 	int SendMsg(int cmd, 

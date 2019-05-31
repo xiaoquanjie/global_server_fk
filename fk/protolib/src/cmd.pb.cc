@@ -88,14 +88,15 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\tcmd.proto\022\005proto\"\226\001\n\003CMD\"\216\001\n\007SvrBase\022\030"
+      "\n\tcmd.proto\022\005proto\"\324\001\n\003CMD\"\314\001\n\007SvrBase\022\030"
       "\n\024CMD_SOCKET_CLIENT_IN\020\001\022\031\n\025CMD_SOCKET_C"
       "LIENT_OUT\020\002\022\033\n\027CMD_REGISTER_SERVER_REQ\020\003"
       "\022\033\n\027CMD_REGISTER_SERVER_RSP\020\004\022\024\n\020CMD_SVR"
-      "_HEATBEAT\020\005"
+      "_HEATBEAT\020\005\022\035\n\031CMD_REGISETR_TRANSFER_REQ"
+      "\020\006\022\035\n\031CMD_REGISETR_TRANSFER_RSP\020\007"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 171);
+      descriptor, 233);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "cmd.proto", &protobuf_RegisterTypes);
 }
@@ -123,6 +124,8 @@ bool CMD_SvrBase_IsValid(int value) {
     case 3:
     case 4:
     case 5:
+    case 6:
+    case 7:
       return true;
     default:
       return false;
@@ -135,6 +138,8 @@ const CMD_SvrBase CMD::CMD_SOCKET_CLIENT_OUT;
 const CMD_SvrBase CMD::CMD_REGISTER_SERVER_REQ;
 const CMD_SvrBase CMD::CMD_REGISTER_SERVER_RSP;
 const CMD_SvrBase CMD::CMD_SVR_HEATBEAT;
+const CMD_SvrBase CMD::CMD_REGISETR_TRANSFER_REQ;
+const CMD_SvrBase CMD::CMD_REGISETR_TRANSFER_RSP;
 const CMD_SvrBase CMD::SvrBase_MIN;
 const CMD_SvrBase CMD::SvrBase_MAX;
 const int CMD::SvrBase_ARRAYSIZE;

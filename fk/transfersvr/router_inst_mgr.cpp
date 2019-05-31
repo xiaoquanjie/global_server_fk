@@ -27,14 +27,19 @@ int RouterInstanceMgr::LoginInstance(unsigned int server_type, int instance_id, 
 }
 
 void RouterInstanceMgr::LogoutInstance(base::s_int64_t fd) {
+	if (fd == 0) {
+		return;
+	}
+
 	auto& fd_index = _info_container.get<RouterInstInfo::tag_fd>();
 	auto iter = fd_index.find(fd);
 	if (iter == fd_index.end()) {
 		return;
 	}
 
+	// fdÒªÇå0
 	LogInfo("logout router instance: server_type=" << proto::SVR_TYPE_ROUTER << " instance_id=" << iter->inst_id << " fd=" << fd);
-	fd_index.modify(iter, FuncModifyRouterInstInfo(fd, false));
+	fd_index.modify(iter, FuncModifyRouterInstInfo(0, false));
 }
 
 base::s_int64_t RouterInstanceMgr::GetRouterFd(base::s_uint64_t uid) {

@@ -3,7 +3,7 @@ package config;
 message RouterInfo {
 	optional string listen_ip = 1;
 	optional int32 listen_port = 2;
-	optional int32 number = 3;
+	optional int32 inst_id = 3;
 	optional int32 svr_zone = 4;
 }
 

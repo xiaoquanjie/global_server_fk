@@ -10,8 +10,9 @@ struct TransferSvrInfo {
 	unsigned int port;
 	base::s_int64_t fd;
 	base::s_int32_t zone;
-	base::s_int32_t member;
+	base::s_int32_t inst_id;
 	bool online;
+	bool active;	// 标识是主动还是被动连接
 };
 
 class TransferInstanceMgr {
@@ -31,6 +32,32 @@ public:
 
 	int SelfServerZone();
 
+	bool ExistTransfer(const std::string& ip,
+		unsigned int port,
+		base::s_int32_t inst_id);
+
+	// 主动
+	int LoginTransfer(const std::string& ip,
+		unsigned int port,
+		base::s_int32_t inst_id,
+		base::s_int64_t fd);
+
+	// 被动
+	int LoginTransfer(base::s_int32_t server_zone, base::s_int32_t inst_id, base::s_int64_t fd);
+
+	int LogoutTransfer(base::s_int32_t server_zone, base::s_int32_t inst_id, base::s_int64_t fd);
+
+	int SendMsgToTransferByFd(base::s_uint64_t fd,
+		int cmd,
+		base::s_uint64_t userid,
+		base::s_uint16_t dst_zone,
+		base::s_uint32_t dst_svr_type,
+		base::s_uint32_t dst_inst_id,
+		base::s_uint32_t src_trans_id,
+		base::s_uint32_t dst_trans_id,
+		base::s_uint32_t req_random,
+		google::protobuf::Message& msg);
+
 protected:
 	int ConnectTransfers(ServerCfg<config::TransferConfig>&);
 
@@ -40,6 +67,13 @@ private:
 	int _self_instance_id;
 	int _self_server_zone;
 
-	// 所有的transfer(除了自己)，按member排好序
-	std::unordered_map <base::s_int32_t, shared_ptr_t<TransferSvrInfo>> _all_transfers;
+	// 所有的transfer(除了自己)
+	std::unordered_map <base::s_int32_t, std::vector<TransferSvrInfo>> _zone_transfer_map;
+
+	base::Buffer _buffer;
+	AppHeadFrame _frame;
 };  
+
+#ifndef TransferInstanceMgrSgl
+#define TransferInstanceMgrSgl base::singleton<TransferInstanceMgr>::mutable_instance()
+#endif

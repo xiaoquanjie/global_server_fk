@@ -41,14 +41,18 @@ int RouterMgr::Reload() {
 		return -1;
 	}
 
-	std::set<int> number_set;
+	std::set<int> inst_id_set;
 	for (int idx = 0; idx < tmp_router_config.Data().router_list_size(); ++idx) {
-		int number = tmp_router_config.Data().router_list(idx).number();
-		if (number_set.count(number) > 0) {
-			LogError("router number is duplicated: " << number);
+		int inst_id = tmp_router_config.Data().router_list(idx).inst_id();
+		int zone = tmp_router_config.Data().router_list(idx).svr_zone();
+		if (zone != SelfServerZone()) {
+			continue;
+		}
+		if (inst_id_set.count(inst_id) > 0) {
+			LogError("router inst_id is duplicated: " << inst_id);
 			return -1;
 		}
-		number_set.insert(number);
+		inst_id_set.insert(inst_id);
 	}
 
 	if (0 != ConnectRouters(tmp_router_config)) {
@@ -77,7 +81,7 @@ void RouterMgr::Tick(const base::timestamp& now) {
 			false,
 			SelfServerZone(),
 			proto::SVR_TYPE_ROUTER,
-			iter->number,
+			iter->inst_id,
 			0,
 			0,
 			0,
@@ -94,37 +98,37 @@ int RouterMgr::ConnectRouters(ServerCfg<config::RouterConfig>& router_config) {
 		if (item.svr_zone() != SelfServerZone()) {
 			continue;
 		}
-		if (!ExistRouter(item.listen_ip(), item.listen_port(), item.number())) {
+		if (!ExistRouter(item.listen_ip(), item.listen_port(), item.inst_id())) {
 			NetIoHandlerSgl.ConnectOne(item.listen_ip(), item.listen_port(),
-				Enum_ConnType_Router, item.number());
+				Enum_ConnType_Router, item.inst_id());
 
 			RouterInfo router_info;
 			router_info.ip = item.listen_ip();
 			router_info.port = item.listen_port();
-			router_info.number = item.number();
+			router_info.inst_id = item.inst_id();
 			router_info.fd = 0;
-			tmp_router_info_map[item.number()] = router_info;
+			tmp_router_info_map[item.inst_id()] = router_info;
 		}
 	}
 
 	// 已被关闭了的
-	for (auto iter = _router_info_vec.begin(); iter != _router_info_vec.end();) {
+	for (auto& info : _router_info_vec) {
 		bool exist = false;
 		for (int idx = 0; idx < router_config.Data().router_list_size(); ++idx) {
 			auto& item = router_config.Data().router_list(idx);
-			if (iter->ip == item.listen_ip()
-				&& iter->port == item.listen_port()
-				&& iter->number == item.number()) {
+			if (info.ip == item.listen_ip()
+				&& info.port == item.listen_port()
+				&& info.inst_id == item.inst_id()) {
 				exist = true;
 				break;
 			}
 		}
-		if (!exist) {
-			NetIoHandlerSgl.CloseFd(iter->fd);
+
+		if (exist) {
+			tmp_router_info_map[info.inst_id] = info;
 		}
 		else {
-			tmp_router_info_map[iter->number] = *iter;
-			iter++;
+			NetIoHandlerSgl.CloseFd(info.fd);
 		}
 	}
 
@@ -138,26 +142,26 @@ int RouterMgr::ConnectRouters(ServerCfg<config::RouterConfig>& router_config) {
 
 bool RouterMgr::ExistRouter(const std::string& ip,
 	unsigned int port, 
-	int number) {
+	base::s_int32_t inst_id) {
 	for (auto iter = _router_info_vec.begin(); iter != _router_info_vec.end(); ++iter) {
 		if (ip == iter->ip
 			&& port == iter->port
-			&& number == iter->number) {
+			&& inst_id == iter->inst_id) {
 			return true;
 		}
 	}
 	return false;
 }
 
-int RouterMgr::AddRouter(const std::string& ip,
+int RouterMgr::LoginRouter(const std::string& ip,
 	unsigned int port,
-	int number,
+	base::s_int32_t inst_id,
 	base::s_int64_t fd) {
 	for (auto iter = _router_info_vec.begin(); iter != _router_info_vec.end();
 		++iter) {
 		if (ip == iter->ip
 			&& port == iter->port
-			&& number == iter->number) {
+			&& inst_id == iter->inst_id) {
 			iter->fd = fd;
 			return 0;
 		}

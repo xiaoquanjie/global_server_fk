@@ -18,7 +18,7 @@ struct RouterInstInfo {
 
 typedef bmi::multi_index_container<RouterInstInfo,
 	bmi::indexed_by<
-		bmi::ordered_unique<
+		bmi::ordered_non_unique<
 			bmi::tag<RouterInstInfo::tag_fd>,
 			bmi::member<RouterInstInfo, base::s_int64_t, &RouterInstInfo::fd>
 		>,

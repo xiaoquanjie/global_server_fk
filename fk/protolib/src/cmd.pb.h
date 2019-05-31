@@ -61,11 +61,13 @@ enum CMD_SvrBase {
   CMD_SvrBase_CMD_SOCKET_CLIENT_OUT = 2,
   CMD_SvrBase_CMD_REGISTER_SERVER_REQ = 3,
   CMD_SvrBase_CMD_REGISTER_SERVER_RSP = 4,
-  CMD_SvrBase_CMD_SVR_HEATBEAT = 5
+  CMD_SvrBase_CMD_SVR_HEATBEAT = 5,
+  CMD_SvrBase_CMD_REGISETR_TRANSFER_REQ = 6,
+  CMD_SvrBase_CMD_REGISETR_TRANSFER_RSP = 7
 };
 bool CMD_SvrBase_IsValid(int value);
 const CMD_SvrBase CMD_SvrBase_SvrBase_MIN = CMD_SvrBase_CMD_SOCKET_CLIENT_IN;
-const CMD_SvrBase CMD_SvrBase_SvrBase_MAX = CMD_SvrBase_CMD_SVR_HEATBEAT;
+const CMD_SvrBase CMD_SvrBase_SvrBase_MAX = CMD_SvrBase_CMD_REGISETR_TRANSFER_RSP;
 const int CMD_SvrBase_SvrBase_ARRAYSIZE = CMD_SvrBase_SvrBase_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* CMD_SvrBase_descriptor();
@@ -178,6 +180,10 @@ class CMD : public ::google::protobuf::Message /* @@protoc_insertion_point(class
     CMD_SvrBase_CMD_REGISTER_SERVER_RSP;
   static const SvrBase CMD_SVR_HEATBEAT =
     CMD_SvrBase_CMD_SVR_HEATBEAT;
+  static const SvrBase CMD_REGISETR_TRANSFER_REQ =
+    CMD_SvrBase_CMD_REGISETR_TRANSFER_REQ;
+  static const SvrBase CMD_REGISETR_TRANSFER_RSP =
+    CMD_SvrBase_CMD_REGISETR_TRANSFER_RSP;
   static inline bool SvrBase_IsValid(int value) {
     return CMD_SvrBase_IsValid(value);
   }

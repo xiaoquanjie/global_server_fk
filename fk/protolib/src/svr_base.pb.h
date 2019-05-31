@@ -37,7 +37,7 @@ namespace protobuf_svr_5fbase_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[6];
+  static const ::google::protobuf::internal::ParseTable schema[8];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -55,6 +55,10 @@ void InitDefaultsRegisterServerRspImpl();
 void InitDefaultsRegisterServerRsp();
 void InitDefaultsSvrHeatBeatImpl();
 void InitDefaultsSvrHeatBeat();
+void InitDefaultsRegisterTransferReqImpl();
+void InitDefaultsRegisterTransferReq();
+void InitDefaultsRegisterTransferRspImpl();
+void InitDefaultsRegisterTransferRsp();
 inline void InitDefaults() {
   InitDefaultsRet();
   InitDefaultsSocketClientIn();
@@ -62,6 +66,8 @@ inline void InitDefaults() {
   InitDefaultsRegisterServerReq();
   InitDefaultsRegisterServerRsp();
   InitDefaultsSvrHeatBeat();
+  InitDefaultsRegisterTransferReq();
+  InitDefaultsRegisterTransferRsp();
 }
 }  // namespace protobuf_svr_5fbase_2eproto
 namespace proto {
@@ -71,6 +77,12 @@ extern RegisterServerReqDefaultTypeInternal _RegisterServerReq_default_instance_
 class RegisterServerRsp;
 class RegisterServerRspDefaultTypeInternal;
 extern RegisterServerRspDefaultTypeInternal _RegisterServerRsp_default_instance_;
+class RegisterTransferReq;
+class RegisterTransferReqDefaultTypeInternal;
+extern RegisterTransferReqDefaultTypeInternal _RegisterTransferReq_default_instance_;
+class RegisterTransferRsp;
+class RegisterTransferRspDefaultTypeInternal;
+extern RegisterTransferRspDefaultTypeInternal _RegisterTransferRsp_default_instance_;
 class Ret;
 class RetDefaultTypeInternal;
 extern RetDefaultTypeInternal _Ret_default_instance_;
@@ -796,6 +808,248 @@ class SvrHeatBeat : public ::google::protobuf::Message /* @@protoc_insertion_poi
   friend struct ::protobuf_svr_5fbase_2eproto::TableStruct;
   friend void ::protobuf_svr_5fbase_2eproto::InitDefaultsSvrHeatBeatImpl();
 };
+// -------------------------------------------------------------------
+
+class RegisterTransferReq : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.RegisterTransferReq) */ {
+ public:
+  RegisterTransferReq();
+  virtual ~RegisterTransferReq();
+
+  RegisterTransferReq(const RegisterTransferReq& from);
+
+  inline RegisterTransferReq& operator=(const RegisterTransferReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  RegisterTransferReq(RegisterTransferReq&& from) noexcept
+    : RegisterTransferReq() {
+    *this = ::std::move(from);
+  }
+
+  inline RegisterTransferReq& operator=(RegisterTransferReq&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RegisterTransferReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const RegisterTransferReq* internal_default_instance() {
+    return reinterpret_cast<const RegisterTransferReq*>(
+               &_RegisterTransferReq_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    6;
+
+  void Swap(RegisterTransferReq* other);
+  friend void swap(RegisterTransferReq& a, RegisterTransferReq& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RegisterTransferReq* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  RegisterTransferReq* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const RegisterTransferReq& from);
+  void MergeFrom(const RegisterTransferReq& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(RegisterTransferReq* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional int32 server_type = 1;
+  bool has_server_type() const;
+  void clear_server_type();
+  static const int kServerTypeFieldNumber = 1;
+  ::google::protobuf::int32 server_type() const;
+  void set_server_type(::google::protobuf::int32 value);
+
+  // optional int32 instance_id = 2;
+  bool has_instance_id() const;
+  void clear_instance_id();
+  static const int kInstanceIdFieldNumber = 2;
+  ::google::protobuf::int32 instance_id() const;
+  void set_instance_id(::google::protobuf::int32 value);
+
+  // optional int32 server_zone = 3;
+  bool has_server_zone() const;
+  void clear_server_zone();
+  static const int kServerZoneFieldNumber = 3;
+  ::google::protobuf::int32 server_zone() const;
+  void set_server_zone(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.RegisterTransferReq)
+ private:
+  void set_has_server_type();
+  void clear_has_server_type();
+  void set_has_instance_id();
+  void clear_has_instance_id();
+  void set_has_server_zone();
+  void clear_has_server_zone();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::int32 server_type_;
+  ::google::protobuf::int32 instance_id_;
+  ::google::protobuf::int32 server_zone_;
+  friend struct ::protobuf_svr_5fbase_2eproto::TableStruct;
+  friend void ::protobuf_svr_5fbase_2eproto::InitDefaultsRegisterTransferReqImpl();
+};
+// -------------------------------------------------------------------
+
+class RegisterTransferRsp : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.RegisterTransferRsp) */ {
+ public:
+  RegisterTransferRsp();
+  virtual ~RegisterTransferRsp();
+
+  RegisterTransferRsp(const RegisterTransferRsp& from);
+
+  inline RegisterTransferRsp& operator=(const RegisterTransferRsp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  RegisterTransferRsp(RegisterTransferRsp&& from) noexcept
+    : RegisterTransferRsp() {
+    *this = ::std::move(from);
+  }
+
+  inline RegisterTransferRsp& operator=(RegisterTransferRsp&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const RegisterTransferRsp& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const RegisterTransferRsp* internal_default_instance() {
+    return reinterpret_cast<const RegisterTransferRsp*>(
+               &_RegisterTransferRsp_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    7;
+
+  void Swap(RegisterTransferRsp* other);
+  friend void swap(RegisterTransferRsp& a, RegisterTransferRsp& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RegisterTransferRsp* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  RegisterTransferRsp* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const RegisterTransferRsp& from);
+  void MergeFrom(const RegisterTransferRsp& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(RegisterTransferRsp* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .proto.Ret ret = 1;
+  bool has_ret() const;
+  void clear_ret();
+  static const int kRetFieldNumber = 1;
+  const ::proto::Ret& ret() const;
+  ::proto::Ret* release_ret();
+  ::proto::Ret* mutable_ret();
+  void set_allocated_ret(::proto::Ret* ret);
+
+  // @@protoc_insertion_point(class_scope:proto.RegisterTransferRsp)
+ private:
+  void set_has_ret();
+  void clear_has_ret();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::proto::Ret* ret_;
+  friend struct ::protobuf_svr_5fbase_2eproto::TableStruct;
+  friend void ::protobuf_svr_5fbase_2eproto::InitDefaultsRegisterTransferRspImpl();
+};
 // ===================================================================
 
 
@@ -1088,9 +1342,147 @@ inline void SvrHeatBeat::set_instance_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:proto.SvrHeatBeat.instance_id)
 }
 
+// -------------------------------------------------------------------
+
+// RegisterTransferReq
+
+// optional int32 server_type = 1;
+inline bool RegisterTransferReq::has_server_type() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void RegisterTransferReq::set_has_server_type() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void RegisterTransferReq::clear_has_server_type() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void RegisterTransferReq::clear_server_type() {
+  server_type_ = 0;
+  clear_has_server_type();
+}
+inline ::google::protobuf::int32 RegisterTransferReq::server_type() const {
+  // @@protoc_insertion_point(field_get:proto.RegisterTransferReq.server_type)
+  return server_type_;
+}
+inline void RegisterTransferReq::set_server_type(::google::protobuf::int32 value) {
+  set_has_server_type();
+  server_type_ = value;
+  // @@protoc_insertion_point(field_set:proto.RegisterTransferReq.server_type)
+}
+
+// optional int32 instance_id = 2;
+inline bool RegisterTransferReq::has_instance_id() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void RegisterTransferReq::set_has_instance_id() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void RegisterTransferReq::clear_has_instance_id() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void RegisterTransferReq::clear_instance_id() {
+  instance_id_ = 0;
+  clear_has_instance_id();
+}
+inline ::google::protobuf::int32 RegisterTransferReq::instance_id() const {
+  // @@protoc_insertion_point(field_get:proto.RegisterTransferReq.instance_id)
+  return instance_id_;
+}
+inline void RegisterTransferReq::set_instance_id(::google::protobuf::int32 value) {
+  set_has_instance_id();
+  instance_id_ = value;
+  // @@protoc_insertion_point(field_set:proto.RegisterTransferReq.instance_id)
+}
+
+// optional int32 server_zone = 3;
+inline bool RegisterTransferReq::has_server_zone() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void RegisterTransferReq::set_has_server_zone() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void RegisterTransferReq::clear_has_server_zone() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void RegisterTransferReq::clear_server_zone() {
+  server_zone_ = 0;
+  clear_has_server_zone();
+}
+inline ::google::protobuf::int32 RegisterTransferReq::server_zone() const {
+  // @@protoc_insertion_point(field_get:proto.RegisterTransferReq.server_zone)
+  return server_zone_;
+}
+inline void RegisterTransferReq::set_server_zone(::google::protobuf::int32 value) {
+  set_has_server_zone();
+  server_zone_ = value;
+  // @@protoc_insertion_point(field_set:proto.RegisterTransferReq.server_zone)
+}
+
+// -------------------------------------------------------------------
+
+// RegisterTransferRsp
+
+// optional .proto.Ret ret = 1;
+inline bool RegisterTransferRsp::has_ret() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void RegisterTransferRsp::set_has_ret() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void RegisterTransferRsp::clear_has_ret() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void RegisterTransferRsp::clear_ret() {
+  if (ret_ != NULL) ret_->Clear();
+  clear_has_ret();
+}
+inline const ::proto::Ret& RegisterTransferRsp::ret() const {
+  const ::proto::Ret* p = ret_;
+  // @@protoc_insertion_point(field_get:proto.RegisterTransferRsp.ret)
+  return p != NULL ? *p : *reinterpret_cast<const ::proto::Ret*>(
+      &::proto::_Ret_default_instance_);
+}
+inline ::proto::Ret* RegisterTransferRsp::release_ret() {
+  // @@protoc_insertion_point(field_release:proto.RegisterTransferRsp.ret)
+  clear_has_ret();
+  ::proto::Ret* temp = ret_;
+  ret_ = NULL;
+  return temp;
+}
+inline ::proto::Ret* RegisterTransferRsp::mutable_ret() {
+  set_has_ret();
+  if (ret_ == NULL) {
+    ret_ = new ::proto::Ret;
+  }
+  // @@protoc_insertion_point(field_mutable:proto.RegisterTransferRsp.ret)
+  return ret_;
+}
+inline void RegisterTransferRsp::set_allocated_ret(::proto::Ret* ret) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete ret_;
+  }
+  if (ret) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      ret = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, ret, submessage_arena);
+    }
+    set_has_ret();
+  } else {
+    clear_has_ret();
+  }
+  ret_ = ret;
+  // @@protoc_insertion_point(field_set_allocated:proto.RegisterTransferRsp.ret)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

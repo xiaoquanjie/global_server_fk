@@ -32,3 +32,13 @@ message SvrHeatBeat {
 	optional int32 server_type = 1;
 	optional int32 instance_id = 2;
 }
+
+message RegisterTransferReq {
+	optional int32 server_type = 1;
+	optional int32 instance_id = 2;
+	optional int32 server_zone = 3;
+}
+
+message RegisterTransferRsp {
+	optional Ret ret = 1;
+}

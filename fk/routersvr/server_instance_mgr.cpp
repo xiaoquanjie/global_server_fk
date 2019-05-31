@@ -75,10 +75,8 @@ void SeverInstanceMgr::LogoutInstance(base::s_int64_t fd) {
 		return;
 	}
 
-
-	// 暂时不从_type_id_map里删除
 	LogInfo("logout server instance: server_type=" << iter->info->svr_type << " instance_id=" << iter->inst_id << " fd=" << fd);
-	fd_index.modify(iter, FuncModifySvrInstInfo(fd, false));
+	fd_index.modify(iter, FuncModifySvrInstInfo(0, false));
 }
 
 base::s_int64_t SeverInstanceMgr::GetFdByTypeId(unsigned int server_type, int instance_id) {

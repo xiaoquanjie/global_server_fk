@@ -22,6 +22,9 @@
     <ClCompile Include="router_inst_mgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="transfer_inst_mgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="transfersvr.h">
@@ -42,9 +45,6 @@
       <Filter>源文件</Filter>
     </None>
     <None Include="BUILD">
-      <Filter>源文件</Filter>
-    </None>
-    <None Include="transfer_inst_mgr.cpp">
       <Filter>源文件</Filter>
     </None>
   </ItemGroup>

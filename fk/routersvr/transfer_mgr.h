@@ -8,7 +8,7 @@
 struct TransferInfo {
 	std::string ip;
 	unsigned short port;
-	int number;
+	base::s_int32_t inst_id;
 	base::s_int64_t fd;
 };
 
@@ -27,11 +27,11 @@ public:
 
 	bool ExistTransfer(const std::string& ip,
 		unsigned int port,
-		int number);
+		base::s_int32_t inst_id);
 
-	int AddTransfer(const std::string& ip,
+	int LoginTransfer(const std::string& ip,
 		unsigned int port, 
-		int number,
+		base::s_int32_t inst_id,
 		base::s_int64_t fd);
 
 	int GetTransferInstId(base::s_uint64_t userid, std::vector<base::s_uint64_t>& inst_vec);
@@ -64,6 +64,9 @@ private:
 
 	base::timestamp _last_snd_time;
 	std::vector<TransferInfo> _transfer_info_vec;
+
+	base::Buffer _buffer;
+	AppHeadFrame _frame;
 };
 
 #ifndef TransferMgrSgl

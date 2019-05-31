@@ -20,7 +20,7 @@ public:
 			if (ptr->GetListenConnType() == Enum_ConnType_Router) {
 				SendRegistCmd();
 				const auto& ep = ptr->RemoteEndpoint();
-				RouterMgrSgl.AddRouter(ep.Address(), ep.Port(), ptr->GetListenConnNum(), fd());
+				RouterMgrSgl.LoginRouter(ep.Address(), ep.Port(), ptr->GetListenConnNum(), fd());
 			}
 		}
 		return 0;

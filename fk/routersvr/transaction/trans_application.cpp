@@ -23,7 +23,7 @@ public:
 			if (ptr->GetListenConnType() == Enum_ConnType_Transfer) {
 				SendRegistCmd();
 				const auto& ep = ptr->RemoteEndpoint();
-				TransferMgrSgl.AddTransfer(ep.Address(), ep.Port(), ptr->GetListenConnNum(), fd());
+				TransferMgrSgl.LoginTransfer(ep.Address(), ep.Port(), ptr->GetListenConnNum(), fd());
 			}
 		}
 		return 0;
@@ -54,12 +54,12 @@ public:
 				}
 			}
 			else if (retry_type == -1) {
-				LogInfo("regiest self server  to transfersvr fail, because of " << respond.ShortDebugString());
+				LogInfo("regiest self server to transfersvr fail, because of " << respond.ShortDebugString());
 				retry_type = 0;
 				Wait(1000);
 			}
 			else {
-				LogError("regist self server  to transfersvr fail, because of timeout");
+				LogError("regist self server to transfersvr fail, because of timeout");
 				retry_type = 0;
 			}
 		} while (true);

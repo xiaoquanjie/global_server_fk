@@ -37,14 +37,18 @@ int TransferMgr::Reload() {
 		return -1;
 	}
 
-	std::set<int> number_set;
+	std::set<int> inst_id_set;
 	for (int idx = 0; idx < transfer_config.Data().transfer_list_size(); ++idx) {
-		int number = transfer_config.Data().transfer_list(idx).number();
-		if (number_set.count(number) > 0) {
-			LogError("router number is duplicated: " << number);
+		int zone = transfer_config.Data().transfer_list(idx).svr_zone();
+		int inst_id = transfer_config.Data().transfer_list(idx).inst_id();
+		if (zone != SelfServerZone()) {
+			continue;
+		}
+		if (inst_id_set.count(inst_id) > 0) {
+			LogError("router inst_id is duplicated: " << inst_id);
 			return -1;
 		}
-		number_set.insert(number);
+		inst_id_set.insert(inst_id);
 	}
 
 	if (0 != ConnectTransfers(transfer_config)) {
@@ -70,7 +74,7 @@ void TransferMgr::Tick(const base::timestamp& now) {
 			0,
 			SelfServerZone(),
 			proto::SVR_TYPE_TRANSFER,
-			info.number,
+			info.inst_id,
 			0,
 			0,
 			0,
@@ -80,26 +84,26 @@ void TransferMgr::Tick(const base::timestamp& now) {
 
 bool TransferMgr::ExistTransfer(const std::string& ip,
 	unsigned int port,
-	int number) {
+	base::s_int32_t inst_id) {
 	for (auto iter = _transfer_info_vec.begin(); iter != _transfer_info_vec.end(); ++iter) {
 		if (ip == iter->ip
 			&& port == iter->port
-			&& number == iter->number) {
+			&& inst_id == iter->inst_id) {
 			return true;
 		}
 	}
 	return false;
 }
 
-int TransferMgr::AddTransfer(const std::string& ip,
+int TransferMgr::LoginTransfer(const std::string& ip,
 	unsigned int port,
-	int number,
+	base::s_int32_t inst_id,
 	base::s_int64_t fd) {
 	for (auto iter = _transfer_info_vec.begin(); iter != _transfer_info_vec.end();
 		++iter) {
 		if (ip == iter->ip
 			&& port == iter->port
-			&& number == iter->number) {
+			&& inst_id == iter->inst_id) {
 			iter->fd = fd;
 			return 0;
 		}
@@ -127,33 +131,31 @@ int TransferMgr::SendMsgToTransferByFd(base::s_uint64_t fd,
 	base::s_uint32_t dst_trans_id,
 	base::s_uint32_t req_random,
 	google::protobuf::Message& msg) {
-	AppHeadFrame frame;
-	frame.set_is_broadcast(false);
-	frame.set_src_zone(SelfServerZone());
-	frame.set_dst_zone(dst_zone);
-	frame.set_src_svr_type(SelfSeverType());
-	frame.set_dst_svr_type(dst_svr_type);
-	frame.set_src_inst_id(SelfInstanceId());
-	frame.set_dst_inst_id(dst_trans_id);
-	frame.set_src_trans_id(src_trans_id);
-	frame.set_dst_trans_id(dst_trans_id);
-	frame.set_cmd(cmd);
-	frame.set_userid(userid);
-	frame.set_req_random(req_random);
+	
+	_frame.set_is_broadcast(false);
+	_frame.set_src_zone(SelfServerZone());
+	_frame.set_dst_zone(dst_zone);
+	_frame.set_src_svr_type(SelfSeverType());
+	_frame.set_dst_svr_type(dst_svr_type);
+	_frame.set_src_inst_id(SelfInstanceId());
+	_frame.set_dst_inst_id(dst_trans_id);
+	_frame.set_src_trans_id(src_trans_id);
+	_frame.set_dst_trans_id(dst_trans_id);
+	_frame.set_cmd(cmd);
+	_frame.set_userid(userid);
+	_frame.set_req_random(req_random);
 
 	std::string data = msg.SerializePartialAsString();
-	frame.set_cmd_length(data.length());
+	_frame.set_cmd_length(data.length());
 
-	base::Buffer buffer;
-	buffer.Write(frame);
-	buffer.Write(data.c_str(), data.length());
-	if (NetIoHandlerSgl.SendDataByFd(fd, buffer.Data(), buffer.Length())) {
+	_buffer.Write(_frame);
+	_buffer.Write(data.c_str(), data.length());
+	if (NetIoHandlerSgl.SendDataByFd(fd, _buffer.Data(), _buffer.Length())) {
 		return 0;
 	}
 	else {
 		return -1;
 	}
-	return 0;
 }
 
 int TransferMgr::ConnectTransfers(ServerCfg<config::TransferConfig>& transfer_config) {
@@ -165,37 +167,36 @@ int TransferMgr::ConnectTransfers(ServerCfg<config::TransferConfig>& transfer_co
 		if (item.svr_zone() != SelfServerZone()) {
 			continue;
 		}
-		if (!ExistTransfer(item.listen_ip(), item.listen_port(), item.number())) {
+		if (!ExistTransfer(item.listen_ip(), item.listen_port(), item.inst_id())) {
 			NetIoHandlerSgl.ConnectOne(item.listen_ip(), item.listen_port(),
-				Enum_ConnType_Transfer, item.number());
+				Enum_ConnType_Transfer, item.inst_id());
 
 			TransferInfo transfer_info;
 			transfer_info.ip = item.listen_ip();
 			transfer_info.port = item.listen_port();
-			transfer_info.number = item.number();
+			transfer_info.inst_id = item.inst_id();
 			transfer_info.fd = 0;
-			transfer_info_map[item.number()] = transfer_info;
+			transfer_info_map[item.inst_id()] = transfer_info;
 		}
 	}
 
 	// 需要被关闭了的
-	for (auto iter = _transfer_info_vec.begin(); iter != _transfer_info_vec.end();) {
+	for (auto& info : _transfer_info_vec) {
 		bool exist = false;
 		for (int idx = 0; idx < transfer_config.Data().transfer_list_size(); ++idx) {
 			auto& item = transfer_config.Data().transfer_list(idx);
-			if (iter->ip == item.listen_ip()
-				&& iter->port == item.listen_port()
-				&& iter->number == item.number()) {
+			if (info.ip == item.listen_ip()
+				&& info.port == item.listen_port()
+				&& info.inst_id == item.inst_id()) {
 				exist = true;
 				break;
 			}
 		}
-		if (!exist) {
-			NetIoHandlerSgl.CloseFd(iter->fd);
+		if (exist) {
+			transfer_info_map[info.inst_id] = info;
 		}
 		else {
-			transfer_info_map[iter->number] = *iter;
-			iter++;
+			NetIoHandlerSgl.CloseFd(info.fd);
 		}
 	}
 

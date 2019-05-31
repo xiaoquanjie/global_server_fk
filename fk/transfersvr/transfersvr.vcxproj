@@ -142,7 +142,7 @@
   <ItemGroup>
     <None Include="..\conf\transfersvr\transfersvr.conf" />
     <None Include="BUILD" />
-    <None Include="transfer_inst_mgr.cpp" />
+    <ClCompile Include="transfer_inst_mgr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
