@@ -6,6 +6,8 @@
 #include "transfersvr/router_inst_mgr.h"
 #include "transfersvr/transfer_inst_mgr.h"
 #include "slience/base/random.hpp"
+#include "transfersvr/user_login_mgr.h"
+#include "transfersvr/transfersvr.h"
 
 // 新连接
 class TransClientIn 
@@ -293,3 +295,33 @@ public:
 };
 
 REGISTER_TRANSACTION(CMD_SVR_HEATBEAT, TransSvrHeatBeat);
+
+///////////////////////////////////////////////////////////////////////////
+
+class TransTransferHeatBeat
+	: public BaseTransaction<TransTransferHeatBeat, proto::TransferHeatBeat> {
+public:
+	TransTransferHeatBeat(unsigned int cmd) : BaseTransaction(cmd) {}
+
+	int OnRequest(proto::TransferHeatBeat& request) {
+		LogInfo("transfer heat beat: " << request.ShortDebugString());
+		return 0;
+	}
+};
+
+REGISTER_TRANSACTION(CMD_TRANSFER_HEATBEAT, TransTransferHeatBeat);
+
+///////////////////////////////////////////////////////////////////////////
+
+// 更新login信息到transfer
+class TransUpdateLoginInfo
+	: public BaseTransaction<TransUpdateLoginInfo, proto::UpdateLoginInfoToTransfer> {
+public:
+	TransUpdateLoginInfo(unsigned int cmd) : BaseTransaction(cmd) {}
+
+	int OnRequest(proto::UpdateLoginInfoToTransfer& request) {
+		UserLoginMgrSgl.UpdateLoginInfo(request.userid(), request.server_zone(), (base::s_uint32_t)TransferAppSgl.GetNow().second());
+		LogInfo("UpdateLoginInfoToTransfer: " << request.ShortDebugString());
+		return 0;
+	}
+};

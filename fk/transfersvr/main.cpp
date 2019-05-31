@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	TransferAppSgl::mutable_instance().Init(argc, argv);
-	TransferAppSgl::mutable_instance().Run();
+	TransferAppSgl.Init(argc, argv);
+	TransferAppSgl.Run();
 	return 0;
 }

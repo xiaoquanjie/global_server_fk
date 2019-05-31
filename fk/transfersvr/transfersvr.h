@@ -36,5 +36,5 @@ private:
 	ServerCfg<config::TransfersvrConfig> _svr_config;
 };
 
-typedef base::singleton<TransferApplication> TransferAppSgl;
+#define TransferAppSgl base::singleton<TransferApplication>::mutable_instance()
 

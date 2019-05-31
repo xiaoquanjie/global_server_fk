@@ -5,6 +5,7 @@
 #include "commonlib/net_handler/net_handler.h"
 #include "transfersvr/transfer_inst_mgr.h"
 #include "transfersvr/router_inst_mgr.h"
+#include "transfersvr/user_login_mgr.h"
 
 int TransferApplication::ServerType() {
 	return proto::SVR_TYPE_TRANSFER;
@@ -91,7 +92,12 @@ int TransferApplication::OnExit() {
 
 int TransferApplication::OnTick(const base::timestamp& now) {
 	NetIoHandlerSgl.OnTick();
-	TransferInstanceMgrSgl.Tick(now);
+	if (TickCount() % (100 * 20) == 0) {
+		TransferInstanceMgrSgl.Tick(now);
+	}
+	if (TickCount() % (100 * 5) == 0) {
+		UserLoginMgrSgl.Tick(now);
+	}
 	return 0;
 }
 
@@ -102,6 +108,7 @@ int TransferApplication::OnProc(base::s_int64_t fd, const AppHeadFrame& frame, c
 	case proto::CMD::CMD_REGISTER_SERVER_REQ:
 	case proto::CMD::CMD_REGISTER_SERVER_RSP:
 	case proto::CMD::CMD_SVR_HEATBEAT:
+	case proto::CMD::CMD_TRANSFER_HEATBEAT:
 		TransactionMgr::ProcessFrame(fd, ServerType(), InstanceId(), ServerZone(), frame, data);
 		return 0;
 	default:

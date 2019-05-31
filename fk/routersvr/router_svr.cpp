@@ -78,7 +78,9 @@ int RouterApplication::OnExit() {
 
 int RouterApplication::OnTick(const base::timestamp& now) {
 	NetIoHandlerSgl.OnTick();
-	TransferMgrSgl.Tick(now);
+	if (TickCount() % (100 * 20) == 0) {
+		TransferMgrSgl.Tick(now);
+	}
 	return 0;
 }
 

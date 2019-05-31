@@ -12,12 +12,15 @@ message Ret {
 	optional string what = 2;
 }
 
+// 新连接
 message SocketClientIn {
 }
 
+// 连接断开
 message SocketClientOut {
 }
 
+// 普通服务注册
 message RegisterServerReq {
 	optional int32 server_type = 1;
 	optional int32 instance_id = 2;
@@ -28,11 +31,13 @@ message RegisterServerRsp {
 	optional Ret ret = 1;
 }
 
+// 普通服务心跳
 message SvrHeatBeat {
 	optional int32 server_type = 1;
 	optional int32 instance_id = 2;
 }
 
+// transfer服务注册
 message RegisterTransferReq {
 	optional int32 server_type = 1;
 	optional int32 instance_id = 2;
@@ -43,7 +48,14 @@ message RegisterTransferRsp {
 	optional Ret ret = 1;
 }
 
+// transfer服务心跳
 message TransferHeatBeat {
 	optional int32 server_zone = 1;
 	optional int32 instance_id = 2;
+}
+
+// 更新login信息到transfer
+message UpdateLoginInfoToTransfer {
+	optional uint64 userid = 1;
+	optional int32 server_zone = 2;
 }

@@ -25,6 +25,9 @@
     <ClCompile Include="transfer_inst_mgr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="user_login_mgr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="transfersvr.h">
@@ -37,6 +40,9 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="transfer_inst_mgr.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="user_login_mgr.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>

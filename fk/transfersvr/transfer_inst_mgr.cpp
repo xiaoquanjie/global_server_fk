@@ -57,11 +57,6 @@ int TransferInstanceMgr::Reload() {
 }
 
 void TransferInstanceMgr::Tick(const base::timestamp& now) {
-	if ((now.second() - _last_snd_time.second()) < 20) {
-		return;
-	}
-
-	_last_snd_time = now;
 	proto::TransferHeatBeat msg;
 	msg.set_server_zone(SelfServerZone());
 	msg.set_instance_id(SelfInstanceId());

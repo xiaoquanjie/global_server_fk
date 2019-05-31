@@ -132,12 +132,14 @@
     <ClCompile Include="router_inst_mgr.cpp" />
     <ClCompile Include="transaction\trans_application.cpp" />
     <ClCompile Include="transfersvr.cpp" />
+    <ClCompile Include="user_login_mgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="router_instance_info.h" />
     <ClInclude Include="router_inst_mgr.h" />
     <ClInclude Include="transfersvr.h" />
     <ClInclude Include="transfer_inst_mgr.h" />
+    <ClInclude Include="user_login_mgr.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\conf\transfersvr\transfersvr.conf" />

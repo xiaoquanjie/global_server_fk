@@ -59,6 +59,7 @@ namespace proto {
 enum CMD_SvrBase {
   CMD_SvrBase_CMD_SVR_HEATBEAT = 16,
   CMD_SvrBase_CMD_TRANSFER_HEATBEAT = 17,
+  CMD_SvrBase_CMD_UPDATE_LOGININFO_TO_T = 18,
   CMD_SvrBase_CMD_SOCKET_CLIENT_IN = 1,
   CMD_SvrBase_CMD_SOCKET_CLIENT_OUT = 2,
   CMD_SvrBase_CMD_REGISTER_SERVER_REQ = 3,
@@ -68,7 +69,7 @@ enum CMD_SvrBase {
 };
 bool CMD_SvrBase_IsValid(int value);
 const CMD_SvrBase CMD_SvrBase_SvrBase_MIN = CMD_SvrBase_CMD_SOCKET_CLIENT_IN;
-const CMD_SvrBase CMD_SvrBase_SvrBase_MAX = CMD_SvrBase_CMD_TRANSFER_HEATBEAT;
+const CMD_SvrBase CMD_SvrBase_SvrBase_MAX = CMD_SvrBase_CMD_UPDATE_LOGININFO_TO_T;
 const int CMD_SvrBase_SvrBase_ARRAYSIZE = CMD_SvrBase_SvrBase_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* CMD_SvrBase_descriptor();
@@ -175,6 +176,8 @@ class CMD : public ::google::protobuf::Message /* @@protoc_insertion_point(class
     CMD_SvrBase_CMD_SVR_HEATBEAT;
   static const SvrBase CMD_TRANSFER_HEATBEAT =
     CMD_SvrBase_CMD_TRANSFER_HEATBEAT;
+  static const SvrBase CMD_UPDATE_LOGININFO_TO_T =
+    CMD_SvrBase_CMD_UPDATE_LOGININFO_TO_T;
   static const SvrBase CMD_SOCKET_CLIENT_IN =
     CMD_SvrBase_CMD_SOCKET_CLIENT_IN;
   static const SvrBase CMD_SOCKET_CLIENT_OUT =

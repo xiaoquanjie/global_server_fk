@@ -63,13 +63,6 @@ int RouterMgr::Reload() {
 }
 
 void RouterMgr::Tick(const base::timestamp& now) {
-	// 这个心跳的设计，暂时意义不是太大，因为不支持router动态变化
-	if ((now.second() - _last_snd_heatbeat_time.second()) < 20) {
-		return;
-	}
-
-	// send heat beat
-	_last_snd_heatbeat_time = now;
 	proto::SvrHeatBeat msg;
 	msg.set_server_type(SelfSeverType());
 	msg.set_instance_id(SelfInstanceId());

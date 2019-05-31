@@ -37,7 +37,7 @@ namespace protobuf_svr_5fbase_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[9];
+  static const ::google::protobuf::internal::ParseTable schema[10];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -61,6 +61,8 @@ void InitDefaultsRegisterTransferRspImpl();
 void InitDefaultsRegisterTransferRsp();
 void InitDefaultsTransferHeatBeatImpl();
 void InitDefaultsTransferHeatBeat();
+void InitDefaultsUpdateLoginInfoToTransferImpl();
+void InitDefaultsUpdateLoginInfoToTransfer();
 inline void InitDefaults() {
   InitDefaultsRet();
   InitDefaultsSocketClientIn();
@@ -71,6 +73,7 @@ inline void InitDefaults() {
   InitDefaultsRegisterTransferReq();
   InitDefaultsRegisterTransferRsp();
   InitDefaultsTransferHeatBeat();
+  InitDefaultsUpdateLoginInfoToTransfer();
 }
 }  // namespace protobuf_svr_5fbase_2eproto
 namespace proto {
@@ -101,6 +104,9 @@ extern SvrHeatBeatDefaultTypeInternal _SvrHeatBeat_default_instance_;
 class TransferHeatBeat;
 class TransferHeatBeatDefaultTypeInternal;
 extern TransferHeatBeatDefaultTypeInternal _TransferHeatBeat_default_instance_;
+class UpdateLoginInfoToTransfer;
+class UpdateLoginInfoToTransferDefaultTypeInternal;
+extern UpdateLoginInfoToTransferDefaultTypeInternal _UpdateLoginInfoToTransfer_default_instance_;
 }  // namespace proto
 namespace proto {
 
@@ -1176,6 +1182,126 @@ class TransferHeatBeat : public ::google::protobuf::Message /* @@protoc_insertio
   friend struct ::protobuf_svr_5fbase_2eproto::TableStruct;
   friend void ::protobuf_svr_5fbase_2eproto::InitDefaultsTransferHeatBeatImpl();
 };
+// -------------------------------------------------------------------
+
+class UpdateLoginInfoToTransfer : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.UpdateLoginInfoToTransfer) */ {
+ public:
+  UpdateLoginInfoToTransfer();
+  virtual ~UpdateLoginInfoToTransfer();
+
+  UpdateLoginInfoToTransfer(const UpdateLoginInfoToTransfer& from);
+
+  inline UpdateLoginInfoToTransfer& operator=(const UpdateLoginInfoToTransfer& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  UpdateLoginInfoToTransfer(UpdateLoginInfoToTransfer&& from) noexcept
+    : UpdateLoginInfoToTransfer() {
+    *this = ::std::move(from);
+  }
+
+  inline UpdateLoginInfoToTransfer& operator=(UpdateLoginInfoToTransfer&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const UpdateLoginInfoToTransfer& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const UpdateLoginInfoToTransfer* internal_default_instance() {
+    return reinterpret_cast<const UpdateLoginInfoToTransfer*>(
+               &_UpdateLoginInfoToTransfer_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    9;
+
+  void Swap(UpdateLoginInfoToTransfer* other);
+  friend void swap(UpdateLoginInfoToTransfer& a, UpdateLoginInfoToTransfer& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline UpdateLoginInfoToTransfer* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  UpdateLoginInfoToTransfer* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const UpdateLoginInfoToTransfer& from);
+  void MergeFrom(const UpdateLoginInfoToTransfer& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(UpdateLoginInfoToTransfer* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional uint64 userid = 1;
+  bool has_userid() const;
+  void clear_userid();
+  static const int kUseridFieldNumber = 1;
+  ::google::protobuf::uint64 userid() const;
+  void set_userid(::google::protobuf::uint64 value);
+
+  // optional int32 server_zone = 2;
+  bool has_server_zone() const;
+  void clear_server_zone();
+  static const int kServerZoneFieldNumber = 2;
+  ::google::protobuf::int32 server_zone() const;
+  void set_server_zone(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:proto.UpdateLoginInfoToTransfer)
+ private:
+  void set_has_userid();
+  void clear_has_userid();
+  void set_has_server_zone();
+  void clear_has_server_zone();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::uint64 userid_;
+  ::google::protobuf::int32 server_zone_;
+  friend struct ::protobuf_svr_5fbase_2eproto::TableStruct;
+  friend void ::protobuf_svr_5fbase_2eproto::InitDefaultsUpdateLoginInfoToTransferImpl();
+};
 // ===================================================================
 
 
@@ -1654,9 +1780,63 @@ inline void TransferHeatBeat::set_instance_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:proto.TransferHeatBeat.instance_id)
 }
 
+// -------------------------------------------------------------------
+
+// UpdateLoginInfoToTransfer
+
+// optional uint64 userid = 1;
+inline bool UpdateLoginInfoToTransfer::has_userid() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void UpdateLoginInfoToTransfer::set_has_userid() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void UpdateLoginInfoToTransfer::clear_has_userid() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void UpdateLoginInfoToTransfer::clear_userid() {
+  userid_ = GOOGLE_ULONGLONG(0);
+  clear_has_userid();
+}
+inline ::google::protobuf::uint64 UpdateLoginInfoToTransfer::userid() const {
+  // @@protoc_insertion_point(field_get:proto.UpdateLoginInfoToTransfer.userid)
+  return userid_;
+}
+inline void UpdateLoginInfoToTransfer::set_userid(::google::protobuf::uint64 value) {
+  set_has_userid();
+  userid_ = value;
+  // @@protoc_insertion_point(field_set:proto.UpdateLoginInfoToTransfer.userid)
+}
+
+// optional int32 server_zone = 2;
+inline bool UpdateLoginInfoToTransfer::has_server_zone() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void UpdateLoginInfoToTransfer::set_has_server_zone() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void UpdateLoginInfoToTransfer::clear_has_server_zone() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void UpdateLoginInfoToTransfer::clear_server_zone() {
+  server_zone_ = 0;
+  clear_has_server_zone();
+}
+inline ::google::protobuf::int32 UpdateLoginInfoToTransfer::server_zone() const {
+  // @@protoc_insertion_point(field_get:proto.UpdateLoginInfoToTransfer.server_zone)
+  return server_zone_;
+}
+inline void UpdateLoginInfoToTransfer::set_server_zone(::google::protobuf::int32 value) {
+  set_has_server_zone();
+  server_zone_ = value;
+  // @@protoc_insertion_point(field_set:proto.UpdateLoginInfoToTransfer.server_zone)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

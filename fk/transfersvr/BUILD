@@ -6,6 +6,7 @@ cc_binary(
 	   'transaction/trans_application.cpp',
 	   'router_inst_mgr.cpp',
 	   'transfer_inst_mgr.cpp',
+	   'user_login_mgr.cpp',
     ],
     deps = [
         '//commonlib:common',

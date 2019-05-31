@@ -69,8 +69,7 @@ protected:
 private:
 	std::string _router_file;
 	std::vector<RouterInfo> _router_info_vec;
-	base::timestamp _last_snd_heatbeat_time;
-
+	
 	int _self_server_type;
 	int _self_instance_id;
 	int _self_server_zone;

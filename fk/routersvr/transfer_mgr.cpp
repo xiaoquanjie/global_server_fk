@@ -60,11 +60,6 @@ int TransferMgr::Reload() {
 }
 
 void TransferMgr::Tick(const base::timestamp& now) {
-	if ((now.second() - _last_snd_time.second()) < 20) {
-		return;
-	}
-
-	_last_snd_time = now;
 	proto::SvrHeatBeat msg;
 	msg.set_server_type(SelfSeverType());
 	msg.set_instance_id(SelfInstanceId());
