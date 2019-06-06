@@ -47,6 +47,7 @@ public:
 	// 被动
 	int LoginTransfer(base::s_int32_t server_zone, base::s_int32_t inst_id, base::s_int64_t fd);
 
+	// 被动
 	int LogoutTransfer(base::s_int64_t fd);
 
 	int SendMsgToTransferByFd(base::s_uint64_t fd,

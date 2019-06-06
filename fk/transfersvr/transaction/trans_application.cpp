@@ -156,7 +156,9 @@ public:
 	}
 
 	void OnActiveTransfer(netiolib::TcpConnectorPtr ptr) {
-		// 发起从连
+		// 标记为下线
+		TransferInstanceMgrSgl.LogoutTransfer(fd());
+		// 发起重连
 		const auto& ep = ptr->RemoteEndpoint();
 		if (TransferInstanceMgrSgl.ExistTransfer(ep.Address(), ep.Port(), ptr->GetListenConnNum())) {
 			LogError("ip:"

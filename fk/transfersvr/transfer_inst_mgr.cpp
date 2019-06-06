@@ -127,6 +127,7 @@ int TransferInstanceMgr::LoginTransfer(base::s_int32_t server_zone,
 			if (iter2->zone == server_zone && iter2->inst_id == inst_id) {
 				iter2->online = true;
 				iter2->fd = fd;
+				LogInfo("transfer login server_zone:" << server_zone << " inst_id:" << inst_id << " fd:" << fd);
 				break;
 			}
 		}
@@ -143,6 +144,7 @@ int TransferInstanceMgr::LogoutTransfer(base::s_int64_t fd) {
 			if (iter2->fd == fd) {
 				iter2->online = false;
 				iter2->fd = 0;
+				LogInfo("transfer login server_zone:" << iter2->zone << " inst_id:" << iter2->inst_id << " fd:" << fd);
 				return 0;
 			}
 		}
