@@ -8,6 +8,7 @@
 #include "protolib/src/svr_base.pb.h"
 #include "commonlib/svr_base/svrbase.h"
 #include "commonlib/svr_base/server_cfg.h"
+#include "thirdparty/zookeeper/zk_wrapper.h"
 #include <queue>
 
 class ApplicationBase {
@@ -61,6 +62,8 @@ protected:
 
 	virtual int OnInitAsyncRedis();
 
+	virtual bool UseZookeeper();
+
 	size_t TickCount();
 
 	base::s_uint32_t PortStart();
@@ -90,13 +93,16 @@ protected:
 	int _svr_thread_cnt;
 
 	// 精度是1 tick /10毫秒
-	size_t _total_tick_count_;
+	size_t _total_tick_count;
 	base::timestamp _now;
 	
 	// application state
 	static bool _app_exit;
 
 	std::queue<SelfMsg*> _self_msg_queue;
+
+	// zookeeper管理器
+	ZkConnMgr _zkconn_mgr;
 };
 
 #endif

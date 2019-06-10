@@ -15,7 +15,7 @@ int ApplicationBase::Run() {
 		base::timestamp t_now;
 		if ((t_now.millisecond() - _now.millisecond()) >= 10) {
 			// 10毫秒一跳
-			_total_tick_count_ += 1;
+			_total_tick_count += 1;
 			_now = t_now;
 			OnTick(_now);
 			PrintStatus();
@@ -44,6 +44,9 @@ int ApplicationBase::Run() {
 				TransactionMgr::ProcessRedisRsp(rsp);
 				delete rsp;
 			}
+		}
+		if (UseZookeeper()) {
+			_zkconn_mgr.update();
 		}
 		while (_self_msg_queue.size()) {
 			is_idle = false;

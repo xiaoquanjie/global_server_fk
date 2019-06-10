@@ -87,7 +87,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\bin\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>commonlibd.lib;protobufd.lib;slienced.lib;protolibd.lib;mysqlclientd.lib;hiredis_wrapperd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>commonlibd.lib;protobufd.lib;slienced.lib;protolibd.lib;mysqlclientd.lib;hiredis_wrapperd.lib;zookeeperd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

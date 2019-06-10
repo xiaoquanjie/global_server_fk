@@ -85,7 +85,7 @@
       <PreprocessorDefinitions>WIN32;_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>commonlibd.lib;protobufd.lib;slienced.lib;mysqlclientd.lib;protolibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>commonlibd.lib;protobufd.lib;slienced.lib;mysqlclientd.lib;protolibd.lib;zookeeperd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

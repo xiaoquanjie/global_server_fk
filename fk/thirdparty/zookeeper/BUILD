@@ -19,7 +19,7 @@ cc_library(
 
 	defs = [
 		#'THREADED',
-		#'USE_STATIC_LIB',
+		'USE_STATIC_LIB',
 	],
 
 	warning = False,

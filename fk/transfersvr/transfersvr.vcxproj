@@ -87,7 +87,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>..\bin\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>commonlibd.lib;protobufd.lib;slienced.lib;hiredis_wrapperd.lib;protolibd.lib;mysqlclientd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>commonlibd.lib;protobufd.lib;slienced.lib;hiredis_wrapperd.lib;protolibd.lib;mysqlclientd.lib;zookeeperd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>

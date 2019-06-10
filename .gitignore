@@ -22,4 +22,6 @@
 /fk/deploy/proto/*.pyc
 /fk/dbtool/*.log
 /fk/go/build/*
+/fk/tool/protoc.ilk
+/fk/tool/protoc.pdb
 

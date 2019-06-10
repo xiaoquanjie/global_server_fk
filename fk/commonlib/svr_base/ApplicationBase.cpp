@@ -21,7 +21,7 @@ ApplicationBase::ApplicationBase() {
 	_log_withpid = 0;
 	_daemon = 0;
 	_svr_thread_cnt = 4;
-	_total_tick_count_ = 0;
+	_total_tick_count = 0;
 }
 
 ApplicationBase::~ApplicationBase() {
@@ -164,8 +164,12 @@ int ApplicationBase::OnInitAsyncRedis() {
 	return AsyncRedisMgr::Init(4, 40);
 }
 
+bool ApplicationBase::UseZookeeper() {
+	return false;
+}
+
 size_t ApplicationBase::TickCount() {
-	return _total_tick_count_;
+	return _total_tick_count;
 }
 
 const std::string& ApplicationBase::ConfigFilePath()const {
