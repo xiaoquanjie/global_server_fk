@@ -1,7 +1,7 @@
 #include "commonlib/async/async_redis_mgr.h"
 #include "slience/base/string_util.hpp"
 #include "slience/base/logger.hpp"
-#include "hiredis_wrapper/wrapper/redis_wrapper.hpp"
+#include "thirdparty/hiredis_wrapper/wrapper/redis_wrapper.hpp"
 
 RedisWork::RedisWork() : _mutex(), _cond(_mutex) {
 

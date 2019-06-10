@@ -1,6 +1,5 @@
 #include "dbtool/mysql_executor.h"
 #include "slience/base/logger.hpp"
-#include "mariadb-connector-c-master/include/mysql.h"
 
 int MysqlExecutor::Execute(dbtool::MysqlSchemaConf& cfg) {
 	for (int idx_schema = 0; idx_schema < cfg.mysql_schemas_size(); ++idx_schema) {

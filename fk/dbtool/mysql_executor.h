@@ -1,6 +1,6 @@
 #pragma once
 #include "dbtool/dbtool.pb.h"
-#include "mysqlclient/ma_wrapper.h"
+#include "thirdparty/mysqlclient/ma_wrapper.h"
 
 class MysqlExecutor {
 public:

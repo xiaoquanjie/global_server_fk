@@ -4,7 +4,6 @@
 #include "commonlib/svr_base/getopt.hpp"
 #include "commonlib/svr_base/ApplicationFunc.hpp"
 
-#include "mysql_wrapper/mysql_wrapper.h"
 #include "protolib/src/svr_base.pb.h"
 #include "protolib/src/cmd.pb.h"
 #include "commonlib/transaction/transaction_mgr.h"

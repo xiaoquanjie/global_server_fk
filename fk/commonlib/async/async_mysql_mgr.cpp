@@ -1,5 +1,5 @@
 #include "commonlib/async/async_mysql_mgr.h"
-#include "mysqlclient/ma_wrapper.h"
+#include "thirdparty/mysqlclient/ma_wrapper.h"
 #include "slience/base/string_util.hpp"
 #include "slience/base/logger.hpp"
 

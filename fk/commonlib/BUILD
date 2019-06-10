@@ -20,9 +20,10 @@ cc_library(
     deps = [
 		'//slience:slience',
 		'#pthread',
-		'//mariadb-connector-c-master:mysqlclient',
+		'//thirdparty/mariadb-connector-c-master:mysqlclient',
 		'//tinyxml:tinyxml',
-		'//hiredis_wrapper:hiredis_wrapper',
+		'//thirdparty/hiredis_wrapper:hiredis_wrapper',
+		'//thirdparty/zookeeper:zookeeper'
     ],
 
     #link_all_symbols = True,

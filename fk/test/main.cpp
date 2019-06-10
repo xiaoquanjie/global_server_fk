@@ -2,7 +2,7 @@
 #include <iostream>
 #include "boost/bind/bind.hpp"
 #include "boost/current_function.hpp"
-#include "hiredis_wrapper/wrapper/redis_wrapper.hpp"
+#include "thirdparty/hiredis_wrapper/wrapper/redis_wrapper.hpp"
 #include "slience/base/newonce_pool.h"
 using namespace std;
 
@@ -85,34 +85,6 @@ void test() {
 	catch (RedisException& e) {
 		cout << e.What() << endl;
 	}
-}
-
-void test_newonce() {
-	int* i1 = base::NewOncePool<int>::Alloc();
-	int* i2 = base::NewOncePool<int>::Alloc();
-	cout << i1 << " " << i2 << endl;
-	base::NewOncePool<int>::Dealloc(i1);
-	int* i3 = base::NewOncePool<int>::Alloc();
-	cout << i3 << endl;
-	cout << base::NewOncePool<int>::GetAllocSize() << endl;
-	cout << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
-
-	struct object {
-		bool b;
-		object() {
-			b = true;
-			cout << "object()" << endl;
-		}
-		~object() {
-			cout << "~object()" << endl;
-		}
-	};
-
-	object* o1 = base::NewOncePool<object,1>::Alloc();
-	object* o2 = base::NewOncePool<object,1>::Alloc();
-	base::NewOncePool<object,1>::Dealloc(o1);
-	object* o3 = base::NewOncePool<object,1>::Alloc();
-	cout << base::NewOncePool<object, 1>::GetAllocSize() << endl;
 }
 
 int main(int argc, char* argv[]) {

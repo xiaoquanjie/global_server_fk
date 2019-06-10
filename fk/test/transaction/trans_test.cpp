@@ -1,7 +1,7 @@
 #include "commonlib/transaction/base_transaction.h"
 #include "commonlib/transaction/transaction_mgr.h"
 #include "protolib/src/mytest.pb.h"
-#include "hiredis_wrapper/wrapper/redis_wrapper.hpp"
+#include "thirdparty/hiredis_wrapper/wrapper/redis_wrapper.hpp"
 
 class TransMysqlTestNotify
 	: public BaseTransaction< TransMysqlTestNotify, mytest::MysqlTestNotify> {

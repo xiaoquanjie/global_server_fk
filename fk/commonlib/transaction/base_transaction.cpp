@@ -5,9 +5,9 @@
 #include "commonlib/net_handler/net_handler.h"
 #include "slience/base/random.hpp"
 #include "commonlib/async/async_mysql_mgr.h"
-#include "mysqlclient/ma_wrapper.h"
+#include "thirdparty/mysqlclient/ma_wrapper.h"
 #include "commonlib/async/async_redis_mgr.h"
-#include "hiredis_wrapper/wrapper/redis_wrapper.hpp"
+#include "thirdparty/hiredis_wrapper/wrapper/redis_wrapper.hpp"
 
 void Transaction::Construct() {
 	_trans_id = 0;
