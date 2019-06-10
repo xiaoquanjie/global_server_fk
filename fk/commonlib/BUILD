@@ -21,7 +21,7 @@ cc_library(
 		'//slience:slience',
 		'#pthread',
 		'//thirdparty/mariadb-connector-c-master:mysqlclient',
-		'//tinyxml:tinyxml',
+		'//thirdparty/tinyxml:tinyxml',
 		'//thirdparty/hiredis_wrapper:hiredis_wrapper',
 		'//thirdparty/zookeeper:zookeeper'
     ],

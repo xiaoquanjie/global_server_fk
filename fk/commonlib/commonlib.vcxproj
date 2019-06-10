@@ -89,10 +89,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\tinyxml\tinystr.cpp" />
-    <ClCompile Include="..\tinyxml\tinyxml.cpp" />
-    <ClCompile Include="..\tinyxml\tinyxmlerror.cpp" />
-    <ClCompile Include="..\tinyxml\tinyxmlparser.cpp" />
     <ClCompile Include="async\async_mysql_mgr.cpp" />
     <ClCompile Include="async\async_redis_mgr.cpp" />
     <ClCompile Include="net_handler\base_net_handler.cpp" />
@@ -312,8 +308,6 @@
     <ClInclude Include="..\google\protobuf\wire_format_lite.h" />
     <ClInclude Include="..\google\protobuf\wire_format_lite_inl.h" />
     <ClInclude Include="..\google\protobuf\wrappers.pb.h" />
-    <ClInclude Include="..\tinyxml\tinystr.h" />
-    <ClInclude Include="..\tinyxml\tinyxml.h" />
     <ClInclude Include="async\async_mysql_mgr.h" />
     <ClInclude Include="async\async_redis_mgr.h" />
     <ClInclude Include="common\comm_struct.h" />
@@ -336,7 +330,6 @@
     <ClInclude Include="transaction\transaction_mgr.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\tinyxml\BUILD" />
     <None Include="BUILD" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

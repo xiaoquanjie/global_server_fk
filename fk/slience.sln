@@ -87,6 +87,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "protobuf", "thirdparty\prot
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "protobuf-lite", "thirdparty\protobuf-lite\protobuf-lite.vcxproj", "{DD7C4DC5-F9D8-4F34-81C7-B57899BF13AA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "thirdparty\tinyxml\tinyxml.vcxproj", "{827C2FDD-2B55-47EE-8A8F-59A1FF77837F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -219,6 +221,14 @@ Global
 		{DD7C4DC5-F9D8-4F34-81C7-B57899BF13AA}.Release|Win32.Build.0 = Release|Win32
 		{DD7C4DC5-F9D8-4F34-81C7-B57899BF13AA}.Release|x64.ActiveCfg = Release|x64
 		{DD7C4DC5-F9D8-4F34-81C7-B57899BF13AA}.Release|x64.Build.0 = Release|x64
+		{827C2FDD-2B55-47EE-8A8F-59A1FF77837F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{827C2FDD-2B55-47EE-8A8F-59A1FF77837F}.Debug|Win32.Build.0 = Debug|Win32
+		{827C2FDD-2B55-47EE-8A8F-59A1FF77837F}.Debug|x64.ActiveCfg = Debug|x64
+		{827C2FDD-2B55-47EE-8A8F-59A1FF77837F}.Debug|x64.Build.0 = Debug|x64
+		{827C2FDD-2B55-47EE-8A8F-59A1FF77837F}.Release|Win32.ActiveCfg = Release|Win32
+		{827C2FDD-2B55-47EE-8A8F-59A1FF77837F}.Release|Win32.Build.0 = Release|Win32
+		{827C2FDD-2B55-47EE-8A8F-59A1FF77837F}.Release|x64.ActiveCfg = Release|x64
+		{827C2FDD-2B55-47EE-8A8F-59A1FF77837F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -231,6 +241,7 @@ Global
 		{F4CFD3EC-DC11-43B7-97B5-D977DEBE0ED8} = {DFD9F587-085D-49CA-B3D1-61C98B9788CE}
 		{55B3A9ED-1AC1-40E3-909F-267712FD6080} = {DFD9F587-085D-49CA-B3D1-61C98B9788CE}
 		{DD7C4DC5-F9D8-4F34-81C7-B57899BF13AA} = {DFD9F587-085D-49CA-B3D1-61C98B9788CE}
+		{827C2FDD-2B55-47EE-8A8F-59A1FF77837F} = {DFD9F587-085D-49CA-B3D1-61C98B9788CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {48CCF2BC-0553-4BBD-B608-9591FD33656D}

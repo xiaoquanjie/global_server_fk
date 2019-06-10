@@ -41,9 +41,6 @@
     <Filter Include="transaction">
       <UniqueIdentifier>{e01d65f2-5f03-4791-b0dc-d4fe7806b96d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tinyxml">
-      <UniqueIdentifier>{7b9957a3-a0c1-4984-9fd9-372d8b83a612}</UniqueIdentifier>
-    </Filter>
     <Filter Include="traits">
       <UniqueIdentifier>{1f72ab24-058f-4629-8549-4f5afbdfc730}</UniqueIdentifier>
     </Filter>
@@ -75,18 +72,6 @@
     </ClCompile>
     <ClCompile Include="svr_base\ApplicationBaseExt.cpp">
       <Filter>svr_base</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tinyxml\tinystr.cpp">
-      <Filter>tinyxml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tinyxml\tinyxml.cpp">
-      <Filter>tinyxml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tinyxml\tinyxmlerror.cpp">
-      <Filter>tinyxml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tinyxml\tinyxmlparser.cpp">
-      <Filter>tinyxml</Filter>
     </ClCompile>
     <ClCompile Include="net_handler\net_handler.cpp">
       <Filter>net_handler</Filter>
@@ -741,12 +726,6 @@
     <ClInclude Include="transaction\base_transaction.h">
       <Filter>transaction</Filter>
     </ClInclude>
-    <ClInclude Include="..\tinyxml\tinystr.h">
-      <Filter>tinyxml</Filter>
-    </ClInclude>
-    <ClInclude Include="..\tinyxml\tinyxml.h">
-      <Filter>tinyxml</Filter>
-    </ClInclude>
     <ClInclude Include="traits\fun_to_mem_converter.hpp">
       <Filter>traits</Filter>
     </ClInclude>
@@ -791,9 +770,6 @@
     </None>
     <None Include="..\google\protobuf\io\gzip_stream_unittest.sh">
       <Filter>google\protobuf\io</Filter>
-    </None>
-    <None Include="..\tinyxml\BUILD">
-      <Filter>tinyxml</Filter>
     </None>
   </ItemGroup>
 </Project>
