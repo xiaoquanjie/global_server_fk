@@ -12,6 +12,7 @@ cc_library(
 		'src/svr_base.pb.cc',
 		'src/transfer.pb.cc',
 		'src/transfersvr_config.pb.cc',
+		'src/zookeeper.pb.cc',
 	],
 	deps = [
 		'//google:protobuf',

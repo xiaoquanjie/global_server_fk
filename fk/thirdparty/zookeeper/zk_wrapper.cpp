@@ -42,6 +42,22 @@ int ZkBaseConnection::acreate(const char *path,
 	return ret;
 }
 
+int ZkBaseConnection::acreate(const char *path, const char *value, int valuelen, const char* user,
+	const char* passwd, int flags) {
+	if (!user || std::string(user) == std::string("")) {
+		return acreate(path, value, valuelen, &ZOO_OPEN_ACL_UNSAFE, flags);
+	}
+	else {
+		struct ACL myacl[1]; //{ {0x1f, {"digest", "123"}} };
+		myacl[0].perms = 0x1f;
+		myacl[0].id.scheme = const_cast<char*>("digest");
+		myacl[0].id.id = const_cast<char*>((std::string(user) + std::string(":") + std::string(passwd)).c_str());
+
+		struct ACL_vector myacl_vec = { 1, myacl };
+		return acreate(path, value, valuelen, &myacl_vec, flags);
+	}
+}
+
 int ZkBaseConnection::adelete(const char *path, int version) {
 	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
 	r_ctxt->ctxt = this->ctxt;
@@ -105,6 +121,46 @@ int ZkBaseConnection::aget_children(const char *path, int watch) {
 		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
 	}
 	return ret;
+}
+
+int ZkBaseConnection::aget_acl(const char* path) {
+	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
+	r_ctxt->ctxt = this->ctxt;
+	r_ctxt->path = path;
+	r_ctxt->op = "aget_acl";
+	int ret = zoo_aget_acl(handler, path, &ZkConnMgr::acl_completion_cb, (void*)r_ctxt);
+	if (ret != ZOK) {
+		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+	}
+	return ret;
+}
+
+int ZkBaseConnection::aset_acl(const char* path, int version, struct ACL_vector *acl) {
+	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
+	r_ctxt->ctxt = this->ctxt;
+	r_ctxt->path = path;
+	r_ctxt->op = "aset_acl";
+	int ret = zoo_aset_acl(handler, path, version, acl, &ZkConnMgr::void_completion_cb, (void*)r_ctxt);
+	if (ret != ZOK) {
+		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+	}
+	return ret;
+}
+
+int ZkBaseConnection::aset_acl(const char* path, int version, const char* user,
+	const char* passwd) {
+	if (!user || std::string(user) == std::string("")) {
+		return aset_acl(path, version, &ZOO_OPEN_ACL_UNSAFE);
+	}
+	else {
+		struct ACL myacl[1]; //{ {0x1f, {"digest", "123"}} };
+		myacl[0].perms = 0x1f;
+		myacl[0].id.scheme = const_cast<char*>("digest");
+		myacl[0].id.id = const_cast<char*>((std::string(user) + std::string(":") + std::string(passwd)).c_str());
+
+		struct ACL_vector myacl_vec = { 1, myacl };
+		return aset_acl(path, version, &myacl_vec);
+	}
 }
 
 void ZkBaseConnection::close() {
@@ -242,6 +298,8 @@ void ZkConnMgr::strings_stat_completion_cb(int rc, const struct String_vector *s
 }
 
 void ZkConnMgr::acl_completion_cb(int rc, struct ACL_vector *acl, struct Stat *stat, const void *data) {
-	ZkContext* ctxt = (ZkContext*)data;
-	ctxt->ptr->OnAclCompletionCb(rc, acl, stat);
+	ZkRequestContext* r_ctxt = (ZkRequestContext*)data;
+	ZkContext* ctxt = r_ctxt->ctxt;
+	ctxt->ptr->OnAclCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), acl, stat);
+	ctxt->mgr->request_alloc.dealloc(r_ctxt);
 }

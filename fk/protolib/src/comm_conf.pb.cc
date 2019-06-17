@@ -58,17 +58,19 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::CommConf, router_conf_file_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::CommConf, transfer_conf_file_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::CommConf, zookeeper_conf_file_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::CommConf, routersvr_port_start_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::CommConf, connsvr_port_start_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::config::CommConf, transfersvr_port_start_),
   0,
   1,
   2,
-  3,
   4,
+  5,
+  3,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 10, sizeof(::config::CommConf)},
+  { 0, 11, sizeof(::config::CommConf)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -97,14 +99,15 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\017comm_conf.proto\022\006config\"\232\001\n\010CommConf\022\030"
+      "\n\017comm_conf.proto\022\006config\"\267\001\n\010CommConf\022\030"
       "\n\020router_conf_file\030\001 \001(\t\022\032\n\022transfer_con"
-      "f_file\030\002 \001(\t\022\034\n\024routersvr_port_start\030\003 \001"
-      "(\r\022\032\n\022connsvr_port_start\030\004 \001(\r\022\036\n\026transf"
-      "ersvr_port_start\030\005 \001(\r"
+      "f_file\030\002 \001(\t\022\033\n\023zookeeper_conf_file\030\003 \001("
+      "\t\022\034\n\024routersvr_port_start\030\n \001(\r\022\032\n\022conns"
+      "vr_port_start\030\013 \001(\r\022\036\n\026transfersvr_port_"
+      "start\030\014 \001(\r"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 182);
+      descriptor, 211);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "comm_conf.proto", &protobuf_RegisterTypes);
 }
@@ -129,6 +132,7 @@ void CommConf::InitAsDefaultInstance() {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int CommConf::kRouterConfFileFieldNumber;
 const int CommConf::kTransferConfFileFieldNumber;
+const int CommConf::kZookeeperConfFileFieldNumber;
 const int CommConf::kRoutersvrPortStartFieldNumber;
 const int CommConf::kConnsvrPortStartFieldNumber;
 const int CommConf::kTransfersvrPortStartFieldNumber;
@@ -156,9 +160,13 @@ CommConf::CommConf(const CommConf& from)
   if (from.has_transfer_conf_file()) {
     transfer_conf_file_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.transfer_conf_file_);
   }
-  ::memcpy(&routersvr_port_start_, &from.routersvr_port_start_,
-    static_cast<size_t>(reinterpret_cast<char*>(&transfersvr_port_start_) -
-    reinterpret_cast<char*>(&routersvr_port_start_)) + sizeof(transfersvr_port_start_));
+  zookeeper_conf_file_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_zookeeper_conf_file()) {
+    zookeeper_conf_file_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.zookeeper_conf_file_);
+  }
+  ::memcpy(&transfersvr_port_start_, &from.transfersvr_port_start_,
+    static_cast<size_t>(reinterpret_cast<char*>(&connsvr_port_start_) -
+    reinterpret_cast<char*>(&transfersvr_port_start_)) + sizeof(connsvr_port_start_));
   // @@protoc_insertion_point(copy_constructor:config.CommConf)
 }
 
@@ -166,9 +174,10 @@ void CommConf::SharedCtor() {
   _cached_size_ = 0;
   router_conf_file_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   transfer_conf_file_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  ::memset(&routersvr_port_start_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&transfersvr_port_start_) -
-      reinterpret_cast<char*>(&routersvr_port_start_)) + sizeof(transfersvr_port_start_));
+  zookeeper_conf_file_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&transfersvr_port_start_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&connsvr_port_start_) -
+      reinterpret_cast<char*>(&transfersvr_port_start_)) + sizeof(connsvr_port_start_));
 }
 
 CommConf::~CommConf() {
@@ -179,6 +188,7 @@ CommConf::~CommConf() {
 void CommConf::SharedDtor() {
   router_conf_file_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   transfer_conf_file_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  zookeeper_conf_file_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void CommConf::SetCachedSize(int size) const {
@@ -211,7 +221,7 @@ void CommConf::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 7u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(!router_conf_file_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*router_conf_file_.UnsafeRawStringPointer())->clear();
@@ -220,11 +230,15 @@ void CommConf::Clear() {
       GOOGLE_DCHECK(!transfer_conf_file_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
       (*transfer_conf_file_.UnsafeRawStringPointer())->clear();
     }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!zookeeper_conf_file_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*zookeeper_conf_file_.UnsafeRawStringPointer())->clear();
+    }
   }
-  if (cached_has_bits & 28u) {
-    ::memset(&routersvr_port_start_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&transfersvr_port_start_) -
-        reinterpret_cast<char*>(&routersvr_port_start_)) + sizeof(transfersvr_port_start_));
+  if (cached_has_bits & 56u) {
+    ::memset(&transfersvr_port_start_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&connsvr_port_start_) -
+        reinterpret_cast<char*>(&transfersvr_port_start_)) + sizeof(connsvr_port_start_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear();
@@ -272,10 +286,26 @@ bool CommConf::MergePartialFromCodedStream(
         break;
       }
 
-      // optional uint32 routersvr_port_start = 3;
+      // optional string zookeeper_conf_file = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(24u /* 24 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_zookeeper_conf_file()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->zookeeper_conf_file().data(), static_cast<int>(this->zookeeper_conf_file().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "config.CommConf.zookeeper_conf_file");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional uint32 routersvr_port_start = 10;
+      case 10: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(80u /* 80 & 0xFF */)) {
           set_has_routersvr_port_start();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -286,10 +316,10 @@ bool CommConf::MergePartialFromCodedStream(
         break;
       }
 
-      // optional uint32 connsvr_port_start = 4;
-      case 4: {
+      // optional uint32 connsvr_port_start = 11;
+      case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(88u /* 88 & 0xFF */)) {
           set_has_connsvr_port_start();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -300,10 +330,10 @@ bool CommConf::MergePartialFromCodedStream(
         break;
       }
 
-      // optional uint32 transfersvr_port_start = 5;
-      case 5: {
+      // optional uint32 transfersvr_port_start = 12;
+      case 12: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(96u /* 96 & 0xFF */)) {
           set_has_transfersvr_port_start();
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::uint32, ::google::protobuf::internal::WireFormatLite::TYPE_UINT32>(
@@ -361,19 +391,29 @@ void CommConf::SerializeWithCachedSizes(
       2, this->transfer_conf_file(), output);
   }
 
-  // optional uint32 routersvr_port_start = 3;
+  // optional string zookeeper_conf_file = 3;
   if (cached_has_bits & 0x00000004u) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(3, this->routersvr_port_start(), output);
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->zookeeper_conf_file().data(), static_cast<int>(this->zookeeper_conf_file().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "config.CommConf.zookeeper_conf_file");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      3, this->zookeeper_conf_file(), output);
   }
 
-  // optional uint32 connsvr_port_start = 4;
-  if (cached_has_bits & 0x00000008u) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(4, this->connsvr_port_start(), output);
-  }
-
-  // optional uint32 transfersvr_port_start = 5;
+  // optional uint32 routersvr_port_start = 10;
   if (cached_has_bits & 0x00000010u) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt32(5, this->transfersvr_port_start(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(10, this->routersvr_port_start(), output);
+  }
+
+  // optional uint32 connsvr_port_start = 11;
+  if (cached_has_bits & 0x00000020u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(11, this->connsvr_port_start(), output);
+  }
+
+  // optional uint32 transfersvr_port_start = 12;
+  if (cached_has_bits & 0x00000008u) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt32(12, this->transfersvr_port_start(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -413,19 +453,30 @@ void CommConf::SerializeWithCachedSizes(
         2, this->transfer_conf_file(), target);
   }
 
-  // optional uint32 routersvr_port_start = 3;
+  // optional string zookeeper_conf_file = 3;
   if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(3, this->routersvr_port_start(), target);
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->zookeeper_conf_file().data(), static_cast<int>(this->zookeeper_conf_file().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "config.CommConf.zookeeper_conf_file");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        3, this->zookeeper_conf_file(), target);
   }
 
-  // optional uint32 connsvr_port_start = 4;
-  if (cached_has_bits & 0x00000008u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(4, this->connsvr_port_start(), target);
-  }
-
-  // optional uint32 transfersvr_port_start = 5;
+  // optional uint32 routersvr_port_start = 10;
   if (cached_has_bits & 0x00000010u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(5, this->transfersvr_port_start(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(10, this->routersvr_port_start(), target);
+  }
+
+  // optional uint32 connsvr_port_start = 11;
+  if (cached_has_bits & 0x00000020u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(11, this->connsvr_port_start(), target);
+  }
+
+  // optional uint32 transfersvr_port_start = 12;
+  if (cached_has_bits & 0x00000008u) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(12, this->transfersvr_port_start(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -445,7 +496,7 @@ size_t CommConf::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         _internal_metadata_.unknown_fields());
   }
-  if (_has_bits_[0 / 32] & 31u) {
+  if (_has_bits_[0 / 32] & 63u) {
     // optional string router_conf_file = 1;
     if (has_router_conf_file()) {
       total_size += 1 +
@@ -460,25 +511,32 @@ size_t CommConf::ByteSizeLong() const {
           this->transfer_conf_file());
     }
 
-    // optional uint32 routersvr_port_start = 3;
+    // optional string zookeeper_conf_file = 3;
+    if (has_zookeeper_conf_file()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->zookeeper_conf_file());
+    }
+
+    // optional uint32 transfersvr_port_start = 12;
+    if (has_transfersvr_port_start()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::UInt32Size(
+          this->transfersvr_port_start());
+    }
+
+    // optional uint32 routersvr_port_start = 10;
     if (has_routersvr_port_start()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->routersvr_port_start());
     }
 
-    // optional uint32 connsvr_port_start = 4;
+    // optional uint32 connsvr_port_start = 11;
     if (has_connsvr_port_start()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::UInt32Size(
           this->connsvr_port_start());
-    }
-
-    // optional uint32 transfersvr_port_start = 5;
-    if (has_transfersvr_port_start()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::UInt32Size(
-          this->transfersvr_port_start());
     }
 
   }
@@ -512,7 +570,7 @@ void CommConf::MergeFrom(const CommConf& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 31u) {
+  if (cached_has_bits & 63u) {
     if (cached_has_bits & 0x00000001u) {
       set_has_router_conf_file();
       router_conf_file_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.router_conf_file_);
@@ -522,13 +580,17 @@ void CommConf::MergeFrom(const CommConf& from) {
       transfer_conf_file_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.transfer_conf_file_);
     }
     if (cached_has_bits & 0x00000004u) {
-      routersvr_port_start_ = from.routersvr_port_start_;
+      set_has_zookeeper_conf_file();
+      zookeeper_conf_file_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.zookeeper_conf_file_);
     }
     if (cached_has_bits & 0x00000008u) {
-      connsvr_port_start_ = from.connsvr_port_start_;
+      transfersvr_port_start_ = from.transfersvr_port_start_;
     }
     if (cached_has_bits & 0x00000010u) {
-      transfersvr_port_start_ = from.transfersvr_port_start_;
+      routersvr_port_start_ = from.routersvr_port_start_;
+    }
+    if (cached_has_bits & 0x00000020u) {
+      connsvr_port_start_ = from.connsvr_port_start_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -560,9 +622,10 @@ void CommConf::InternalSwap(CommConf* other) {
   using std::swap;
   router_conf_file_.Swap(&other->router_conf_file_);
   transfer_conf_file_.Swap(&other->transfer_conf_file_);
+  zookeeper_conf_file_.Swap(&other->zookeeper_conf_file_);
+  swap(transfersvr_port_start_, other->transfersvr_port_start_);
   swap(routersvr_port_start_, other->routersvr_port_start_);
   swap(connsvr_port_start_, other->connsvr_port_start_);
-  swap(transfersvr_port_start_, other->transfersvr_port_start_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);

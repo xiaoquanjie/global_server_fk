@@ -3,7 +3,8 @@ package config;
 message CommConf {
 	optional string router_conf_file = 1;
 	optional string transfer_conf_file = 2;
-	optional uint32 routersvr_port_start = 3;
-	optional uint32 connsvr_port_start = 4;
-	optional uint32 transfersvr_port_start = 5;
+	optional string zookeeper_conf_file = 3;
+	optional uint32 routersvr_port_start = 10;
+	optional uint32 connsvr_port_start = 11;
+	optional uint32 transfersvr_port_start = 12;
 }

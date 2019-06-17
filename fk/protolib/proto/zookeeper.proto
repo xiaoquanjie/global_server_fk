@@ -1,0 +1,12 @@
+package config;
+
+message ZkInstanceInfo {
+	optional uint32 instance_id = 1;
+	optional string ip_port = 2;
+	optional string user = 3;
+	optional string passwd = 4;
+}
+
+message ZkConfig {
+	repeated ZkInstanceInfo instance_list = 1;
+}

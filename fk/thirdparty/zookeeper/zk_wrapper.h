@@ -48,6 +48,10 @@ public:
 		const char *value, int valuelen,
 		const struct ACL_vector *acl, int flags);
 
+	// 默认使用digest模式
+	int acreate(const char *path, const char *value, int valuelen, const char* user,
+		const char* passwd, int flags);
+
 	int adelete(const char *path, int version);
 
 	int aexists(const char *path, int watch);
@@ -57,6 +61,13 @@ public:
 	int aset(const char *path, const char *buffer, int buflen, int version);
 
 	int aget_children(const char *path, int watch);
+
+	int aget_acl(const char* path);
+
+	int aset_acl(const char* path, int version, struct ACL_vector *acl);
+
+	int aset_acl(const char* path, int version, const char* user,
+		const char* passwd);
 
 	// 调这个意味着主动断开连接
 	void close();
@@ -98,7 +109,7 @@ protected:
 		const struct Stat *stat) {}
 
 	// 以及返回 ACL 信息的回调函数
-	virtual void OnAclCompletionCb(int rc, struct ACL_vector *acl, struct Stat *stat) {}
+	virtual void OnAclCompletionCb(int rc, const char* op, const char* path, struct ACL_vector *acl, struct Stat *stat) {}
 
 private:
 	ZkContext* ctxt;

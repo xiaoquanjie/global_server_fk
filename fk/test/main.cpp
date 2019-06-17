@@ -87,7 +87,27 @@ void test() {
 	}
 }
 
+std::string ret() {
+	cout << "output" << endl;
+	return "2";
+}
+
+#define LOG(cond, param1, param2) \
+	if (cond) {\
+        cout << param1 << " " << param2 << endl; \
+	}\
+
+
+#define LOG2(cond, fmt, ...) \
+	if (cond) {\
+        printf(fmt, __VA_ARGS__);\
+	}\
+
+
 int main(int argc, char* argv[]) {
+	LOG(false, ret().c_str(), ret().c_str());
+	LOG2(true, ret().c_str(), ret().c_str());
+	return 0;
 	if (false) {
 		test();
 	}
