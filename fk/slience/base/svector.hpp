@@ -62,8 +62,8 @@ public:
 
 	void push_back(const T& t) {
 		if (_size >= _cap) {
-			size_t newcap = this->_cap * 2;
-			this->_head = (T*)realloc(this->_head, sizeof(T)*newcap);
+			this->_cap = this->_cap * 2;
+			this->_head = (T*)realloc(this->_head, sizeof(T)*this->_cap);
 		}
 		T* p = &(_head[_size++]);
 		new(p)T(t);
