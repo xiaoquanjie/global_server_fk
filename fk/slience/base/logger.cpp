@@ -3,6 +3,48 @@
 M_BASE_NAMESPACE_BEGIN
 
 namespace logger {
+	size_t digits10(uint32_t value)
+	{
+		int length = 0;
+		while (value)
+		{
+			length++;
+			value /= 10;
+		}
+		return length;
+	}
+
+	size_t uint32_to_str(uint32_t value, char *dst, size_t valid)
+	{
+		static const char digits[201] =
+			"0001020304050607080910111213141516171819"
+			"2021222324252627282930313233343536373839"
+			"4041424344454647484950515253545556575859"
+			"6061626364656667686970717273747576777879"
+			"8081828384858687888990919293949596979899";
+		size_t const length = digits10(value);
+		if (length > valid)
+			return;
+
+		size_t next = length - 1;
+		while (value >= 100) {
+			const int i = (value % 100) * 2;
+			value /= 100;
+			dst[next] = digits[i + 1];
+			dst[next - 1] = digits[i];
+			next -= 2;
+		}
+		// Handle last 1-2 digits
+		if (value < 10) {
+			dst[next] = '0' + uint32_t(value);
+		}
+		else {
+			const int i = uint32_t(value) * 2;
+			dst[next] = digits[i + 1];
+			dst[next - 1] = digits[i];
+		}
+		return length;
+	}
 
 	std::string _getpid_() {
 		char tmp_buf[20] = { 0 };
@@ -165,7 +207,8 @@ namespace logger {
 	}
 
 	logstream& logstream::operator<<(const unsigned short& value) {
-		*this << static_cast<unsigned int>(value);
+		int len = uint32_to_str(value, _buffer.current(), _buffer.avail());
+		_buffer.seek(len);
 		return *this;
 	}
 
@@ -175,17 +218,18 @@ namespace logger {
 	}
 
 	logstream& logstream::operator<<(const unsigned int& value) {
-		_convert(value, 0);
+		int len = uint32_to_str(value, _buffer.current(), _buffer.avail());
+		_buffer.seek(len);
 		return *this;
 	}
 
 	logstream& logstream::operator<<(const signed long long& value) {
-		_convert(value, 2);
+		_convert(value, 3);
 		return *this;
 	}
 
 	logstream& logstream::operator<<(const unsigned long long& value) {
-		_convert(value, 2);
+		_convert(value, 3);
 		return *this;
 	}
 
@@ -210,7 +254,7 @@ namespace logger {
 	}
 
 	logstream& logstream::operator<<(const long int& value) {
-		_convert(value, 2);
+		_convert(value, 3);
 		return *this;
 	}
 

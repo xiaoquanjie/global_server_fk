@@ -244,6 +244,9 @@ namespace logger {
 				_buffer.append(oss.str().c_str(), oss.str().length());
 			}
 				return;
+			case 3: 
+				ptype = "%ld";
+				break;
 			default:
 				ptype = "0x%0X";
 				break;
@@ -402,16 +405,16 @@ namespace logger {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	struct logimpl {
+	struct logimpl2 {
 		logstream _stream;
-		logimpl(loglevel level) {
+		logimpl2(loglevel level) {
 			_stream << logger::instance()._level_desc[level];
 			logtime& lg = tlsdata<logtime, 0>::data();
 			lg.to_format(_stream);
 			logthread& lt = tlsdata<logthread, 0>::data();
 			lt.to_format(_stream);
 		}
-		~logimpl() {
+		~logimpl2() {
 			_stream << "\n";
 			logger::instance().log(_stream.buffer().data(), _stream.buffer().length());
 		}
@@ -420,6 +423,25 @@ namespace logger {
 		}
 	};
 
+	struct logimpl {
+		logimpl(loglevel level) {
+			logstream& stream = tlsdata<logstream, 0>::data();
+			stream << logger::instance()._level_desc[level];
+			logtime& lg = tlsdata<logtime, 0>::data();
+			lg.to_format(stream);
+			logthread& lt = tlsdata<logthread, 0>::data();
+			lt.to_format(stream);
+		}
+		inline ~logimpl() {
+			logstream& stream = tlsdata<logstream, 0>::data();
+			stream << "\n";
+			logger::instance().log(stream.buffer().data(), stream.buffer().length());
+			stream.buffer().clear();
+		}
+		inline logstream& stream() {
+			return tlsdata<logstream, 0>::data();
+		}
+	};
 }
 
 M_BASE_NAMESPACE_END
@@ -443,51 +465,51 @@ M_BASE_NAMESPACE_END
 #define StopLogger()\
 	base::logger::logger::instance().stop()
 
+#ifdef M_PLATFORM_WIN
+#define LOG_STR(content) << __FILE__ ":" << (unsigned int)__LINE__ << "(" __FUNCTION__ ")|" << content;
+#else
+#define LOG_STR(content) << __FILE__ ":" << (unsigned int)__LINE__ << "(" << __FUNCTION__ << ")|" << content; 
+#endif
+
 #define LogTrace(content)\
 {\
 	if (base::logger::LOG_LEVEL_TRACE>=GetLogLevel()){\
-	base::logger::logimpl(base::logger::LOG_LEVEL_TRACE).stream() \
-		<<__FILE__<< ":" << __LINE__ << "(" << __FUNCTION__ << ")|"<< content; \
+		base::logger::logimpl(base::logger::LOG_LEVEL_TRACE).stream() LOG_STR(content) \
 	}\
 }
 
 #define LogDebug(content)\
 {\
 	if (base::logger::LOG_LEVEL_DEBUG>=GetLogLevel()){\
-	base::logger::logimpl(base::logger::LOG_LEVEL_DEBUG).stream() \
-		<< __FILE__ << ":" << __LINE__ << "(" << __FUNCTION__ << ")|" << content; \
+		base::logger::logimpl(base::logger::LOG_LEVEL_DEBUG).stream() LOG_STR(content) \
 	}\
 }
 
 #define LogInfo(content)\
 {\
 	if (base::logger::LOG_LEVEL_INFO>=GetLogLevel()){\
-	base::logger::logimpl(base::logger::LOG_LEVEL_INFO).stream() \
-		<< __FILE__ << ":" << __LINE__ << "(" << __FUNCTION__ << ")|" << content; \
+		base::logger::logimpl(base::logger::LOG_LEVEL_INFO).stream() LOG_STR(content) \
 	}\
 }
 
 #define LogWarn(content)\
 {\
 	if (base::logger::LOG_LEVEL_WARN>=GetLogLevel()){\
-	base::logger::logimpl(base::logger::LOG_LEVEL_WARN).stream() \
-		<< __FILE__ << ":" << __LINE__ << "(" << __FUNCTION__ << ")|" << content; \
+		base::logger::logimpl(base::logger::LOG_LEVEL_WARN).stream() LOG_STR(content) \
 	}\
 }
 
 #define LogError(content)\
 {\
 	if (base::logger::LOG_LEVEL_ERROR>=GetLogLevel()){\
-	base::logger::logimpl(base::logger::LOG_LEVEL_ERROR).stream() \
-		<< __FILE__ << ":" << __LINE__ << "(" << __FUNCTION__ << ")|" << content; \
+		base::logger::logimpl(base::logger::LOG_LEVEL_ERROR).stream() LOG_STR(content) \
 	}\
 }
 
 #define LogFatal(content)\
 {\
 	if (base::logger::LOG_LEVEL_FATAL>=GetLogLevel()){\
-	base::logger::logimpl(base::logger::LOG_LEVEL_FATAL).stream() \
-		<< __FILE__ << ":" << __LINE__ << "(" << __FUNCTION__ << ")|" << content; \
+		base::logger::logimpl(base::logger::LOG_LEVEL_FATAL).stream() LOG_STR(content) \
 	}\
 }
 
