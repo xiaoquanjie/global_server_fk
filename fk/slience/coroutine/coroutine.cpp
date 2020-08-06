@@ -31,7 +31,7 @@ void Coroutine::_alloc_schedule_(_schedule_& schedule) {
 		int cap = schedule._cap * 2;
 		schedule._co = (_coroutine_**)realloc(schedule._co, cap * sizeof(_coroutine_*));
 		assert(schedule._co);
-		memset(schedule._co + schedule._cap, 0, cap * sizeof(_coroutine_*));
+		memset(schedule._co + schedule._cap, 0, schedule._cap * sizeof(_coroutine_*));
 		schedule._cap = cap;
 	}
 }
