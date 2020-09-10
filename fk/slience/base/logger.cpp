@@ -24,7 +24,7 @@ namespace logger {
 			"8081828384858687888990919293949596979899";
 		size_t const length = digits10(value);
 		if (length > valid)
-			return;
+			return 0;
 
 		size_t next = length - 1;
 		while (value >= 100) {
