@@ -18,25 +18,23 @@ struct ZkSelectCtxt {
 	SOCKET fd;
 };
 
-struct ZkContext {
+struct ZkConnectCtxt {
 	ZkConnMgr* mgr;
 	std::shared_ptr<ZkBaseConnection> ptr;
 };
 
 struct ZkRequestContext {
-	ZkContext* ctxt;
+	std::shared_ptr<ZkBaseConnection> ptr;
 	std::string path;
 	std::string op;
 };
 
 ////////////////////////////////////////////////////////////////////////
 
-class ZkBaseConnection {
+class ZkBaseConnection : public std::enable_shared_from_this<ZkBaseConnection> {
 	friend class ZkConnMgr;
 public:
 	ZkBaseConnection();
-
-	ZkBaseConnection(void* watcherCtx);
 
 	virtual ~ZkBaseConnection();
 
@@ -112,17 +110,12 @@ protected:
 	virtual void OnAclCompletionCb(int rc, const char* op, const char* path, struct ACL_vector *acl, struct Stat *stat) {}
 
 private:
-	ZkContext* ctxt;
 	zhandle_t* handler;
-	void* watcherCtx;
 	bool connected;
 	std::string host;
 	int timeout;
 	int flags;
 };
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -134,11 +127,12 @@ public:
 
 	~ZkConnMgr();
 
-	int update();
+	// return is idle
+	bool update();
 
 	// 只能最多接受64个(windows)
 	template<typename T>
-	int connect(const char *host, int timeout, int flags);
+	int connect(const char *host, int timeout, int flags = 0);
 
 	static void SetLog(ZooLogLevel lvl);
 
@@ -169,8 +163,7 @@ private:
 	static void acl_completion_cb(int rc, struct ACL_vector *acl, struct Stat *stat, const void *data);
 
 private:
-	std::unordered_map<zhandle_t*, ZkContext*> container;
-	ZkObjPool<ZkRequestContext, 1000> request_alloc;
+	std::unordered_map<zhandle_t*, std::shared_ptr<ZkBaseConnection>> container;
 };
 
 ////////////////////////////////////////////////////////////////////////////
@@ -182,68 +175,65 @@ int ZkConnMgr::connect(const char *host, int timeout, int flags) {
 	}
 
 	auto ptr = std::make_shared<T>();
-	ZkContext* ctxt = new ZkContext;
-
-	ctxt->ptr = ptr;
-	ctxt->mgr = this;
-
-	ptr->ctxt = ctxt;
-	ptr->connected = false;
-	ptr->host = host;
 	ptr->timeout = timeout;
+	ptr->host = host;
 	ptr->flags = flags;
+	ptr->connected = false;
 
-	ptr->handler = zookeeper_init(host, &ZkConnMgr::watcher_cb<T>, timeout, 0, (void*)ctxt, flags);
+	ZkConnectCtxt* c_ctxt = new ZkConnectCtxt;
+	c_ctxt->ptr = ptr;
+	c_ctxt->mgr = this;
+
+	ptr->handler = zookeeper_init(host, &ZkConnMgr::watcher_cb<T>, timeout, 0, (void*)c_ctxt, flags);
 	if (ptr->handler == NULL) {
-		delete ctxt;
+		delete c_ctxt;
 		return -1;
 	}
 
-	container.insert(std::make_pair(ptr->handler, ctxt));
+	container.insert(std::make_pair(ptr->handler, ptr));
 	return 0;
 }
 
 template<typename T>
 void ZkConnMgr::watcher_cb(zhandle_t* zh, int type, int state,
 	const char* path, void* watcherCtx) {
-	ZkContext* ctxt = (ZkContext*)watcherCtx;
-	ZkConnMgr* mgr = (ZkConnMgr*)ctxt->mgr;
+	ZkConnectCtxt* c_ctxt = (ZkConnectCtxt*)watcherCtx;
 
 	if (type == ZOO_SESSION_EVENT) {
 		if (state == ZOO_CONNECTED_STATE) {
-			ctxt->ptr->connected = true;
+			c_ctxt->ptr->connected = true;
 		}
 		else if (state == ZOO_CONNECTING_STATE) {
-			ctxt->ptr->connected = false;
+			c_ctxt->ptr->connected = false;
 		}
 	}
 
 	if (type == ZOO_SESSION_EVENT) {
-		ctxt->ptr->OnSeesion(state, path);
+		c_ctxt->ptr->OnSeesion(state, path);
 	}
 	else if (type == ZOO_CREATED_EVENT) {
-		ctxt->ptr->OnCreateNode(path);
+		c_ctxt->ptr->OnCreateNode(path);
 	}
 	else if (type == ZOO_DELETED_EVENT) {
-		ctxt->ptr->OnDeletedNode(path);
+		c_ctxt->ptr->OnDeletedNode(path);
 	}
 	else if (type == ZOO_CHANGED_EVENT) {
-		ctxt->ptr->OnChangedNode(path);
+		c_ctxt->ptr->OnChangedNode(path);
 	}
 	else if (type == ZOO_CHILD_EVENT) {
-		ctxt->ptr->OnChild(path);
+		c_ctxt->ptr->OnChild(path);
 	}
 
 	// 会话事件
 	if (type == ZOO_SESSION_EVENT
 		&& state == ZOO_EXPIRED_SESSION_STATE) {
 		// 不是主动断开,则重连
-		if (ctxt->ptr->handler != 0) {
-			mgr->connect<T>(ctxt->ptr->host.c_str(), ctxt->ptr->timeout, ctxt->ptr->flags);
+		if (c_ctxt->ptr->handler != 0) {
+			c_ctxt->mgr->connect<T>(c_ctxt->ptr->host.c_str(), c_ctxt->ptr->timeout, c_ctxt->ptr->flags);
 		}
 
 		// 清除
-		mgr->container.erase(ctxt->ptr->handler);
-		delete ctxt;
+		c_ctxt->mgr->container.erase(c_ctxt->ptr->handler);
+		delete c_ctxt;
 	}
 }

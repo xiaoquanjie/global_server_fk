@@ -1,18 +1,7 @@
 #include "zk_wrapper.h"
 
 ZkBaseConnection::ZkBaseConnection() {
-	ctxt = 0;
 	handler = 0;
-	watcherCtx = 0;
-	connected = false;
-	timeout = 0;
-	flags = 0;
-}
-
-ZkBaseConnection::ZkBaseConnection(void* watcherCtx) {
-	ctxt = 0;
-	handler = 0;
-	this->watcherCtx = watcherCtx;
 	connected = false;
 	timeout = 0;
 	flags = 0;
@@ -29,15 +18,15 @@ bool ZkBaseConnection::IsConnected() const {
 int ZkBaseConnection::acreate(const char *path,
 	const char *value, int valuelen,
 	const struct ACL_vector *acl, int flags) {
-	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
-	r_ctxt->ctxt = this->ctxt;
+	ZkRequestContext* r_ctxt = new ZkRequestContext;
+	r_ctxt->ptr = shared_from_this();
 	r_ctxt->path = path;
 	r_ctxt->op = "acreate";
 
 	int ret = zoo_acreate(handler, path, value, valuelen, acl, flags, 
 		&ZkConnMgr::string_completion_cb, (void*)r_ctxt);
 	if (ret != ZOK) {
-		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+		delete r_ctxt;
 	}
 	return ret;
 }
@@ -59,90 +48,92 @@ int ZkBaseConnection::acreate(const char *path, const char *value, int valuelen,
 }
 
 int ZkBaseConnection::adelete(const char *path, int version) {
-	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
-	r_ctxt->ctxt = this->ctxt;
+	ZkRequestContext* r_ctxt = new ZkRequestContext;
+	r_ctxt->ptr = shared_from_this();
 	r_ctxt->path = path;
 	r_ctxt->op = "adelete";
 
 	int ret = zoo_adelete(handler, path, version, &ZkConnMgr::void_completion_cb, (void*)r_ctxt);
 	if (ret != ZOK) {
-		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+		delete r_ctxt;
 	}
 	return ret;
 }
 
 int ZkBaseConnection::aexists(const char *path, int watch) {
-	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
-	r_ctxt->ctxt = this->ctxt;
+	ZkRequestContext* r_ctxt = new ZkRequestContext;
+	r_ctxt->ptr = shared_from_this();
 	r_ctxt->path = path;
 	r_ctxt->op = "aexists";
 
 	int ret = zoo_aexists(handler, path, watch, &ZkConnMgr::stat_completion_cb, (void*)r_ctxt);
 	if (ret != ZOK) {
-		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+		delete r_ctxt;
 	}
 	return ret;
 }
 
 int ZkBaseConnection::aget(const char *path, int watch) {
-	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
-	r_ctxt->ctxt = this->ctxt;
+	ZkRequestContext* r_ctxt = new ZkRequestContext;
+	r_ctxt->ptr = shared_from_this();
 	r_ctxt->path = path;
 	r_ctxt->op = "aget";
 
 	int ret = zoo_aget(handler, path, watch, &ZkConnMgr::data_completion_cb, (void*)r_ctxt);
 	if (ret != ZOK) {
-		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+		delete r_ctxt;
 	}
 	return ret;
 }
 
 int ZkBaseConnection::aset(const char *path, const char *buffer, int buflen, int version) {
-	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
-	r_ctxt->ctxt = this->ctxt;
+	ZkRequestContext* r_ctxt = new ZkRequestContext;
+	r_ctxt->ptr = shared_from_this();
 	r_ctxt->path = path;
 	r_ctxt->op = "aset";
 
 	int ret = zoo_aset(handler, path, buffer, buflen, version, &ZkConnMgr::stat_completion_cb, (void*)r_ctxt);
 	if (ret != ZOK) {
-		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+		delete r_ctxt;
 	}
 	return ret;
 }
 
 int ZkBaseConnection::aget_children(const char *path, int watch) {
-	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
-	r_ctxt->ctxt = this->ctxt;
+	ZkRequestContext* r_ctxt = new ZkRequestContext;
+	r_ctxt->ptr = shared_from_this();
 	r_ctxt->path = path;
 	r_ctxt->op = "aget_children";
 
 	int ret = zoo_aget_children(handler, path, watch, &ZkConnMgr::strings_completion_cb, (void*)r_ctxt);
 	if (ret != ZOK) {
-		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+		delete r_ctxt;
 	}
 	return ret;
 }
 
 int ZkBaseConnection::aget_acl(const char* path) {
-	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
-	r_ctxt->ctxt = this->ctxt;
+	ZkRequestContext* r_ctxt = new ZkRequestContext;
+	r_ctxt->ptr = shared_from_this();
 	r_ctxt->path = path;
 	r_ctxt->op = "aget_acl";
+
 	int ret = zoo_aget_acl(handler, path, &ZkConnMgr::acl_completion_cb, (void*)r_ctxt);
 	if (ret != ZOK) {
-		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+		delete r_ctxt;
 	}
 	return ret;
 }
 
 int ZkBaseConnection::aset_acl(const char* path, int version, struct ACL_vector *acl) {
-	ZkRequestContext* r_ctxt = this->ctxt->mgr->request_alloc.alloc();
-	r_ctxt->ctxt = this->ctxt;
+	ZkRequestContext* r_ctxt = new ZkRequestContext;
+	r_ctxt->ptr = shared_from_this();
 	r_ctxt->path = path;
 	r_ctxt->op = "aset_acl";
+
 	int ret = zoo_aset_acl(handler, path, version, acl, &ZkConnMgr::void_completion_cb, (void*)r_ctxt);
 	if (ret != ZOK) {
-		this->ctxt->mgr->request_alloc.dealloc(r_ctxt);
+		delete r_ctxt;
 	}
 	return ret;
 }
@@ -178,18 +169,18 @@ ZkConnMgr::ZkConnMgr() {
 }
 
 ZkConnMgr::~ZkConnMgr() {
-	for (auto iter = container.begin(); iter != container.end(); ++iter) {
-		iter->second->ptr->close();
-		delete iter->second;
-	}
 	container.clear();
 }
 
-int ZkConnMgr::update() {
+bool ZkConnMgr::update() {
+	if (container.empty()) {
+		return true;
+	}
+
 	ZkSelectCtxt ctxt[FD_SETSIZE];
 	int idx = 0;
 	unsigned int maxfd = 0;
-	struct timeval wait_tv = {0, 10};
+	struct timeval wait_tv = {0, 0};
 	fd_set r_fd_set;
 	fd_set w_fd_set;
 	fd_set e_fd_set;
@@ -198,7 +189,7 @@ int ZkConnMgr::update() {
 	FD_ZERO(&e_fd_set);
 	
 	for (auto iter = container.begin(); iter != container.end();) {
-		const std::shared_ptr<ZkBaseConnection>& conn = iter->second->ptr;
+		const std::shared_ptr<ZkBaseConnection>& conn = iter->second;
 		if (conn->handler == 0) {
 			iter = container.erase(iter);
 		}
@@ -234,7 +225,7 @@ int ZkConnMgr::update() {
 
 	// ≥¨ ±…Ë÷√Œ™0
 	if (select(maxfd + 1, &r_fd_set, &w_fd_set, &e_fd_set, &wait_tv) < 0) {
-		return -1;
+		return false;
 	}
 
 	for (int i = 0; i < idx; ++i) {
@@ -248,7 +239,7 @@ int ZkConnMgr::update() {
 		zookeeper_process(ctxt[i].handler, events);
 	}
 
-	return 0;
+	return false;
 }
 
 void ZkConnMgr::SetLog(ZooLogLevel lvl) {
@@ -257,49 +248,42 @@ void ZkConnMgr::SetLog(ZooLogLevel lvl) {
 
 void ZkConnMgr::void_completion_cb(int rc, const void *data) {
 	ZkRequestContext* r_ctxt = (ZkRequestContext*)data;
-	ZkContext* ctxt = r_ctxt->ctxt;
-	ctxt->ptr->OnVoidCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str());
-	ctxt->mgr->request_alloc.dealloc(r_ctxt);
+	r_ctxt->ptr->OnVoidCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str());
+	delete r_ctxt;
 }
 
 void ZkConnMgr::stat_completion_cb(int rc, const struct Stat *stat, const void *data) {
 	ZkRequestContext* r_ctxt = (ZkRequestContext*)data;
-	ZkContext* ctxt = r_ctxt->ctxt;
-	ctxt->ptr->OnStatCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), stat);
-	ctxt->mgr->request_alloc.dealloc(r_ctxt);
+	r_ctxt->ptr->OnStatCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), stat);
+	delete r_ctxt;
 }
 
 void ZkConnMgr::string_completion_cb(int rc, const char *value, const void *data) {
 	ZkRequestContext* r_ctxt = (ZkRequestContext*)data;
-	ZkContext* ctxt = r_ctxt->ctxt;
-	ctxt->ptr->OnStringCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), value);
-	ctxt->mgr->request_alloc.dealloc(r_ctxt);
+	r_ctxt->ptr->OnStringCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), value);
+	delete r_ctxt;
 }
 
 void ZkConnMgr::data_completion_cb(int rc, const char *value, int value_len, const struct Stat *stat, const void *data) {
 	ZkRequestContext* r_ctxt = (ZkRequestContext*)data;
-	ZkContext* ctxt = r_ctxt->ctxt;
-	ctxt->ptr->OnDataCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), value, value_len, stat);
-	ctxt->mgr->request_alloc.dealloc(r_ctxt);
+	r_ctxt->ptr->OnDataCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), value, value_len, stat);
+	delete r_ctxt;
 }
 
 void ZkConnMgr::strings_completion_cb(int rc, const struct String_vector *strings, const void *data) {
 	ZkRequestContext* r_ctxt = (ZkRequestContext*)data;
-	ZkContext* ctxt = r_ctxt->ctxt;
-	ctxt->ptr->OnStringsCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), strings);
-	ctxt->mgr->request_alloc.dealloc(r_ctxt);
+	r_ctxt->ptr->OnStringsCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), strings);
+	delete r_ctxt;
 }
 
 void ZkConnMgr::strings_stat_completion_cb(int rc, const struct String_vector *strings, const struct Stat *stat, const void *data) {
 	ZkRequestContext* r_ctxt = (ZkRequestContext*)data;
-	ZkContext* ctxt = r_ctxt->ctxt;
-	ctxt->ptr->OnStringsStatCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), strings, stat);
-	ctxt->mgr->request_alloc.dealloc(r_ctxt);
+	r_ctxt->ptr->OnStringsStatCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), strings, stat);
+	delete r_ctxt;
 }
 
 void ZkConnMgr::acl_completion_cb(int rc, struct ACL_vector *acl, struct Stat *stat, const void *data) {
 	ZkRequestContext* r_ctxt = (ZkRequestContext*)data;
-	ZkContext* ctxt = r_ctxt->ctxt;
-	ctxt->ptr->OnAclCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), acl, stat);
-	ctxt->mgr->request_alloc.dealloc(r_ctxt);
+	r_ctxt->ptr->OnAclCompletionCb(rc, r_ctxt->op.c_str(), r_ctxt->path.c_str(), acl, stat);
+	delete r_ctxt;
 }
